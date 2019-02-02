@@ -3,6 +3,14 @@ RailsAdmin.config do |config|
   ### Popular gems integration
   
   config.main_app_name = ["SAN JUAN ADVOGADOS", ""]
+  
+ config.model Banco do 
+    list do
+      configure :foto do
+        hide
+      end
+    end
+  end
 
   ## == Devise ==
   config.authenticate_with do

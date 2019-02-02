@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_02_152116) do
+ActiveRecord::Schema.define(version: 2019_02_02_215602) do
 
   create_table "bancos", force: :cascade do |t|
     t.string "descricao"
     t.string "codigo"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "foto"
   end
 
   create_table "cidades", force: :cascade do |t|

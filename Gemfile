@@ -51,6 +51,9 @@ gem "cocoon"
 #Rails Admin
 gem 'rails_admin'
 
+#Upload Imagens
+gem 'carrierwave'
+
 #Font-awesome
 gem "font-awesome-rails"
 
