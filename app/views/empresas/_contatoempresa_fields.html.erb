@@ -1,12 +1,12 @@
 <div class="nested-fields">
   <div class="field">
     <%= f.label :tipo %>
-    <%= f.text_field :tipo %>
+    <%= f.select :tipo, Contatoempresa.tipos.keys %>
   </div>
  
   <div class="field">
     <%= f.label :campo %>
     <%= f.text_field :campo %>
   </div>
-  <%= link_to_remove_association "remove contato", f %>
+  <%= link_to_remove_association "Remove Contato", f %>
 </div>

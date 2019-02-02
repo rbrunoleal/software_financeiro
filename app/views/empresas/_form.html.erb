@@ -15,16 +15,6 @@
     <%= form.label :pessoajuridica_id %>
     <%= form.text_field :pessoajuridica_id %>
   </div>
-
-  <div class="field">
-    <%= form.label :endereco_id %>
-    <%= form.text_field :endereco_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :padrao %>
-    <%= form.check_box :padrao %>
-  </div>
   
   <h4>Endereço</h4>
   <div id="endereco">
@@ -32,7 +22,7 @@
       <%= render 'endereco_fields', f: endereco %>
     <% end %>
     <div class="links">
-      <%= link_to_add_association 'add endereco', form, :endereco %>
+      <%= link_to_add_association 'Add Endereço', form, :endereco %>
     </div>
   </div>
   
@@ -42,8 +32,13 @@
       <%= render 'contatoempresa_fields', f: contato %>
     <% end %>
     <div class="links">
-      <%= link_to_add_association 'add contato', form, :contatoempresas %>
+      <%= link_to_add_association 'Add Contato', form, :contatoempresas %>
     </div>
+  </div>
+  
+   <div class="field">
+    <%= form.label :padrao %>
+    <%= form.check_box :padrao %>
   </div>
 
   <div class="actions">
