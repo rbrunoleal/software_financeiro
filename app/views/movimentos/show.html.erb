@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Data:</strong>
+  <%= @movimento.data.to_date.to_s(:rfc822) %>
+</p>
+
+<p>
+  <strong>Descricao:</strong>
+  <%= @movimento.descricao %>
+</p>
+
+<p>
+  <strong>Valor:</strong>
+  <%= @movimento.valor %>
+</p>
+
+<%= link_to 'Edit', edit_movimento_path(@movimento) %> |
+<%= link_to 'Back', movimentos_path %>

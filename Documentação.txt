@@ -50,4 +50,4 @@ end
 #####################################
 
 
-  
+rails generate scaffold Movimento data:datetime descricao:string valor:integer

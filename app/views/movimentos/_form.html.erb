@@ -1,0 +1,32 @@
+<%= form_with(model: movimento, local: true) do |form| %>
+  <% if movimento.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(movimento.errors.count, "error") %> prohibited this movimento from being saved:</h2>
+
+      <ul>
+      <% movimento.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :data %>
+    <%= form.datetime_select :data %>
+  </div>
+
+  <div class="field">
+    <%= form.label :descricao %>
+    <%= form.text_field :descricao %>
+  </div>
+
+  <div class="field">
+    <%= form.label :valor %>
+    <%= form.number_field :valor, :step => 0.01 %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

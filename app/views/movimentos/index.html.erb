@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+<h1>Movimentos</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Descrição</th>
+      <th scope="col">Data</th>
+      <th scope="col">Valor</th>
+      <th scope="col">Editar</th>
+      <th scope="col">Apagar</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @movimentos.each do |movimento| %>
+      <tr>
+        <td><%= link_to movimento.descricao, movimento %></td>
+        <td><%= movimento.data.to_date.to_s(:rfc822) %></td>
+        <td><%= movimento.valor %></td>
+        <td><%= link_to edit_movimento_path(movimento) do %> <%= fa_icon "pencil" %> <% end %></td>
+        <td><%= link_to 'Apagar', movimento, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  
+</table>
+<h1>Saldo: <%= @movimentos.sum(&:valor) %></h1>
+
+<%= link_to 'Cadastrar movimento', new_movimento_path, class: "btn btn-success"%>
+
