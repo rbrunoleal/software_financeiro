@@ -1,0 +1,23 @@
+<div class="nested-fields">
+  <div class="field">
+    <%= f.label :nome, "Nome" %>
+    <%= f.text_field :nome %>
+  </div>
+  <div class="field">
+    <%= f.label :cpf, "CPF"  %>
+    <%= f.text_field :cpf %>
+  </div>
+  <div class="field">
+    <%= f.label :rg, "RG" %>
+    <%= f.text_field :rg %>
+  </div>
+  <div class="field">
+    <%= f.label :sexo %>
+    <%= f.select :sexo, Pessoafisica.sexos.keys %>
+  </div>
+  <div class="field">
+    <%= f.label :datanascimento %>
+    <%= f.date_field :datanascimento%>
+  </div>
+  <%= link_to_remove_association "Remover Pessoa Física", f %>
+</div>

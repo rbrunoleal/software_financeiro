@@ -1,0 +1,58 @@
+<div class="nested-fields">
+  <div class="field">
+    <%= f.label :unidade_id, "País" %>
+    <%= f.collection_select :unidade_id, Unidade.order(:nome), :id, :nome, include_blank: true %>
+  </div>
+  <div class="field">
+    <%= f.label :estado_id %>
+    <%= f.grouped_collection_select :estado_id, Unidade.order(:nome), :estados, :nome, :id, :nome, include_blank: true %>
+  </div>
+   <div class="field">
+    <%= f.label :cidade_id %>
+    <%= f.grouped_collection_select :cidade_id, Estado.order(:nome), :cidades, :nome, :id, :nome, include_blank: true %>
+  </div>
+  <div class="field">
+    <%= f.label :cep, "CEP" %>
+    <%= f.text_field :cep %>
+  </div>
+  <div class="field">
+    <%= f.label :bairro %>
+    <%= f.text_field :bairro %>
+  </div>
+   <div class="field">
+    <%= f.label :descricao, "Descrição" %>
+    <%= f.text_field :descricao %>
+  </div>
+  <div class="field">
+    <%= f.label :numero, "Número" %>
+    <%= f.text_field :numero %>
+  </div>
+  <div class="field">
+    <%= f.label :complemento %>
+    <%= f.text_field :complemento %>
+  </div>
+  <%= link_to_remove_association "Remover Contato", f %>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    cidades = $('#pessoa_endereco_attributes_cidade_id').html() 
+    estados = $('#pessoa_endereco_attributes_estado_id').html()
+    $('#pessoa_endereco_attributes_estado_id').change(function() {
+      estado = $('#pessoa_endereco_attributes_estado_id :selected').text()
+      opcoes = $(cidades).filter("optgroup[label='" + estado + "']").html();
+      if (opcoes)
+	      $('#pessoa_endereco_attributes_cidade_id').html(opcoes)
+      else
+        $('#pessoa_endereco_attributes_cidade_id').empty
+    });
+    $('#pessoa_endereco_attributes_unidade_id').change(function() {
+      unidade = $('#pessoa_endereco_attributes_unidade_id :selected').text()
+      opcoes = $(estados).filter("optgroup[label='" + unidade + "']").html();
+      if (opcoes)
+	      $('#pessoa_endereco_attributes_estado_id').html(opcoes)
+      else
+	      $('#pessoa_endereco_attributes_estado_id').empty
+    });
+  });
+</script>

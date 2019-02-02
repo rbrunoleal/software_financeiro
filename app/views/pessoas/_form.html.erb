@@ -13,22 +13,47 @@
 
   <div class="field">
     <%= form.label :tipo %>
-    <%= form.number_field :tipo %>
+    <%= form.select :tipo, Pessoa.tipos.keys %>
   </div>
 
-  <div class="field">
-    <%= form.label :pessoafisica_id %>
-    <%= form.text_field :pessoafisica_id %>
+  <h4>Pessoa Física</h4>
+  <div id="pessoafisica">
+    <%= form.fields_for :pessoafisica do |pessoafisica| %>
+      <%= render 'pessoafisica_fields', f: pessoafisica %>
+    <% end %>
+    <div class="links">
+      <%= link_to_add_association 'Add Pessoa Física', form, :pessoafisica %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :pessoajuridica_id %>
-    <%= form.text_field :pessoajuridica_id %>
+  <h4>Pessoa Jurídica</h4>
+  <div id="pessoajuridica">
+    <%= form.fields_for :pessoajuridica do |pessoajuridica| %>
+      <%= render 'pessoajuridica_fields', f: pessoajuridica %>
+    <% end %>
+    <div class="links">
+      <%= link_to_add_association 'Add Pessoa Jurídica', form, :pessoajuridica %>
+    </div>
   </div>
 
-  <div class="field">
-    <%= form.label :endereco_id %>
-    <%= form.text_field :endereco_id %>
+  <h4>Endereço</h4>
+  <div id="endereco">
+    <%= form.fields_for :endereco do |endereco| %>
+      <%= render 'endereco_fields', f: endereco %>
+    <% end %>
+    <div class="links">
+      <%= link_to_add_association 'Add Endereço', form, :endereco %>
+    </div>
+  </div>
+  
+  <h4>Contatos</h4>
+  <div id="contatos">
+    <%= form.fields_for :contatos do |contato| %>
+      <%= render 'contato_fields', f: contato %>
+    <% end %>
+    <div class="links">
+      <%= link_to_add_association 'Add Contato', form, :contatos %>
+    </div>
   </div>
 
   <div class="actions">

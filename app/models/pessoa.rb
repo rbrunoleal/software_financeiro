@@ -3,7 +3,9 @@ class Pessoa < ApplicationRecord
   belongs_to :endereco
   accepts_nested_attributes_for :endereco, reject_if: :all_blank, allow_destroy: true
   belongs_to :pessoafisica, optional: true
+  accepts_nested_attributes_for :pessoafisica, reject_if: :all_blank, allow_destroy: true
   belongs_to :pessoajuridica, optional: true
+  accepts_nested_attributes_for :pessoajuridica, reject_if: :all_blank, allow_destroy: true
   has_many :contatos, :inverse_of => :pessoa
   accepts_nested_attributes_for :contatos, :allow_destroy => true
   

@@ -15,6 +15,7 @@ class PessoasController < ApplicationController
   # GET /pessoas/new
   def new
     @pessoa = Pessoa.new
+    @contato = @pessoa.contatos.build
   end
 
   # GET /pessoas/1/edit
@@ -69,6 +70,6 @@ class PessoasController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def pessoa_params
-      params.require(:pessoa).permit(:tipo, :pessoafisica_id, :pessoajuridica_id, :endereco_id)
+      params.require(:pessoa).permit(:tipo, pessoajuridica_attributes: [:id, :cnae, :razaosocial, :cnpj, :nomefantasia, :_destroy], pessoafisica_attributes: [:id, :sexo, :cpf, :rg, :nome, :datanascimento, :_destroy], endereco_attributes: [:id,:unidade_id,:estado_id,:cidade_id, :numero,:descricao,:complemento,:cep,:bairro, :_destroy], contatos_attributes: [:id, :tipo, :campo, :_destroy])
     end
 end
