@@ -48,6 +48,9 @@ gem 'jquery-rails'
 #Form Dinâmico
 gem "cocoon"
 
+#Rails Admin
+gem 'rails_admin'
+
 #Font-awesome
 gem "font-awesome-rails"
 

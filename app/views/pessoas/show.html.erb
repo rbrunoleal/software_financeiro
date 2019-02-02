@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Tipo:</strong>
+  <%= @pessoa.tipo %>
+</p>
+
+<p>
+  <strong>Pessoafisica:</strong>
+  <%= @pessoa.pessoafisica %>
+</p>
+
+<p>
+  <strong>Pessoajuridica:</strong>
+  <%= @pessoa.pessoajuridica %>
+</p>
+
+<p>
+  <strong>Endereco:</strong>
+  <%= @pessoa.endereco %>
+</p>
+
+<%= link_to 'Edit', edit_pessoa_path(@pessoa) %> |
+<%= link_to 'Back', pessoas_path %>

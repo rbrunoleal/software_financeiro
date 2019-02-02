@@ -1,9 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  descricao: MyString
   codigo: MyString
+  descricao: MyString
 
 two:
-  descricao: MyString
   codigo: MyString
+  descricao: MyString

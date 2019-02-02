@@ -19,12 +19,6 @@ ActiveRecord::Schema.define(version: 2019_02_02_152116) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "cargos", force: :cascade do |t|
-    t.string "descricao"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "cidades", force: :cascade do |t|
     t.string "nome"
     t.integer "estado_id"
@@ -34,8 +28,8 @@ ActiveRecord::Schema.define(version: 2019_02_02_152116) do
   end
 
   create_table "cnaes", force: :cascade do |t|
-    t.string "descricao"
     t.string "codigo"
+    t.string "descricao"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

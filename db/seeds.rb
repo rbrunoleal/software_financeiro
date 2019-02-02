@@ -18,10 +18,6 @@ Banco.create!(:codigo => '422',:descricao => 'Banco Safra S.A.')
 Banco.create!(:codigo => '633',:descricao => 'Banco Rendimento S.A.')
 p "Bancos Criados!"
 
-Cargo.destroy_all
-Cargo.create!(:descricao => 'Advogado')
-p "Cargo Criados!"
-
 Unidade.destroy_all
 Unidade.create!(:nome => 'Brasil')
 u = Unidade.find_by(nome: 'Brasil')
@@ -15432,7 +15428,6 @@ p "CNAES Criados!"
 p "Adicionado #{Usuario.count} Usuario"
 p "Adicionado #{Cnae.count} CNAES"
 p "Adicionado #{Banco.count} Bancos"
-p "Adicionado #{Cargo.count} Cargos"
 p "Adicionado #{Unidade.count} Países"
 p "Adicionado #{Estado.count} Estados"
 p "Adicionado #{Cidade.count} Cidades"
