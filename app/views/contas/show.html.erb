@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Banco:</strong>
+  <%= @conta.banco %>
+</p>
+
+<p>
+  <strong>Conta numero:</strong>
+  <%= @conta.conta_numero %>
+</p>
+
+<p>
+  <strong>Conta digito:</strong>
+  <%= @conta.conta_digito %>
+</p>
+
+<p>
+  <strong>Agencia numero:</strong>
+  <%= @conta.agencia_numero %>
+</p>
+
+<p>
+  <strong>Agencia digito integer:</strong>
+  <%= @conta.agencia_digito_integer %>
+</p>
+
+<%= link_to 'Edit', edit_conta_path(@conta) %> |
+<%= link_to 'Back', contas_path %>

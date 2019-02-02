@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  resources :empresas
-  resources :funcionarios
+  resources :contas
   resources :unidades
   resources :bancos
   resources :cnaes

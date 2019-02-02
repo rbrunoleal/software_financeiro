@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ContatofuncionarioTest < ActiveSupport::TestCase
+class ContaTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

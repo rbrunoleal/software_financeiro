@@ -6,7 +6,6 @@ class CreateEnderecos < ActiveRecord::Migration[5.2]
       t.references :cidade, foreign_key: true
       t.string :cep
       t.string :bairro
-      t.integer :logadouro
       t.string :descricao
       t.integer :numero
       t.string :complemento

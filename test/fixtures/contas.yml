@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  banco: one
+  conta_numero: MyString
+  conta_digito: 1
+  agencia_numero: MyString
+  agencia_digito_integer: MyString
+
+two:
+  banco: two
+  conta_numero: MyString
+  conta_digito: 1
+  agencia_numero: MyString
+  agencia_digito_integer: MyString

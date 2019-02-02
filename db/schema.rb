@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_02_103631) do
+ActiveRecord::Schema.define(version: 2019_02_02_152116) do
 
   create_table "bancos", force: :cascade do |t|
     t.string "descricao"
@@ -40,22 +40,15 @@ ActiveRecord::Schema.define(version: 2019_02_02_103631) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "contatoempresas", force: :cascade do |t|
-    t.integer "tipo"
-    t.string "campo"
-    t.integer "empresa_id"
+  create_table "contas", force: :cascade do |t|
+    t.integer "banco_id"
+    t.string "conta_numero"
+    t.integer "conta_digito"
+    t.string "agencia_numero"
+    t.string "agencia_digito_integer"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["empresa_id"], name: "index_contatoempresas_on_empresa_id"
-  end
-
-  create_table "contatofuncionarios", force: :cascade do |t|
-    t.integer "tipo"
-    t.string "campo"
-    t.integer "funcionario_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["funcionario_id"], name: "index_contatofuncionarios_on_funcionario_id"
+    t.index ["banco_id"], name: "index_contas_on_banco_id"
   end
 
   create_table "contatos", force: :cascade do |t|
@@ -67,23 +60,12 @@ ActiveRecord::Schema.define(version: 2019_02_02_103631) do
     t.index ["pessoa_id"], name: "index_contatos_on_pessoa_id"
   end
 
-  create_table "empresas", force: :cascade do |t|
-    t.integer "pessoajuridica_id"
-    t.integer "endereco_id"
-    t.boolean "padrao"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["endereco_id"], name: "index_empresas_on_endereco_id"
-    t.index ["pessoajuridica_id"], name: "index_empresas_on_pessoajuridica_id"
-  end
-
   create_table "enderecos", force: :cascade do |t|
     t.integer "unidade_id"
     t.integer "estado_id"
     t.integer "cidade_id"
     t.string "cep"
     t.string "bairro"
-    t.integer "logadouro"
     t.string "descricao"
     t.integer "numero"
     t.string "complemento"
@@ -103,24 +85,17 @@ ActiveRecord::Schema.define(version: 2019_02_02_103631) do
     t.index ["unidade_id"], name: "index_estados_on_unidade_id"
   end
 
-  create_table "funcionarios", force: :cascade do |t|
-    t.integer "cargo_id"
-    t.integer "pessoafisica_id"
-    t.integer "endereco_id"
-    t.boolean "ativo"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["cargo_id"], name: "index_funcionarios_on_cargo_id"
-    t.index ["endereco_id"], name: "index_funcionarios_on_endereco_id"
-    t.index ["pessoafisica_id"], name: "index_funcionarios_on_pessoafisica_id"
-  end
-
   create_table "movimentos", force: :cascade do |t|
     t.datetime "data"
     t.string "descricao"
     t.decimal "valor", precision: 18, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "conta_id"
+    t.date "data_vencimento"
+    t.integer "pessoa_id"
+    t.index ["conta_id"], name: "index_movimentos_on_conta_id"
+    t.index ["pessoa_id"], name: "index_movimentos_on_pessoa_id"
   end
 
   create_table "pessoafisicas", force: :cascade do |t|

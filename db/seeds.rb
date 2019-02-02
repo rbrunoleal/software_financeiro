@@ -15429,7 +15429,7 @@ Cnae.create!( [
 
 p "CNAES Criados!"
 
-p "Adicionado #{Usuario.count} CNAES"
+p "Adicionado #{Usuario.count} Usuario"
 p "Adicionado #{Cnae.count} CNAES"
 p "Adicionado #{Banco.count} Bancos"
 p "Adicionado #{Cargo.count} Cargos"
