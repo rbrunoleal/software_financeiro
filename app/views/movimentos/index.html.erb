@@ -1,14 +1,13 @@
 <p id="notice"><%= notice %></p>
 <h1>Movimentos</h1>
 
-<table class="table table-hover">
+<table class="table table-hover table-striped">
   <thead>
     <tr>
       <th scope="col">Descrição</th>
       <th scope="col">Data</th>
       <th scope="col">Valor</th>
-      <th scope="col">Editar</th>
-      <th scope="col">Apagar</th>
+      <th scope="col" colspan="2"></th>
     </tr>
   </thead>
 
@@ -25,7 +24,6 @@
   </tbody>
   
 </table>
-<h1>Saldo: <%= @movimentos.sum(&:valor) %></h1>
 
 <%= link_to 'Cadastrar movimento', new_movimento_path, class: "btn btn-success"%>
 

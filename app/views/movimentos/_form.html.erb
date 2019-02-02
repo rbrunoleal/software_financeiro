@@ -11,22 +11,25 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="field form-group">
     <%= form.label :data %>
-    <%= form.datetime_select :data %>
+    <%= form.date_field :data, :class => "form-control"%>
   </div>
 
-  <div class="field">
+  <div class="field form-group">
     <%= form.label :descricao %>
-    <%= form.text_field :descricao %>
+    <%= form.text_field :descricao, :class => "form-control"%>
   </div>
 
-  <div class="field">
+  <div class="field form-group">
     <%= form.label :valor %>
-    <%= form.number_field :valor, :step => 0.01 %>
+    <%= form.number_field :valor, :step => 0.01, :class => "form-control" %>
   </div>
-
+  <div class="field form-group">
+    <%= form.label :conta_id %>
+    <%= form.select :conta_id, @contas.collect { |conta| [conta.conta_numero, conta.id] }, {}, { :class => 'form-control' } %>
+  </div>
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit :class => 'btn btn-success' %>
   </div>
 <% end %>

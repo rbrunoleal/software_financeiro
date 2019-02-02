@@ -1,29 +1,26 @@
 <p id="notice"><%= notice %></p>
+<table class="table table-hover table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Descrição</th>
+      <th scope="col">Data</th>
+      <th scope="col">Valor</th>
+      <th scope="col" colspan="2"></th>
+    </tr>
+  </thead>
 
-<p>
-  <strong>Banco:</strong>
-  <%= @conta.banco %>
-</p>
-
-<p>
-  <strong>Conta numero:</strong>
-  <%= @conta.conta_numero %>
-</p>
-
-<p>
-  <strong>Conta digito:</strong>
-  <%= @conta.conta_digito %>
-</p>
-
-<p>
-  <strong>Agencia numero:</strong>
-  <%= @conta.agencia_numero %>
-</p>
-
-<p>
-  <strong>Agencia digito integer:</strong>
-  <%= @conta.agencia_digito_integer %>
-</p>
-
-<%= link_to 'Edit', edit_conta_path(@conta) %> |
-<%= link_to 'Back', contas_path %>
+  <tbody>
+    <% @conta.movimentos.each do |movimento| %>
+      <tr>
+        <td><%= link_to movimento.descricao, movimento %></td>
+        <td><%= movimento.data.to_date.to_s(:rfc822) %></td>
+        <td><%= movimento.valor %></td>
+        <td><%= link_to edit_movimento_path(movimento) do %> <%= fa_icon "pencil" %> <% end %></td>
+        <td><%= link_to 'Apagar', movimento, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  
+</table>
+<%= link_to 'Editar conta', edit_conta_path(@conta), :class => "btn btn-primary" %>
+<%= link_to 'Voltar', contas_path, :class => "btn btn-warning" %>

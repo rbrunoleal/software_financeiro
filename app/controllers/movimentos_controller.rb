@@ -15,10 +15,12 @@ class MovimentosController < ApplicationController
   # GET /movimentos/new
   def new
     @movimento = Movimento.new
+    @contas = Conta.all
   end
 
   # GET /movimentos/1/edit
   def edit
+    @contas = Conta.all
   end
 
   # POST /movimentos
@@ -69,6 +71,6 @@ class MovimentosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def movimento_params
-      params.require(:movimento).permit(:data, :descricao, :valor)
+      params.require(:movimento).permit(:data, :descricao, :valor, :conta_id)
     end
 end
