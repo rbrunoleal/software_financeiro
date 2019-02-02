@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Cnaes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Descricao</th>
+      <th>Codigo</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @cnaes.each do |cnao| %>
+      <tr>
+        <td><%= cnao.descricao %></td>
+        <td><%= cnao.codigo %></td>
+        <td><%= link_to 'Show', cnao %></td>
+        <td><%= link_to 'Edit', edit_cnao_path(cnao) %></td>
+        <td><%= link_to 'Destroy', cnao, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Cnao', new_cnao_path %>

@@ -45,6 +45,9 @@ gem 'bootstrap'
 #Jquery
 gem 'jquery-rails'
 
+#Form Dinâmico
+gem "cocoon"
+
 #Font-awesome
 gem "font-awesome-rails"
 

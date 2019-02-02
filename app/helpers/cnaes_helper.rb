@@ -1,0 +1,2 @@
+module CnaesHelper
+end

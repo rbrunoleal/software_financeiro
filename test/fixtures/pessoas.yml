@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tipo: 1
+  pessoafisica: one
+  pessoajuridica: one
+  endereco: one
+
+two:
+  tipo: 1
+  pessoafisica: two
+  pessoajuridica: two
+  endereco: two

@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_02_022636) do
+ActiveRecord::Schema.define(version: 2019_02_02_103631) do
+
+  create_table "bancos", force: :cascade do |t|
+    t.string "descricao"
+    t.string "codigo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "cargos", force: :cascade do |t|
     t.string "descricao"
@@ -18,10 +25,138 @@ ActiveRecord::Schema.define(version: 2019_02_02_022636) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "cidades", force: :cascade do |t|
+    t.string "nome"
+    t.integer "estado_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["estado_id"], name: "index_cidades_on_estado_id"
+  end
+
+  create_table "cnaes", force: :cascade do |t|
+    t.string "descricao"
+    t.string "codigo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "contatoempresas", force: :cascade do |t|
+    t.integer "tipo"
+    t.string "campo"
+    t.integer "empresa_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["empresa_id"], name: "index_contatoempresas_on_empresa_id"
+  end
+
+  create_table "contatofuncionarios", force: :cascade do |t|
+    t.integer "tipo"
+    t.string "campo"
+    t.integer "funcionario_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["funcionario_id"], name: "index_contatofuncionarios_on_funcionario_id"
+  end
+
+  create_table "contatos", force: :cascade do |t|
+    t.integer "tipo"
+    t.string "campo"
+    t.integer "pessoa_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pessoa_id"], name: "index_contatos_on_pessoa_id"
+  end
+
+  create_table "empresas", force: :cascade do |t|
+    t.integer "pessoajuridica_id"
+    t.integer "endereco_id"
+    t.boolean "padrao"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["endereco_id"], name: "index_empresas_on_endereco_id"
+    t.index ["pessoajuridica_id"], name: "index_empresas_on_pessoajuridica_id"
+  end
+
+  create_table "enderecos", force: :cascade do |t|
+    t.integer "unidade_id"
+    t.integer "estado_id"
+    t.integer "cidade_id"
+    t.string "cep"
+    t.string "bairro"
+    t.integer "logadouro"
+    t.string "descricao"
+    t.integer "numero"
+    t.string "complemento"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cidade_id"], name: "index_enderecos_on_cidade_id"
+    t.index ["estado_id"], name: "index_enderecos_on_estado_id"
+    t.index ["unidade_id"], name: "index_enderecos_on_unidade_id"
+  end
+
+  create_table "estados", force: :cascade do |t|
+    t.string "nome"
+    t.string "sigla"
+    t.integer "unidade_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["unidade_id"], name: "index_estados_on_unidade_id"
+  end
+
+  create_table "funcionarios", force: :cascade do |t|
+    t.integer "cargo_id"
+    t.integer "pessoafisica_id"
+    t.integer "endereco_id"
+    t.boolean "ativo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cargo_id"], name: "index_funcionarios_on_cargo_id"
+    t.index ["endereco_id"], name: "index_funcionarios_on_endereco_id"
+    t.index ["pessoafisica_id"], name: "index_funcionarios_on_pessoafisica_id"
+  end
+
   create_table "movimentos", force: :cascade do |t|
     t.datetime "data"
     t.string "descricao"
     t.decimal "valor", precision: 18, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "pessoafisicas", force: :cascade do |t|
+    t.string "nome"
+    t.integer "sexo"
+    t.string "cpf"
+    t.string "rg"
+    t.date "datanascimento"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "pessoajuridicas", force: :cascade do |t|
+    t.string "nomefantasia"
+    t.string "razaosocial"
+    t.string "cnpj"
+    t.integer "cnae_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cnae_id"], name: "index_pessoajuridicas_on_cnae_id"
+  end
+
+  create_table "pessoas", force: :cascade do |t|
+    t.integer "tipo"
+    t.integer "pessoafisica_id"
+    t.integer "pessoajuridica_id"
+    t.integer "endereco_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["endereco_id"], name: "index_pessoas_on_endereco_id"
+    t.index ["pessoafisica_id"], name: "index_pessoas_on_pessoafisica_id"
+    t.index ["pessoajuridica_id"], name: "index_pessoas_on_pessoajuridica_id"
+  end
+
+  create_table "unidades", force: :cascade do |t|
+    t.string "nome"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
