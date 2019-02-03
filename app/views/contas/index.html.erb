@@ -18,7 +18,7 @@
         
         <td><%= link_to conta.conta_numero + "-" + conta.conta_digito.to_s, conta %></td>
         <td><%= conta.banco.descricao %></td>
-        <td><%= conta.agencia_numero + "-" + conta.agencia_digito_integer.to_s %></td>
+        <td><%= conta.agencia_numero + "-" + conta.agencia_digito.to_s %></td>
         <td><%= link_to 'Editar', edit_conta_path(conta) %></td>
         <td><%= link_to 'Apagar', conta, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

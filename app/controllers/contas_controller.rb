@@ -60,6 +60,7 @@ class ContasController < ApplicationController
       format.json { head :no_content }
     end
   end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_conta
@@ -68,6 +69,6 @@ class ContasController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def conta_params
-      params.require(:conta).permit(:banco_id, :conta_numero, :conta_digito, :agencia_numero, :agencia_digito_integer)
+      params.require(:conta).permit(:banco_id, :conta_numero, :conta_digito, :agencia_numero, :agencia_digito)
     end
 end

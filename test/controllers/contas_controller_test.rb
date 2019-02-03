@@ -17,7 +17,7 @@ class ContasControllerTest < ActionDispatch::IntegrationTest
 
   test "should create conta" do
     assert_difference('Conta.count') do
-      post contas_url, params: { conta: { agencia_digito_integer: @conta.agencia_digito_integer, agencia_numero: @conta.agencia_numero, banco_id: @conta.banco_id, conta_digito: @conta.conta_digito, conta_numero: @conta.conta_numero } }
+      post contas_url, params: { conta: { agencia_digito: @conta.agencia_digito, agencia_numero: @conta.agencia_numero, banco_id: @conta.banco_id, conta_digito: @conta.conta_digito, conta_numero: @conta.conta_numero } }
     end
 
     assert_redirected_to conta_url(Conta.last)
@@ -34,7 +34,7 @@ class ContasControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update conta" do
-    patch conta_url(@conta), params: { conta: { agencia_digito_integer: @conta.agencia_digito_integer, agencia_numero: @conta.agencia_numero, banco_id: @conta.banco_id, conta_digito: @conta.conta_digito, conta_numero: @conta.conta_numero } }
+    patch conta_url(@conta), params: { conta: { agencia_digito: @conta.agencia_digito, agencia_numero: @conta.agencia_numero, banco_id: @conta.banco_id, conta_digito: @conta.conta_digito, conta_numero: @conta.conta_numero } }
     assert_redirected_to conta_url(@conta)
   end
 

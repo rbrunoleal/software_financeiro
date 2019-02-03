@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
+  resources :contas
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   resources :pessoas
-  resources :contas
   resources :bancos
   resources :movimentos
   devise_for :usuarios

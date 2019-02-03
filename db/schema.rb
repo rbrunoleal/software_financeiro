@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 2019_02_02_215602) do
     t.string "conta_numero"
     t.integer "conta_digito"
     t.string "agencia_numero"
-    t.string "agencia_digito_integer"
+    t.integer "agencia_digito"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["banco_id"], name: "index_contas_on_banco_id"

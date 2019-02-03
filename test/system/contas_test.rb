@@ -14,7 +14,7 @@ class ContasTest < ApplicationSystemTestCase
     visit contas_url
     click_on "New Conta"
 
-    fill_in "Agencia digito integer", with: @conta.agencia_digito_integer
+    fill_in "Agencia digito", with: @conta.agencia_digito
     fill_in "Agencia numero", with: @conta.agencia_numero
     fill_in "Banco", with: @conta.banco_id
     fill_in "Conta digito", with: @conta.conta_digito
@@ -29,7 +29,7 @@ class ContasTest < ApplicationSystemTestCase
     visit contas_url
     click_on "Edit", match: :first
 
-    fill_in "Agencia digito integer", with: @conta.agencia_digito_integer
+    fill_in "Agencia digito", with: @conta.agencia_digito
     fill_in "Agencia numero", with: @conta.agencia_numero
     fill_in "Banco", with: @conta.banco_id
     fill_in "Conta digito", with: @conta.conta_digito

@@ -5,11 +5,11 @@ one:
   conta_numero: MyString
   conta_digito: 1
   agencia_numero: MyString
-  agencia_digito_integer: MyString
+  agencia_digito: 1
 
 two:
   banco: two
   conta_numero: MyString
   conta_digito: 1
   agencia_numero: MyString
-  agencia_digito_integer: MyString
+  agencia_digito: 1
