@@ -3,5 +3,5 @@ class Pessoafisica < ApplicationRecord
   validates :cpf, presence: true
   validates :rg, presence: true
   validates :nome, presence: true
-  validates :datanascimento, presence: true
+  validates :data_nascimento, presence: true
 end

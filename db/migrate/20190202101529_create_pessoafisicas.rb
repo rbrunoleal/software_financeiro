@@ -5,7 +5,7 @@ class CreatePessoafisicas < ActiveRecord::Migration[5.2]
       t.integer :sexo
       t.string :cpf
       t.string :rg
-      t.date :datanascimento
+      t.date :data_nascimento
 
       t.timestamps
     end

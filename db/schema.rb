@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_02_215602) do
+ActiveRecord::Schema.define(version: 2019_02_05_192515) do
 
   create_table "bancos", force: :cascade do |t|
     t.string "descricao"
     t.string "codigo"
+    t.string "foto"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "foto"
   end
 
   create_table "cidades", force: :cascade do |t|
@@ -81,16 +81,29 @@ ActiveRecord::Schema.define(version: 2019_02_02_215602) do
   end
 
   create_table "movimentos", force: :cascade do |t|
-    t.datetime "data"
+    t.date "data_competencia"
     t.string "descricao"
     t.decimal "valor", precision: 18, scale: 2
+    t.date "data_vencimento"
+    t.integer "conta_id"
+    t.integer "pessoa_id"
+    t.integer "nota_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "conta_id"
-    t.date "data_vencimento"
-    t.integer "pessoa_id"
     t.index ["conta_id"], name: "index_movimentos_on_conta_id"
+    t.index ["nota_id"], name: "index_movimentos_on_nota_id"
     t.index ["pessoa_id"], name: "index_movimentos_on_pessoa_id"
+  end
+
+  create_table "notas", force: :cascade do |t|
+    t.string "numero"
+    t.string "codigo"
+    t.date "data"
+    t.string "descricao"
+    t.string "rps"
+    t.string "serie"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "pessoafisicas", force: :cascade do |t|
@@ -98,7 +111,7 @@ ActiveRecord::Schema.define(version: 2019_02_02_215602) do
     t.integer "sexo"
     t.string "cpf"
     t.string "rg"
-    t.date "datanascimento"
+    t.date "data_nascimento"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

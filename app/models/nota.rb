@@ -1,0 +1,2 @@
+class Nota < ApplicationRecord
+end
