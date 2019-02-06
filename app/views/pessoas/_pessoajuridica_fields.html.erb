@@ -11,9 +11,5 @@
     <%= f.label :cnpj, "CNPJ" %>
     <%= f.text_field :cnpj %>
   </div>
-  <div class="field">
-    <%= f.label :cnae_id, "CNAE" %>
-    <%= f.collection_select :cnae_id, Cnae.all, :id, :descricao, include_blank: true %>
-  </div>
   <%= link_to_remove_association "Remover Pessoa Jurídica", f %>
 </div>
