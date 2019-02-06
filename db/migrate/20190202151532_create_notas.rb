@@ -5,9 +5,7 @@ class CreateNotas < ActiveRecord::Migration[5.2]
       t.string :codigo
       t.date :data
       t.string :descricao
-      t.string :rps
-      t.string :serie
-
+      
       t.timestamps
     end
   end
