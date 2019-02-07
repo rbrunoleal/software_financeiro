@@ -30,7 +30,7 @@ class MovimentosController < ApplicationController
 
     respond_to do |format|
       if @movimento.save
-        format.html { redirect_to @movimento, notice: 'Movimento was successfully created.' }
+        format.html { redirect_to(@movimento, :notice => t('activerecord.successful.messages.created', :model => @movimento.class.model_name.human))}
         format.json { render :show, status: :created, location: @movimento }
       else
         format.html { render :new }
@@ -44,7 +44,7 @@ class MovimentosController < ApplicationController
   def update
     respond_to do |format|
       if @movimento.update(movimento_params)
-        format.html { redirect_to @movimento, notice: 'Movimento was successfully updated.' }
+        format.html { redirect_to(@movimento, :notice => t('activerecord.successful.messages.updated', :model => @movimento.class.model_name.human))}
         format.json { render :show, status: :ok, location: @movimento }
       else
         format.html { render :edit }
@@ -58,7 +58,7 @@ class MovimentosController < ApplicationController
   def destroy
     @movimento.destroy
     respond_to do |format|
-      format.html { redirect_to movimentos_url, notice: 'Movimento was successfully destroyed.' }
+      format.html { redirect_to(@movimento, :notice => t('activerecord.successful.messages.destroyed', :model => @movimento.class.model_name.human))}
       format.json { head :no_content }
     end
   end

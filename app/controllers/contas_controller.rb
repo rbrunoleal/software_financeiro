@@ -30,7 +30,7 @@ class ContasController < ApplicationController
 
     respond_to do |format|
       if @conta.save
-        format.html { redirect_to @conta, notice: 'Conta was successfully created.' }
+        format.html { redirect_to(@conta, :notice => t('activerecord.successful.messages.created', :model => @conta.class.model_name.human))}
         format.json { render :show, status: :created, location: @conta }
       else
         format.html { render :new }
@@ -44,7 +44,7 @@ class ContasController < ApplicationController
   def update
     respond_to do |format|
       if @conta.update(conta_params)
-        format.html { redirect_to @conta, notice: 'Conta was successfully updated.' }
+        format.html { redirect_to(@conta, :notice => t('activerecord.successful.messages.updated', :model => @conta.class.model_name.human))}
         format.json { render :show, status: :ok, location: @conta }
       else
         format.html { render :edit }
@@ -58,7 +58,7 @@ class ContasController < ApplicationController
   def destroy
     @conta.destroy
     respond_to do |format|
-      format.html { redirect_to contas_url, notice: 'Conta was successfully destroyed.' }
+      format.html { redirect_to(@conta, :notice => t('activerecord.successful.messages.destroyed', :model => @conta.class.model_name.human))}
       format.json { head :no_content }
     end
   end

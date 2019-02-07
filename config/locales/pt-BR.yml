@@ -12,8 +12,8 @@ pt-BR:
         one: Estado
         other: Estados
       pessoa:
-        one: Pessoa
-        other: Pessoas
+        one: Favorecido
+        other: Favorecidos
       pessoafisica:
         one: Pessoa Física
         other: Pessoas Físicas
@@ -31,15 +31,10 @@ pt-BR:
       endereco:
         one: Endereço
         other: Endereço
-      cnae:
-        one: CNAE
-        other: CNAES
       usuario:
         one: Usuário
         other: Usuários
     attributes:
-      cargo:
-        descricao: "Descrição"
       unidade:
         nome: "Nome"
       estado:
@@ -76,13 +71,11 @@ pt-BR:
       contato:
         tipo: "Tipo"
         campo: "Campo"
-      cnae:
-        codigo: "Código"
-        descricao: "Descrição"
     successful:
       messages:
         created: "%{model} foi criado com sucesso."
         updated: "%{model} foi atualizado com sucesso."
+        destroyed: "%{model} foi excluído com sucesso."
     errors:
       messages:
         record_invalid: 'A validação falhou: %{errors}'

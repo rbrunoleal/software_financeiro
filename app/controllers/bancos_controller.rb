@@ -42,7 +42,7 @@ class BancosController < ApplicationController
   def update
     respond_to do |format|
       if @banco.update(banco_params)
-        format.html { redirect_to @banco, notice: 'Banco was successfully updated.' }
+        format.html { redirect_to(@banco, :notice => t('activerecord.successful.messages.updated', :model => @banco.class.model_name.human))}
         format.json { render :show, status: :ok, location: @banco }
       else
         format.html { render :edit }
@@ -56,7 +56,7 @@ class BancosController < ApplicationController
   def destroy
     @banco.destroy
     respond_to do |format|
-      format.html { redirect_to bancos_url, notice: 'Banco was successfully destroyed.' }
+      format.html { redirect_to(@banco, :notice => t('activerecord.successful.messages.destroyed', :model => @banco.class.model_name.human))}
       format.json { head :no_content }
     end
   end
