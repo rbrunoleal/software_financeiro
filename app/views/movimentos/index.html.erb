@@ -5,7 +5,8 @@
   <thead>
     <tr>
       <th scope="col">Descrição</th>
-      <th scope="col">Data</th>
+      <th scope="col">Data da competência</th>
+      <th scope="col">Data do vencimento</th>
       <th scope="col">Valor</th>
       <th scope="col" colspan="2"></th>
     </tr>
@@ -15,7 +16,8 @@
     <% @movimentos.each do |movimento| %>
       <tr>
         <td><%= link_to movimento.descricao, movimento %></td>
-        <td><%= movimento.data.to_date.to_s(:rfc822) %></td>
+        <td><%= movimento.data_competencia.to_date.to_s(:rfc822) %></td>
+        <td><%= movimento.data_vencimento.to_date.to_s(:rfc822) %></td>
         <td><%= movimento.valor %></td>
         <td><%= link_to edit_movimento_path(movimento) do %> <%= fa_icon "pencil" %> <% end %></td>
         <td><%= link_to 'Apagar', movimento, method: :delete, data: { confirm: 'Are you sure?' } %></td>

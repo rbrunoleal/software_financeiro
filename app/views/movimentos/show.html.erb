@@ -1,8 +1,13 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Data:</strong>
-  <%= @movimento.data.to_date.to_s(:rfc822) %>
+  <strong>Data da competência:</strong>
+  <%= @movimento.data_competencia.to_date.to_s(:rfc822) %>
+</p>
+
+<p>
+  <strong>Data do vencimento:</strong>
+  <%= @movimento.data_vencimento.to_date.to_s(:rfc822) %>
 </p>
 
 <p>

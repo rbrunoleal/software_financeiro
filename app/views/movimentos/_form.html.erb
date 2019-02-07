@@ -12,12 +12,17 @@
   <% end %>
 
   <div class="field form-group">
-    <%= form.label :data %>
-    <%= form.date_field :data, :class => "form-control"%>
+    <%= form.label :data_competencia, "Data da competência" %>
+    <%= form.date_field :data_competencia, :class => "form-control"%>
+  </div>
+  
+  <div class="field form-group">
+    <%= form.label :data_vencimento, "Data do vencimento" %>
+    <%= form.date_field :data_vencimento, :class => "form-control"%>
   </div>
 
   <div class="field form-group">
-    <%= form.label :descricao %>
+    <%= form.label :descricao, "Descrição" %>
     <%= form.text_field :descricao, :class => "form-control"%>
   </div>
 
