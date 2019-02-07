@@ -11,32 +11,33 @@
     </div>
   <% end %>
 
-  <div class="field">
+  <div class="field form-group">
     <%= form.label :banco_id %>
-    <%= form.text_field :banco_id %>
+    <%= form.select :banco_id, @bancos.collect { |banco| [banco.descricao, banco.id] }, {}, { :class => 'form-control' } %>
   </div>
-
-  <div class="field">
-    <%= form.label :conta_numero %>
-    <%= form.text_field :conta_numero %>
+  <div class="form-row">
+    <div class="field form-group col-md-10">
+      <%= form.label :conta_numero, "Número da conta" %>
+      <%= form.text_field :conta_numero, :class => 'form-control' %>
+    </div>
+  
+    <div class="field form-group col-md-2">
+      <%= form.label :conta_digito, "Dígito da conta" %>
+      <%= form.number_field :conta_digito, :class => 'form-control' %>
+    </div>
   </div>
-
-  <div class="field">
-    <%= form.label :conta_digito %>
-    <%= form.number_field :conta_digito %>
+  <div class="form-row">
+    <div class="field form-group col-md-10">
+      <%= form.label :agencia_numero, "Número da agência" %>
+      <%= form.text_field :agencia_numero, :class => 'form-control' %>
+    </div>
+  
+    <div class="field form-group col-md-2">
+      <%= form.label :agencia_digito, "Dígito da agência" %>
+      <%= form.number_field :agencia_digito, :class => 'form-control' %>
+    </div>
   </div>
-
-  <div class="field">
-    <%= form.label :agencia_numero %>
-    <%= form.text_field :agencia_numero %>
-  </div>
-
-  <div class="field">
-    <%= form.label :agencia_digito %>
-    <%= form.number_field :agencia_digito %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
+  <div class="actions form-group">
+    <%= form.submit :class=>"btn btn-dark" %>
   </div>
 <% end %>

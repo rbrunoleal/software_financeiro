@@ -15,10 +15,12 @@ class ContasController < ApplicationController
   # GET /contas/new
   def new
     @conta = Conta.new
+    @bancos = Banco.all
   end
 
   # GET /contas/1/edit
   def edit
+    @bancos = Banco.all
   end
 
   # POST /contas

@@ -16,7 +16,7 @@
       <script>toastr.danger("<%= alert %>")</script>
     <% end %>
     <nav class="navbar navbar-expand-lg navbar-dark bg-black">
-      <a class="navbar-brand py-4" href="#"><%= image_tag("san-juan.png", :alt => "San Juan Advogados", :height => '50') %></a>
+      <a class="navbar-brand py-2" href="#"><%= image_tag("san-juan.png", :alt => "San Juan Advogados", :height => '50') %></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -53,7 +53,7 @@
           <li class="my-5 my-lg-0">
             <% if usuario_signed_in? %>
             <li class="nav-item">
-              <%= link_to 'Logout', destroy_usuario_session_path, method: :delete %>        
+              <%= link_to 'Logout', destroy_usuario_session_path,  { :class => "nav-link", method: :delete } %>        
             </li>
           <% else %>
             <li class="nav-item">
