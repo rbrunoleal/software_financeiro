@@ -17,17 +17,18 @@
 
 @import "toastr";
 
+@import "fontconfig";
 
 html {
   position: relative;
   min-height: 100%;
 }
-body {
-  margin-bottom: 60px;
-background-color: #f3f3f4;
-  	font-family: 'Varela Round', sans-serif;
-    font-size: 13px;
 
+body {
+	margin-bottom: 60px;
+	background-color: #f3f3f4;
+	font-family: 'Varela Round', sans-serif;
+	font-size: 13px;
 }
 
 .footer {
@@ -366,3 +367,5 @@ table.table .avatar {
 .modal form label {
 	font-weight: normal;
 }
+
+

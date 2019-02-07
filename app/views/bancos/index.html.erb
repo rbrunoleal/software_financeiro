@@ -30,14 +30,14 @@
         <tr>
     			<td>
     				<span class="custom-checkbox">
-    					<input type="checkbox" id="checkbox1" name="options[]" value="1">
-    					<label for="checkbox1"></label>
+    					<input type="checkbox" id="checkbox<%=banco.id%>" value="1">
+    					<label for="checkbox<%=banco.id%>"></label>
     				</span>
     			</td>
           <td><%= banco.descricao %></td>
           <td><%= banco.codigo %></td>
           <td>
-            <a href="#editBancoModal" class="edit" data-toggle="modal" onClick="console.log(<%=banco.id %>)"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
+            <a href="#editBancoModal" class="edit" data-toggle="modal" onclick="mountEditForm(<%= banco.to_json %>)"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
             <a href="#deleteBancoModal" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Apagar">&#xE872;</i></a>
           </td>
         </tr>
@@ -57,35 +57,35 @@
       </ul>
   </div>
 </div>
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
-<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
-<script type="text/javascript">
-$(document).ready(function(){
-	// Activate tooltip
-	$('[data-toggle="tooltip"]').tooltip();
-	
-	// Select/Deselect checkboxes
-	var checkbox = $('table tbody input[type="checkbox"]');
-	$("#selectAll").click(function(){
-		if(this.checked){
-			checkbox.each(function(){
-				this.checked = true;                        
-			});
-		} else{
-			checkbox.each(function(){
-				this.checked = false;                        
-			});
-		} 
-	});
-	checkbox.click(function(){
-		if(!this.checked){
-			$("#selectAll").prop("checked", false);
-		}
-	});
-});
+<script>
+	let mountEditForm = function(banco){
+    $('#banco_codigo').val(banco.codigo);
+    $('#banco_descricao').val(banco.descricao);
+    let action = $('form')[0].action.indexOf('bancos/1');
+    $('form')[0].action = $('form')[0].action.substring(0, action + 7) + banco.id;
+    console.log($('form')[0].action);
+    
+	}
 </script>
+
+<!-- Edit Modal HTML -->
+<div id="editBancoModal" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+				<div class="modal-header">						
+					<h4 class="modal-title">Editar Banco</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">					
+					<%= render 'form', :name => 'edit', banco: Banco.find(1) %>					
+				</div>
+				<div class="modal-footer">
+					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
+					<input type="submit" class="btn btn-info" value="Salvar">
+				</div>
+		</div>
+	</div>
+</div>
 
 <!-- Edit Modal HTML -->
 <div id="addBancoModal" class="modal fade">
@@ -96,30 +96,12 @@ $(document).ready(function(){
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			</div>
 			<div class="modal-body">					
-				<%= render 'form', banco: Banco.new %>				
+				<%= render 'form', :name => 'create', banco: Banco.new %>				
 			</div>
 			<div class="modal-footer">
 				<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
 				<input type="submit" class="btn btn-success" value="Adicionar">
 			</div>
-		</div>
-	</div>
-</div>
-<!-- Edit Modal HTML -->
-<div id="editBancoModal" class="modal fade">
-	<div class="modal-dialog">
-		<div class="modal-content">
-				<div class="modal-header">						
-					<h4 class="modal-title">Editar Banco</h4>
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				</div>
-				<div class="modal-body">					
-					<%= render 'form', banco: @bancoToUpdate %>					
-				</div>
-				<div class="modal-footer">
-					<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
-					<input type="submit" class="btn btn-info" value="Salvar">
-				</div>
 		</div>
 	</div>
 </div>
