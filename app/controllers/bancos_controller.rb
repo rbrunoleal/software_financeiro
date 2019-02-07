@@ -5,6 +5,7 @@ class BancosController < ApplicationController
   # GET /bancos.json
   def index
     @bancos = Banco.all
+    @bancoToUpdate = Banco.new
   end
 
   # GET /bancos/1
@@ -28,7 +29,7 @@ class BancosController < ApplicationController
 
     respond_to do |format|
       if @banco.save
-        format.html { redirect_to(@banco, :notice => t('activerecord.successful.messages.created', :model => @banco.class.model_name.human))}
+        format.html { redirect_to(:bancos, :notice => t('activerecord.successful.messages.created', :model => @banco.class.model_name.human))}
         format.json { render :show, status: :created, location: @banco }
       else
         format.html { render :new }
@@ -42,7 +43,7 @@ class BancosController < ApplicationController
   def update
     respond_to do |format|
       if @banco.update(banco_params)
-        format.html { redirect_to(@banco, :notice => t('activerecord.successful.messages.updated', :model => @banco.class.model_name.human))}
+        format.html { redirect_to(:bancos, :notice => t('activerecord.successful.messages.updated', :model => @banco.class.model_name.human))}
         format.json { render :show, status: :ok, location: @banco }
       else
         format.html { render :edit }
@@ -60,7 +61,6 @@ class BancosController < ApplicationController
       format.json { head :no_content }
     end
   end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_banco
