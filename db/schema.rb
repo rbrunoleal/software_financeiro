@@ -28,13 +28,6 @@ ActiveRecord::Schema.define(version: 2019_02_05_192515) do
     t.index ["estado_id"], name: "index_cidades_on_estado_id"
   end
 
-  create_table "cnaes", force: :cascade do |t|
-    t.string "codigo"
-    t.string "descricao"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "contas", force: :cascade do |t|
     t.integer "banco_id"
     t.string "conta_numero"
@@ -100,8 +93,6 @@ ActiveRecord::Schema.define(version: 2019_02_05_192515) do
     t.string "codigo"
     t.date "data"
     t.string "descricao"
-    t.string "rps"
-    t.string "serie"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

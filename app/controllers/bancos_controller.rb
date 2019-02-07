@@ -28,7 +28,7 @@ class BancosController < ApplicationController
 
     respond_to do |format|
       if @banco.save
-        format.html { redirect_to @banco, notice: 'Banco was successfully created.' }
+        format.html { redirect_to(@banco, :notice => t('activerecord.successful.messages.created', :model => @banco.class.model_name.human))}
         format.json { render :show, status: :created, location: @banco }
       else
         format.html { render :new }

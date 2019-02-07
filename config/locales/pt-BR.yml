@@ -79,6 +79,10 @@ pt-BR:
       cnae:
         codigo: "Código"
         descricao: "Descrição"
+    successful:
+      messages:
+        created: "%{model} foi criado com sucesso."
+        updated: "%{model} foi atualizado com sucesso."
     errors:
       messages:
         record_invalid: 'A validação falhou: %{errors}'
@@ -187,8 +191,6 @@ pt-BR:
   errors:
     format: "%{attribute} %{message}"
     messages:
-      created: "%{model} foi criado com sucesso." 
-      updated: "%{model} foi atualizado com sucesso."
       accepted: deve ser aceito
       blank: não pode ficar em branco
       present: deve ficar em branco
