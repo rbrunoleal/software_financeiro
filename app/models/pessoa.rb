@@ -14,8 +14,22 @@ class Pessoa < ApplicationRecord
     tipo == "Física"
   end
   
-  validates :pessoafisica, absence: true, if: :verificatipo_juridica?
-  def verificatipo_juridica?
+  validates :pessoafisica, absence: true, if: :verifica_tipo_juridica?
+  def verifica_tipo_juridica?
     tipo == "Jurídica"
+  end
+  
+  def identificador
+    if self.tipo == 'Física'
+      return CPF.new(self.pessoafisica.cpf).formatted;
+    end
+      return CNPJ.new(self.pessoajuridica.cnpj).formatted;
+  end
+  
+  def nome
+    if self.tipo == 'Física'
+      return self.pessoafisica.nome;
+    end
+      return self.pessoajuridica.razaosocial;
   end
 end

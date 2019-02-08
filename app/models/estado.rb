@@ -3,4 +3,8 @@ class Estado < ApplicationRecord
   has_many :cidades
   validates :nome, presence: true
   validates :sigla, presence: true
+  
+  def to_s
+   self.nome + ", " + self.unidade.nome;
+  end
 end

@@ -85,6 +85,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.1.4)
+    cpf_cnpj (0.5.0)
     crass (1.0.4)
     devise (4.5.0)
       bcrypt (~> 3.0)
@@ -283,6 +284,7 @@ DEPENDENCIES
   chromedriver-helper
   cocoon
   coffee-rails (~> 4.2)
+  cpf_cnpj
   devise
   font-awesome-rails
   jbuilder (~> 2.5)
