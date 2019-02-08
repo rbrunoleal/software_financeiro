@@ -36,9 +36,3 @@ toastr.options = {
       "showMethod": "fadeIn",
       "hideMethod": "fadeOut"
 };
-let mountEditForm = function(banco){
-    $('#banco_codigo').val(banco.codigo);
-    $('#banco_descricao').val(banco.descricao);
-    let action = $('form')[0].action.indexOf('bancos/1');
-    $('form')[0].action = $('form')[0].action.substring(0, action + 7) + banco.id;
-}

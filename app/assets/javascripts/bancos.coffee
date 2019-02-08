@@ -22,6 +22,4 @@ $(document).on 'turbolinks:load', (event) ->
         if !@checked
             $('#selectAll').prop 'checked', false
         return
-    
-    alert "Teste";
     return
