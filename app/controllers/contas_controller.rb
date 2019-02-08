@@ -4,7 +4,7 @@ class ContasController < ApplicationController
   # GET /contas
   # GET /contas.json
   def index
-    @contas = Conta.all
+    @contas = Conta.paginate(:page => params[:page], :per_page => 10)
     @bancos = Banco.all
   end
 
