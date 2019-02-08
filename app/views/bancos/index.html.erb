@@ -42,6 +42,11 @@
 	        </tr>
 	    </tbody>
 	  </table>
+		<div class="text-center" v-if="loading">
+			<div class="spinner-border" role="status">
+				<span class="sr-only">Carregando...</span>
+			</div>
+		</div>
 	  <div class="hint-text">Mostrando <b>{{bancos.length }}</b> registros</div>
 	  <%# will_paginate @bancos, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
 	  </br>
@@ -70,8 +75,8 @@
 					</div>
 					<div class="modal-footer">
 						<a class="btn btn-secondary text-light" data-dismiss="modal">Fechar</a>
-						<a class="btn btn-success text-light" v-on:click="createBanco(clickedBanco)" v-if="create">Criar</a>
-						<a class="btn btn-info text-light" v-on:click="updateBanco(clickedBanco)" v-if="!create">Atualizar</a>
+						<a class="btn btn-success text-light" v-on:click="createBanco(clickedBanco)" v-if="create"><span v-if="loading" class="spinner-border spinner-border-sm"></span> Criar</a>
+						<a class="btn btn-info text-light" v-on:click="updateBanco(clickedBanco)" v-if="!create"> Atualizar</a>
 					</div>
 			</div>
 		</div>
@@ -90,8 +95,8 @@
 						<p class="text-danger"><small>Esta ação não poderá ser desfeita.</small></p>
 					</div>
 					<div class="modal-footer">
-						<a class="btn btn-info" data-dismiss="modal">Fechar</a>
-						<a class="btn btn-danger" v-on:click="deleteBanco(clickedBanco.id)">Confirmar</a>
+						<a class="btn btn-info text-light" data-dismiss="modal">Fechar</a>
+						<a class="btn btn-danger text-light" v-on:click="deleteBanco(clickedBanco.id)">Confirmar</a>
 					</div>
 			</div>
 		</div>

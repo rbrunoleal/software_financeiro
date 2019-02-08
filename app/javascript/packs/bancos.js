@@ -19,12 +19,13 @@ Vue.use(Toastr, {
 
 const  URL = 'https://6f398da6b99543a289b25138de874ad2.vfs.cloud9.us-west-2.amazonaws.com/'
 
-window.addEventListener('load', function () {
+window.addEventListener('turbolinks:load', function () {
   axios.defaults.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     const bancosIndex = new Vue({
       el: document.getElementById('bancosApp'),
       deleteBancoModal: document.getElementById('deleteBancoModal'),
       data: {
+        loading: true,
         create: false,
         clickedBanco: {},
         bancos: {},
@@ -44,7 +45,7 @@ window.addEventListener('load', function () {
         },
         mountEditForm: function (banco) {
           this.create = false;
-          this.clickedBanco = banco;
+          this.clickedBanco = {... banco};
         },
         deleteBanco: function (id){
           console.log('bancos/'+id+'.json');
@@ -60,6 +61,7 @@ window.addEventListener('load', function () {
             .finally(() => this.loading = false)
         },
         searchBancos: function(){
+          this.loading = true;
           this.clickedBanco = {}
           axios
             .get(`${URL}/bancos.json`)
@@ -85,6 +87,7 @@ window.addEventListener('load', function () {
               .finally(() => this.loading = false)
         },
         updateBanco: function(banco){
+          this.loading = true;
           axios.put(`${URL}bancos/${banco.id}.json`, {
             banco
           })
