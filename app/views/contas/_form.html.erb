@@ -16,24 +16,24 @@
     <%= form.select :banco_id, @bancos.collect { |banco| [banco.descricao, banco.id] }, {}, { :class => 'form-control' } %>
   </div>
   <div class="form-row">
-    <div class="field form-group col-md-10">
+    <div class="field form-group col-md-8">
       <%= form.label :conta_numero, "Número da conta" %>
       <%= form.text_field :conta_numero, :class => 'form-control' %>
     </div>
   
-    <div class="field form-group col-md-2">
-      <%= form.label :conta_digito, "Dígito da conta" %>
+    <div class="field form-group col-md-4">
+      <%= form.label :conta_digito, "Dígito" %>
       <%= form.number_field :conta_digito, :class => 'form-control' %>
     </div>
   </div>
   <div class="form-row">
-    <div class="field form-group col-md-10">
+    <div class="field form-group col-md-8">
       <%= form.label :agencia_numero, "Número da agência" %>
       <%= form.text_field :agencia_numero, :class => 'form-control' %>
     </div>
   
-    <div class="field form-group col-md-2">
-      <%= form.label :agencia_digito, "Dígito da agência" %>
+    <div class="field form-group col-md-4">
+      <%= form.label :agencia_digito, "Dígito" %>
       <%= form.number_field :agencia_digito, :class => 'form-control' %>
     </div>
   </div>
