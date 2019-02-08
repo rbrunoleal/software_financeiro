@@ -4,8 +4,7 @@ class BancosController < ApplicationController
   # GET /bancos
   # GET /bancos.json
   def index
-    @bancos = Banco.all
-    @bancoToUpdate = Banco.new
+    @bancos = Banco.paginate(:page => params[:page], :per_page => 10)
   end
 
   # GET /bancos/1
