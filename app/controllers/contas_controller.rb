@@ -5,6 +5,7 @@ class ContasController < ApplicationController
   # GET /contas.json
   def index
     @contas = Conta.all
+    @bancos = Banco.all
   end
 
   # GET /contas/1
@@ -30,10 +31,10 @@ class ContasController < ApplicationController
 
     respond_to do |format|
       if @conta.save
-        format.html { redirect_to(@conta, :notice => t('activerecord.successful.messages.created', :model => @conta.class.model_name.human))}
+        format.html { redirect_to(:contas, :notice => t('activerecord.successful.messages.created', :model => @conta.class.model_name.human))}
         format.json { render :show, status: :created, location: @conta }
       else
-        format.html { render :new }
+        format.html { redirect_to(:contas, :notice => t('activerecord.unsuccessful.messages.created', :model => @conta.class.model_name.human)+ ': ' + @conta.errors.full_messages.to_sentence)}
         format.json { render json: @conta.errors, status: :unprocessable_entity }
       end
     end

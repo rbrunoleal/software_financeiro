@@ -71,11 +71,18 @@ pt-BR:
       contato:
         tipo: "Tipo"
         campo: "Campo"
+      conta:
+        conta_digito: "Conta Dígito"
     successful:
       messages:
         created: "%{model} foi criado com sucesso."
         updated: "%{model} foi atualizado com sucesso."
         destroyed: "%{model} foi excluído com sucesso."
+    unsuccessful:
+      messages:
+        created: "%{model} não foi criado"
+        updated: "%{model} não foi atualizado"
+        destroyed: "%{model} não foi excluído"
     errors:
       messages:
         record_invalid: 'A validação falhou: %{errors}'
