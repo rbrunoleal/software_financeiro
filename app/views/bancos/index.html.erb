@@ -1,4 +1,4 @@
-<div id="bancosApp">
+<div id="bancosApp" v-cloak>
 	<div class="table-wrapper">
 	  <div class="table-title">
 	      <div class="row">
@@ -6,7 +6,7 @@
 	            <h2>Gerenciar <b>Bancos</b></h2>
 	          </div>
 	      		<div class="col-sm-6">
-	      			<a href="#formModal" class="btn btn-success" data-toggle="modal" v-on:click="mountCreateForm()"><i class="material-icons">&#xE147;</i> <span>Adiciona novo banco</span></a>
+	      			<a href="#formBancoModal" class="btn btn-success" data-toggle="modal" v-on:click="mountCreateForm()"><i class="material-icons">&#xE147;</i> <span>Adiciona novo banco</span></a>
 	      			<a href="#deleteBancoModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Apagar</span></a>						
 	      		</div>
 	      </div>
@@ -36,8 +36,8 @@
 	          <td>{{ banco.descricao }}</td>
 	          <td>{{ banco.codigo }}</td>
 	          <td>
-	            <a href="#formModal" class="edit" data-toggle="modal" v-on:click="mountEditForm(banco)"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
-	            <a href="#deleteBancoModal" class="delete" data-toggle="modal"v-on:click="mountDeleteForm(banco)"><i class="material-icons" data-toggle="tooltip" title="Apagar">&#xE872;</i></a>
+	            <a href="#deleteBancoModal" data-toggle="modal" class="edit" @click="mountEditForm(banco)"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
+	            <a href="#deleteBancoModal" data-toggle="modal" class="delete" @click="mountDeleteForm(banco)"><i class="material-icons" data-toggle="tooltip" title="Apagar">&#xE872;</i></a>
 	          </td>
 	        </tr>
 	    </tbody>
@@ -51,55 +51,34 @@
 	  <%# will_paginate @bancos, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
 	  </br>
 	</div>
-	<!-- Form Modal HTML -->
-	<div id="formModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-					<div class="modal-header">						
-						<h4 class="modal-title">Editar Banco</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					</div>
-					<div class="modal-body">					
-						<form>
-						
-						  <div class="field form-group">
-						    <label for="banco_descricao">Descrição</label>
-						    <input class="form-control" type="text" name="banco[descricao]" id="banco_descricao" v-model="clickedBanco.descricao">
-						  </div>
-						
-						  <div class="field form-group">
-						    <label for="banco_codigo">Código do banco</label>
-						    <input class="form-control" type="text" name="banco[codigo]" id="banco_codigo" v-model="clickedBanco.codigo">
-						  </div>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<a class="btn btn-secondary text-light" data-dismiss="modal">Fechar</a>
-						<a class="btn btn-success text-light" v-on:click="createBanco(clickedBanco)" v-if="create"><span v-if="loading" class="spinner-border spinner-border-sm"></span> Criar</a>
-						<a class="btn btn-info text-light" v-on:click="updateBanco(clickedBanco)" v-if="!create"> Atualizar</a>
-					</div>
-			</div>
+	
+	<b-modal ref="formBancoModal" title="Banco">
+		<form>
+		  <div class="field form-group">
+		    <label for="banco_descricao">Descrição</label>
+		    <input class="form-control" type="text" name="banco[descricao]" id="banco_descricao" v-model="clickedBanco.descricao">
+		  </div>
+		
+		  <div class="field form-group">
+		    <label for="banco_codigo">Código do banco</label>
+		    <input class="form-control" type="text" name="banco[codigo]" id="banco_codigo" v-model="clickedBanco.codigo">
+		  </div>
+		</form>
+		<div slot="modal-footer">
+			<a class="btn btn-secondary text-light" @click="closeModal">Fechar</a>
+			<a class="btn btn-success text-light" @click="createBanco(clickedBanco)" v-if="create"><span v-if="loading" class="spinner-border spinner-border-sm"></span> Criar</a>
+			<a class="btn btn-info text-light" @click="updateBanco(clickedBanco)" v-if="!create"> Atualizar</a>
 		</div>
-	</div>
-	<div id="deleteBancoModal" class="modal fade">
-		<div class="modal-dialog">
-			<div class="modal-content">
-					<div class="modal-header">						
-						<h4 class="modal-title">Apagar Banco</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					</div>
-					<div class="modal-body">					
-						<p>Tem certeza que deseja apagar esse registro?</p>
-						<p>Descrição: {{clickedBanco.descricao}}</p>
-						<p>Código: {{clickedBanco.codigo}}</p>
-						<p class="text-danger"><small>Esta ação não poderá ser desfeita.</small></p>
-					</div>
-					<div class="modal-footer">
-						<a class="btn btn-info text-light" data-dismiss="modal">Fechar</a>
-						<a class="btn btn-danger text-light" v-on:click="deleteBanco(clickedBanco.id)">Confirmar</a>
-					</div>
-			</div>
+	</b-modal>
+	<b-modal ref="deleteBancoModal" title="Apagar Banco">
+		<p>Tem certeza que deseja apagar esse registro?</p>
+		<p>Descrição: {{clickedBanco.descricao}}</p>
+		<p>Código: {{clickedBanco.codigo}}</p>
+		<p class="text-danger"><small>Esta ação não poderá ser desfeita.</small></p>
+		<div slot="modal-footer">
+			<a class="btn btn-info text-light" @click="closeModal()">Fechar</a>
+			<a class="btn btn-danger text-light" @"deleteBanco(clickedBanco.id)">Confirmar</a>
 		</div>
-	</div>
+	</b-modal>
 </div>
 <%= javascript_pack_tag 'bancos', 'data-turbolinks-track': 'reload' %>

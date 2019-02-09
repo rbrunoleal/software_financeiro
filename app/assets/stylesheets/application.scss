@@ -21,6 +21,8 @@
 
 @import "fontconfig";
 
+@import 'bootstrap-vue/dist/bootstrap-vue.css';
+
 html {
   position: relative;
   min-height: 100%;
@@ -31,6 +33,7 @@ body {
 	background-color: #f3f3f4;
 	font-family: 'Varela Round', sans-serif;
 	font-size: 13px;
+	padding-bottom: 10px;
 }
 
 .footer {
@@ -371,3 +374,4 @@ table.table .avatar {
 }
 
 
+[v-cloak] { display:none; }

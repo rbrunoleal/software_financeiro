@@ -3,6 +3,7 @@ import TurbolinksAdapter from 'vue-turbolinks'
 import VueResource from 'vue-resource'
 import axios from 'axios'
 import Toastr from 'vue-toastr';
+import BootstrapVue from 'bootstrap-vue'
 
 
 Vue.use(VueResource)
@@ -16,6 +17,7 @@ Vue.use(Toastr, {
   closeButton: true
   
 });
+Vue.use(BootstrapVue);
 
 const  URL = 'https://6f398da6b99543a289b25138de874ad2.vfs.cloud9.us-west-2.amazonaws.com/'
 
@@ -31,20 +33,26 @@ window.addEventListener('turbolinks:load', function () {
         bancos: [],
         pickedBanco: {},
         showModal: false,
-        allSelected: false
+        allSelected: false,
+        show: false
       },
       mounted(){
         this.searchBancos();
+        
+        
       },
       methods: { 
         mountCreateForm: function () {
+          this.$refs.formBancoModal.show();
           this.create = true;
           this.clickedBanco = {};
         },
         mountDeleteForm: function (banco) {
+          this.$refs.deleteBancoModal.show();
           this.clickedBanco = banco;
         },
         mountEditForm: function (banco) {
+          this.$refs.formBancoModal.show();
           this.create = false;
           this.clickedBanco = {... banco};
         },
@@ -55,6 +63,7 @@ window.addEventListener('turbolinks:load', function () {
             .then(response => {
               this.searchBancos();
               this.$toastr.s("Registro apagado.");
+              this.$refs.deleteBancoModal.hide();
             })
             .catch(error => {
               this.$toastr.e("Não foi possível excluir")
@@ -79,6 +88,7 @@ window.addEventListener('turbolinks:load', function () {
             banco
           })
           .then(response => {
+              this.$refs.formBancoModal.hide();
               this.searchBancos();
               this.$toastr.s("Registro criado.");
             })
@@ -93,8 +103,10 @@ window.addEventListener('turbolinks:load', function () {
             banco
           })
           .then(response => {
+              this.$refs.formBancoModal.hide();
               this.searchBancos();
               this.$toastr.s("Registro atualizado.");
+              
           })
           .catch(error => {
             this.$toastr.e("Não foi possível adicionar.");
@@ -106,7 +118,10 @@ window.addEventListener('turbolinks:load', function () {
         },
         select: function() {
           this.allSelected = false;
-          console.log("Teste");
+        },
+        closeModal(){
+          this.$refs.deleteBancoModal.hide()
+          this.$refs.formBancoModal.hide()
         }
       }
     })
