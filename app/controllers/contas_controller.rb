@@ -4,8 +4,13 @@ class ContasController < ApplicationController
   # GET /contas
   # GET /contas.json
   def index
-    @contas = Conta.paginate(:page => params[:page], :per_page => 10)
+    @contas = Conta.all
     @bancos = Banco.all
+  end
+  
+  def conta_json_formatado
+    @contas = Conta.all
+    render json: @contas.to_json(:methods => [:conta,:banco,:agencia])
   end
 
   # GET /contas/1
