@@ -1,14 +1,18 @@
 Rails.application.routes.draw do
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
+  root 'pages#index'
+  
   get 'pages/welcome'
   get 'pages/index'
   get 'pages/contact'
+  
   resources :contas
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   resources :pessoas
   resources :bancos
   resources :movimentos
   devise_for :usuarios
-  root 'pages#index'
+  
+  get 'contas_json', to: 'contas#conta_json_formatado'
   
   devise_scope :usuario do
     root to: "pages#welcome"

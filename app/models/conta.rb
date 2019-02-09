@@ -1,4 +1,5 @@
 class Conta < ApplicationRecord
+  
   belongs_to :banco
   has_many :movimentos
   
@@ -9,6 +10,7 @@ class Conta < ApplicationRecord
     movimentos.sum(&:valor)
   end
   
+  
   def conta
     self.conta_numero + "-" + self.conta_digito.to_s
   end
@@ -16,4 +18,5 @@ class Conta < ApplicationRecord
   def agencia
     self.agencia_numero + "-" + self.agencia_digito.to_s  
   end
+  
 end
