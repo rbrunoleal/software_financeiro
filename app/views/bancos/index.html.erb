@@ -16,7 +16,7 @@
 	        <tr>
 				<th>
 					<span class="custom-checkbox">
-						<input type="checkbox" id="selectAll">
+						<input type="checkbox" id="selectAll" v-model="allSelected" @click="selectAll">
 						<label for="selectAll"></label>
 					</span>
 				</th>
@@ -26,15 +26,15 @@
 	        </tr>
 	    </thead>
 	    <tbody>
-	        <tr v-for="banco in bancos">
+	        <tr v-for="(banco, index) in bancos">
 	    			<td>
 	    				<span class="custom-checkbox">
-	    					<input type="checkbox" :id="banco.id" value="1">
-	    					<label :for="banco.id"></label>
+	    					<input type="checkbox" :id="'checkbox'+banco.id" value="1" v-model="bancos[index].selected" @click="select">
+	    					<label :for="'checkbox'+banco.id"></label>
 	    				</span>
 	    			</td>
-	          <td>{{banco.descricao }}</td>
-	          <td>{{banco.codigo }}</td>
+	          <td>{{ banco.descricao }}</td>
+	          <td>{{ banco.codigo }}</td>
 	          <td>
 	            <a href="#formModal" class="edit" data-toggle="modal" v-on:click="mountEditForm(banco)"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
 	            <a href="#deleteBancoModal" class="delete" data-toggle="modal"v-on:click="mountDeleteForm(banco)"><i class="material-icons" data-toggle="tooltip" title="Apagar">&#xE872;</i></a>

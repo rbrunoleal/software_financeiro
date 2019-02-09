@@ -28,14 +28,15 @@ window.addEventListener('turbolinks:load', function () {
         loading: true,
         create: false,
         clickedBanco: {},
-        bancos: {},
+        bancos: [],
         pickedBanco: {},
-        showModal: false
+        showModal: false,
+        allSelected: false
       },
-      mounted () {
+      mounted(){
         this.searchBancos();
       },
-      methods: {
+      methods: { 
         mountCreateForm: function () {
           this.create = true;
           this.clickedBanco = {};
@@ -94,11 +95,18 @@ window.addEventListener('turbolinks:load', function () {
           .then(response => {
               this.searchBancos();
               this.$toastr.s("Registro atualizado.");
-            })
-            .catch(error => {
-              this.$toastr.e("Não foi possível adicionar.");
-            })
-              .finally(() => this.loading = false)
+          })
+          .catch(error => {
+            this.$toastr.e("Não foi possível adicionar.");
+          })
+          .finally(() => this.loading = false)
+        },
+        selectAll: function() {
+          this.allSelected ? this.bancos.map( banco  => banco.selected = false) : this.bancos.map( banco  => banco.selected = true);
+        },
+        select: function() {
+          this.allSelected = false;
+          console.log("Teste");
         }
       }
     })
