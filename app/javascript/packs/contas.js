@@ -4,6 +4,7 @@ import VueResource from 'vue-resource'
 import axios from 'axios'
 import Toastr from 'vue-toastr';
 import BootstrapVue from 'bootstrap-vue'
+import { URL } from './env';
 
 
 Vue.use(VueResource)
@@ -18,8 +19,6 @@ Vue.use(Toastr, {
   
 });
 Vue.use(BootstrapVue);
-
-const  URL = 'https://projeto-rbrunoleal.c9users.io/'
 
 window.addEventListener('turbolinks:load', function () {
   axios.defaults.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
