@@ -32,7 +32,7 @@
             <td>
               <span class="custom-checkbox">
                 <input type="checkbox" :id="'checkbox'+favorecido.id" value="1">
-                <label :for="'checkbox'+favorecido.id"></label>
+                <label :for="'checkbox'+favorecido.id" @click="selectAll"></label>
               </span>
             </td>
             <td>{{favorecido.identificador}}</td>
@@ -82,26 +82,26 @@
             <v-stepper-content step="2">
               <div class="field form-group">
                 <label for="pessoafisica_nome">Nome</label>
-                <input class="form-control" type="text" name="pessoafisica[nome]" id="pessoafisica_nome">
+                <input class="form-control" type="text" name="pessoafisica[nome]" id="pessoafisica_nome" v-model="clickedFavorecido.pessoafisica.nome">
               </div>
               <div class="field form-group">
                 <label for="pessoafisica_cpf">CPF</label>
-                <input class="form-control" type="text" name="pessoafisica[cpf]" id="pessoafisica_cpf">
+                <input class="form-control" type="text" name="pessoafisica[cpf]" id="pessoafisica_cpf" v-model="clickedFavorecido.pessoafisica.cpf">
               </div>
               <div class="field form-group">
                 <label for="pessoafisica_rg">RG</label>
-                <input class="form-control" type="text" name="pessoafisica[rg]" id="pessoafisica_rg">
+                <input class="form-control" type="text" name="pessoafisica[rg]" id="pessoafisica_rg" v-model="clickedFavorecido.pessoafisica.rg">
               </div>
               <div class="field form-group">
                 <label for="pessoafisica_sexo" id="pessoafisica_sexo">Sexo</label>
-                <select name="pessoafisica[sexo]" class="form-control">
+                <select name="pessoafisica[sexo]" class="form-control" v-model="clickedFavorecido.pessoafisica.sexo">
                   <option>Masculino</option>
                   <option>Feminino</option>
                 </select>
               </div>
               <div class="field form-group">
                 <label for="pessoafisica_data">Data de Nascimento</label>
-                <input class="form-control" type="date" name="pessoafisica[data]" id="pessoafisica_data">
+                <input class="form-control" type="date" name="pessoafisica[data]" id="pessoafisica_data" v-model="clickedFavorecido.pessoafisica.data_nascimento">
               </div>
               <v-btn flat @click="step = 1">Voltar</v-btn>
               <v-btn color="primary" @click="step = 4">Avançar</v-btn>
@@ -110,17 +110,17 @@
             <v-stepper-content step="3">
               <div class="field form-group">
                 <label for="pessoajuridica_nomefantasia">Nome Fantasia</label>
-                <input class="form-control" type="text" name="pessoajuridica[nomefantasia]" id="pessoajuridica_nomefantasia">
+                <input class="form-control" type="text" name="pessoajuridica[nomefantasia]" id="pessoajuridica_nomefantasia" v-model="clickedFavorecido.pessoajuridica.nomefantasia">
               </div>
 
               <div class="field form-group">
                 <label for="pessoajuridica_razaosocial">Razão Social</label>
-                <input class="form-control" type="text" name="pessoajuridica[razaosocial]" id="pessoajuridica_razaosocial">
+                <input class="form-control" type="text" name="pessoajuridica[razaosocial]" id="pessoajuridica_razaosocial" v-model="clickedFavorecido.pessoajuridica.razaosocial">
               </div>
 
               <div class="field form-group">
                 <label for="pessoajuridica_cnpj">CNPJ</label>
-                <input class="form-control" type="text" name="pessoajuridica[cnpj]" id="pessoajuridica_cnpj">
+                <input class="form-control" type="text" name="pessoajuridica[cnpj]" id="pessoajuridica_cnpj" v-model="clickedFavorecido.pessoajuridica.cnpj">
               </div>
               <v-btn flat @click.native="step = 1">Voltar</v-btn>
               <v-btn color="primary" @click="step = 4">Avançar</v-btn>
@@ -128,61 +128,64 @@
             <v-stepper-content step="4">
               <div class="field form-group">
                 <label for="endereco_pais">País</label>
-                <select name="endereco[pais]" id="endereco_pais" class="form-control">
-                  <option>Brasil</option>
+                <select name="endereco[pais]" id="endereco_pais" class="form-control" v-model="clickedFavorecido.endereco.pais_id">
+                  <option value="1">Brasil</option>
                 </select>
               </div>
               <div class="field form-group">
                 <label for="endereco_estado">Estado</label>
-                <select name="endereco[estado]" id="endereco_estado" class="form-control">
-                  <option>Bahia</option>
+                <select name="endereco[estado]" id="endereco_estado" class="form-control" v-model="clickedFavorecido.endereco.estado_id">
+                  <option value="1">Bahia</option >
                 </select>
               </div>
               <div class="field form-group">
                 <label for="endereco_cidade">Cidade</label>
-                <select name="endereco[cidade]" id="endereco_cidade" class="form-control">
-                  <option>Salvador</option>
+                <select name="endereco[cidade]" id="endereco_cidade" class="form-control" v-model="clickedFavorecido.endereco.cidade_id">
+                  <option value="1">Salvador</option>
                 </select>
               </div>
               <div class="field form-group">
+                <label for="endereco_descricao">Descrição:</label>
+                <input class="form-control" type="text" name="endereco[descricao]" id="endereco_descricao" v-model="clickedFavorecido.endereco.descricao">
+              </div>
+              <div class="field form-group">
                 <label for="endereco_cep">CEP</label>
-                <input class="form-control" type="text" name="endereco[cep]" id="endereco_cep">
+                <input class="form-control" type="text" name="endereco[cep]" id="endereco_cep" v-model="clickedFavorecido.endereco.cep">
               </div>
               <div class="field form-group">
                 <label for="endereco_bairro">Bairro</label>
-                <input class="form-control" type="text" name="endereco[bairro]" id="endereco_bairro">
+                <input class="form-control" type="text" name="endereco[bairro]" id="endereco_bairro" v-model="clickedFavorecido.endereco.bairro">
               </div>
               <div class="field form-group">
                 <label for="endereco_numero">Número</label>
-                <input class="form-control" type="text" name="endereco[numero]" id="endereco_numero">
-              </div>
-              <div class="field form-group">
-                <label for="endereco_descricao">Descrição:</label>
-                <input class="form-control" type="text" name="endereco[descricao]" id="endereco_descricao">
+                <input class="form-control" type="text" name="endereco[numero]" id="endereco_numero" v-model="clickedFavorecido.endereco.numero">
               </div>
               <div class="field form-group">
                 <label for="endereco_complemento">Complemento</label>
-                <input class="form-control" type="text" name="endereco[complemento]" id="endereco_complemento">
+                <input class="form-control" type="text" name="endereco[complemento]" id="endereco_complemento" v-model="clickedFavorecido.endereco.complemento">
               </div>
               <v-btn flat @click="step = 2">Anterior</v-btn>
               <v-btn @click="step = 5" color="primary" >Avançar</v-btn>
             </v-stepper-content>
             <v-stepper-content step="5">
-              <div class="field form-group">
-                <label for="contato_tipo">Tipo</label>
-                <select name="contato[tipo]" id="contato_tipo" class="form-control">
-                  <option>Celular</option>
-                  <option>Email</option>
-                  <option>Telefone</option>
-                </select>
-              </div>
+              <div class="form-row" v-for="(contato, index) in clickedFavorecido.contatos">
+                <div class="field form-group col-md-3">
+                  <label for="contato_tipo">Tipo</label>
+                  <select name="contato[tipo]" id="contato_tipo" class="form-control" v-model="clickedFavorecido.contatos[index].tipo">
+                    <option>Celular</option>
+                    <option>Email</option>
+                    <option>Telefone</option>
+                  </select>
+                </div>
 
-              <div class="field form-group">
-                <label for="endereco_campo">Campo</label>
-                <input class="form-control" type="text" name="endereco[campo]" id="endereco_campo">
+                <div class="field form-group col-md-9">
+                  <label for="endereco_campo">Campo</label>
+                  <input class="form-control" type="text" name="endereco[campo]" id="endereco_campo" v-model="clickedFavorecido.contatos[0].campo">
+                </div>
               </div>
               <v-btn flat @click="step = 3">Anterior</v-btn>
-              <v-btn @click="step = 5" color="primary" >Avançar</v-btn>
+              <v-btn @click="updateFavorecido(clickedFavorecido)" color="success" v-if="!create">Atualizar</v-btn>
+              <v-btn @click="createFavorecido(clickedFavorecido)" color="success" v-if="create">Criar</v-btn>
             </v-stepper-content>
           </v-stepper-items>
         </v-stepper>
@@ -211,7 +214,7 @@
       <a class="btn btn-danger text-light" @click="deleteConta(clickedFavorecido.id)">Confirmar</a>
     </div>
   </b-modal>
-  </div>
 </div>
+
 
 <%= javascript_pack_tag 'favorecidos', 'data-turbolinks-track': 'reload' %>

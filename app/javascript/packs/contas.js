@@ -1,4 +1,4 @@
-addimport Vue from 'vue/dist/vue.esm'
+import Vue from 'vue/dist/vue.esm'
 import TurbolinksAdapter from 'vue-turbolinks'
 import VueResource from 'vue-resource'
 import axios from 'axios'

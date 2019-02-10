@@ -32,34 +32,34 @@ window.addEventListener('turbolinks:load', function () {
       dialog: false,
       loading: true,
       create: false,
-      clickedFavorecido: {banco: {}},
+      clickedFavorecido: {
+        contatos: [],
+        endereco: {},
+        pessoafisica: {},
+        pessoajuridica: {},
+      },
       favorecidos: [],
-      pickedFavorecido: {},
       showModal: false,
       allSelected: false,
       show: false,
       bancos: {},
       step:1,
-      registration:{
-        name:null,
-        email:null,
-        street:null,
-        city:null,
-        state:null,
-        numtickets:0,
-        shirtsize:'XL'
-      },
       sizes:['S','M','L','XL']
     },
     mounted () {
       this.searchFavorecidos();
-      axios.get(`${URL}/bancos.json`).then(response => {this.bancos = response.data});
     },
     methods: {
       mountCreateForm: function () {
         this.$refs.formFavorecidoModal.show();
         this.create = true;
-        this.clickedFavorecido = {banco: {}};
+        this.clickedFavorecido = {
+          contatos: [],
+          endereco: {},
+          pessoafisica: {},
+          pessoajuridica: {},
+
+        };
       },
       mountDeleteForm: function (favorecido) {
         this.$refs.deleteFavorecidoModal.show();
@@ -68,11 +68,11 @@ window.addEventListener('turbolinks:load', function () {
       mountEditForm: function (favorecido) {
         this.$refs.formFavorecidoModal.show();
         this.create = false;
-        this.clickedFavorecido = {... favorecido};
+        this.clickedFavorecido = {... favorecido, pessoajuridica: {}};
       },
       deleteFavorecido: function (id){
         axios
-            .delete(`${URL}pessoas/${id}.json`)
+            .delete(`${URL}/pessoas/${id}.json`)
             .then(response => {
               this.searchFavorecidos();
               this.$toastr.s("Registro apagado.");
@@ -85,36 +85,42 @@ window.addEventListener('turbolinks:load', function () {
       },
       searchFavorecidos: function(){
         this.loading = true;
-        this.clickedFavorecido = {banco: {}};
+        this.clickedFavorecido = {
+          contatos: [],
+          endereco: {},
+          pessoafisica: {},
+          pessoajuridica: {},
+
+        };
         axios
             .get(`${URL}/pessoas.json`)
             .then(response => {
-              this.favorecidos = response.data
+              this.favorecidos = response.data;
+              this.clickedFavorecido = this.favorecidos[0];
+              this.clickedFavorecido.pessoajuridica = {}
             })
             .catch(error => {
               this.errored = true
             })
             .finally(() => this.loading = false)
       },
-      createFavorecido: function(favorecido){
-        axios.post(`${URL}pessoas.json`, {
-          favorecido
-        })
+      createFavorecido: function(pessoa){
+        axios
+            .post(`${URL}/pessoas.json`, {pessoa})
             .then(response => {
               this.$refs.formFavorecidoModal.hide();
               this.searchFavorecidos();
               this.$toastr.s("Registro criado.");
             })
             .catch(error => {
-              console.log(error);
               this.$toastr.e("Não foi possível adicionar.");
             })
             .finally(() => this.loading = false)
       },
-      updateFavorecido: function(favorecido){
+      updateFavorecido: function(pessoa){
         this.loading = true;
-        axios.put(`${URL}pessoas/${favorecido.id}.json`, {
-          favorecido
+        axios.put(`${URL}/pessoas/${pessoa.id}.json`, {
+          pessoa
         })
             .then(response => {
               this.$refs.formFavorecidoModal.hide();
@@ -135,9 +141,6 @@ window.addEventListener('turbolinks:load', function () {
       closeModal(){
         this.$refs.deleteFavorecidoModal.hide();
         this.$refs.formFavorecidoModal.hide()
-      },
-      submit() {
-        alert('This is the post. Blah');
       }
     }
   })
