@@ -24,7 +24,6 @@ window.addEventListener('turbolinks:load', function () {
   axios.defaults.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     const bancosIndex = new Vue({
       el: document.getElementById('bancosApp'),
-      deleteBancoModal: document.getElementById('deleteBancoModal'),
       data: {
         loading: true,
         create: false,
