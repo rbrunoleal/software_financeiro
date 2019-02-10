@@ -6,7 +6,7 @@
 	            <h2>Gerenciar <b>Bancos</b></h2>
 	          </div>
 	      		<div class="col-sm-6">
-	      			<a href="#formBancoModal" class="btn btn-success" data-toggle="modal" v-on:click="mountCreateForm()"><i class="material-icons">&#xE147;</i> <span>Adiciona novo banco</span></a>
+	      			<a href="#formBancoModal" class="btn btn-success" data-toggle="modal" @click="mountCreateForm()"><i class="material-icons">&#xE147;</i> <span>Adiciona novo banco</span></a>
 	      			<a href="#deleteBancoModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Apagar</span></a>						
 	      		</div>
 	      </div>
@@ -48,7 +48,6 @@
 			</div>
 		</div>
 	  <div class="hint-text">Mostrando <b>{{bancos.length }}</b> registros</div>
-	  <%# will_paginate @bancos, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
 	  </br>
 	</div>
 	
@@ -77,7 +76,7 @@
 		<p class="text-danger"><small>Esta ação não poderá ser desfeita.</small></p>
 		<div slot="modal-footer">
 			<a class="btn btn-info text-light" @click="closeModal()">Fechar</a>
-			<a class="btn btn-danger text-light" @"deleteBanco(clickedBanco.id)">Confirmar</a>
+			<a class="btn btn-danger text-light" @click="deleteBanco(clickedBanco.id)">Confirmar</a>
 		</div>
 	</b-modal>
 </div>

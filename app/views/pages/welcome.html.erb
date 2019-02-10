@@ -6,12 +6,12 @@
         <div class="row">
             <% @contas.each do |conta| %>
                 <div class="col-xs-12 col-sm-6 col-md-4">
-                    <div class="image-flip" ontouchstart="this.classList.toggle('hover');">
+                    <div class="image-flip">
                         <div class="mainflip">
                             <div class="frontside">
                                 <div class="card">
                                     <div class="card-body text-center">
-                                        <p><img class=" img-fluid" src=<%= conta.banco.foto %> alt="card image"></p>
+                                        <p><img class=" img-fluid" src=<%= conta.banco.foto %> alt="card_image"></p>
                                         <h4 class="card-title"><%= conta.conta_numero + "-" + conta.conta_digito.to_s %></h4>
                                         <p class="card-text"><%= conta.banco.descricao %></p>
                                         <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i></a>

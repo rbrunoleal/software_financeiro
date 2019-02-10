@@ -4,10 +4,11 @@ import VueResource from 'vue-resource'
 import axios from 'axios'
 import Toastr from 'vue-toastr';
 import BootstrapVue from 'bootstrap-vue'
+import { URL } from './env';
 
 
-Vue.use(VueResource)
-Vue.use(TurbolinksAdapter)
+Vue.use(VueResource);
+Vue.use(TurbolinksAdapter);
 Vue.component('vue-toastr', Toastr);
 
 Vue.use(Toastr, {
@@ -18,8 +19,6 @@ Vue.use(Toastr, {
   
 });
 Vue.use(BootstrapVue);
-
-const  URL = 'https://6f398da6b99543a289b25138de874ad2.vfs.cloud9.us-west-2.amazonaws.com/'
 
 window.addEventListener('turbolinks:load', function () {
   axios.defaults.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -57,9 +56,8 @@ window.addEventListener('turbolinks:load', function () {
           this.clickedBanco = {... banco};
         },
         deleteBanco: function (id){
-          console.log('bancos/'+id+'.json');
           axios
-            .delete(`${URL}bancos/${id}.json`)
+            .delete(`${URL}/bancos/${id}.json`)
             .then(response => {
               this.searchBancos();
               this.$toastr.s("Registro apagado.");
@@ -72,7 +70,7 @@ window.addEventListener('turbolinks:load', function () {
         },
         searchBancos: function(){
           this.loading = true;
-          this.clickedBanco = {}
+          this.clickedBanco = {};
           axios
             .get(`${URL}/bancos.json`)
             .then(response => {
@@ -84,7 +82,7 @@ window.addEventListener('turbolinks:load', function () {
               .finally(() => this.loading = false)
         },
         createBanco: function(banco){
-          axios.post(`${URL}bancos.json`, {
+          axios.post(`${URL}/bancos.json`, {
             banco
           })
           .then(response => {
@@ -99,7 +97,7 @@ window.addEventListener('turbolinks:load', function () {
         },
         updateBanco: function(banco){
           this.loading = true;
-          axios.put(`${URL}bancos/${banco.id}.json`, {
+          axios.put(`${URL}/bancos/${banco.id}.json`, {
             banco
           })
           .then(response => {
@@ -120,7 +118,7 @@ window.addEventListener('turbolinks:load', function () {
           this.allSelected = false;
         },
         closeModal(){
-          this.$refs.deleteBancoModal.hide()
+          this.$refs.deleteBancoModal.hide();
           this.$refs.formBancoModal.hide()
         }
       }
