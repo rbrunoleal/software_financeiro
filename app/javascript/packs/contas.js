@@ -3,6 +3,7 @@ import TurbolinksAdapter from 'vue-turbolinks'
 import VueResource from 'vue-resource'
 import axios from 'axios'
 import Toastr from 'vue-toastr';
+import BootstrapVue from 'bootstrap-vue'
 
 
 Vue.use(VueResource)
@@ -16,6 +17,7 @@ Vue.use(Toastr, {
   closeButton: true
   
 });
+Vue.use(BootstrapVue);
 
 const  URL = 'https://projeto-rbrunoleal.c9users.io/'
 
@@ -27,33 +29,40 @@ window.addEventListener('turbolinks:load', function () {
       data: {
         loading: true,
         create: false,
-        clickedConta: {},
-        contas: {},
+        clickedConta: {banco: {}},
+        contas: [],
         pickedConta: {},
-        showModal: false
+        showModal: false,
+        allSelected: false,
+        show: false,
+        bancos: {}
       },
       mounted () {
         this.searchContas();
+        axios.get(`${URL}/bancos.json`).then(response => {this.bancos = response.data});
       },
       methods: {
         mountCreateForm: function () {
+          this.$refs.formContaModal.show();
           this.create = true;
-          this.clickedConta = {};
+          this.clickedConta = {banco: {}};
         },
         mountDeleteForm: function (conta) {
+          this.$refs.deleteContaModal.show();
           this.clickedConta = conta;
         },
         mountEditForm: function (conta) {
+          this.$refs.formContaModal.show();
           this.create = false;
           this.clickedConta = {... conta};
         },
         deleteConta: function (id){
-          console.log('contas/'+id+'.json');
           axios
             .delete(`${URL}contas/${id}.json`)
             .then(response => {
               this.searchContas();
               this.$toastr.s("Registro apagado.");
+              this.$refs.deleteContaModal.hide();
             })
             .catch(error => {
               this.$toastr.e("Não foi possível excluir")
@@ -62,7 +71,7 @@ window.addEventListener('turbolinks:load', function () {
         },
         searchContas: function(){
           this.loading = true;
-          this.clickedConta = {}
+          this.clickedConta = {banco: {}};
           axios
             .get(`${URL}/contas.json`)
             .then(response => {
@@ -74,14 +83,16 @@ window.addEventListener('turbolinks:load', function () {
               .finally(() => this.loading = false)
         },
         createConta: function(conta){
-          axios.post(`${URL}bancos.json`, {
+          axios.post(`${URL}contas.json`, {
             conta
           })
           .then(response => {
+              this.$refs.formContaModal.hide();
               this.searchContas();
               this.$toastr.s("Registro criado.");
             })
             .catch(error => {
+              console.log(error);
               this.$toastr.e("Não foi possível adicionar.");
             })
               .finally(() => this.loading = false)
@@ -92,6 +103,7 @@ window.addEventListener('turbolinks:load', function () {
             conta
           })
           .then(response => {
+              this.$refs.formContaModal.hide();
               this.searchContas();
               this.$toastr.s("Registro atualizado.");
             })
@@ -99,6 +111,16 @@ window.addEventListener('turbolinks:load', function () {
               this.$toastr.e("Não foi possível adicionar.");
             })
               .finally(() => this.loading = false)
+        },
+        selectAll: function() {
+          this.allSelected ? this.contas.map( conta  => conta.selected = false) : this.contas.map( conta  => conta.selected = true);
+        },
+        select: function() {
+          this.allSelected = false;
+        },
+        closeModal(){
+          this.$refs.deleteContaModal.hide()
+          this.$refs.formContaModal.hide()
         }
       }
     })
