@@ -1,4 +1,6 @@
 class Banco < ApplicationRecord
+  has_many :contas, :dependent => :delete_all
+  
   validates :codigo, presence: true
   validates :descricao, presence: true
   
