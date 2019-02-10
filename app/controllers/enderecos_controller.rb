@@ -1,7 +1,7 @@
 class EnderecosController < ApplicationController
   def association
     @unidades = Unidade.all
-    render json: @unidades.to_json(include: {estados: {include: :cidades}})
+    render json: @unidades.to_json(include: {estados: {include: :cidades,:except => ['created_at', 'updated_at']}},:except => ['created_at', 'updated_at'])
   end
   
   def paises
