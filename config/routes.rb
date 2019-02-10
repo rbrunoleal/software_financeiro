@@ -17,7 +17,8 @@ Rails.application.routes.draw do
   end
   
   #Rotas JSON(País, Estado, Cidade)
-  get 'enderecos/pais'
+  get 'enderecos/association'
+  get 'enderecos/paises'
   get 'enderecos/estados'
   get 'enderecos/cidades'
 end
