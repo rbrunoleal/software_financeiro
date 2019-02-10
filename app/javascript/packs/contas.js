@@ -1,4 +1,4 @@
-import Vue from 'vue/dist/vue.esm'
+addimport Vue from 'vue/dist/vue.esm'
 import TurbolinksAdapter from 'vue-turbolinks'
 import VueResource from 'vue-resource'
 import axios from 'axios'
@@ -7,8 +7,8 @@ import BootstrapVue from 'bootstrap-vue'
 import { URL } from './env';
 
 
-Vue.use(VueResource)
-Vue.use(TurbolinksAdapter)
+Vue.use(VueResource);
+Vue.use(TurbolinksAdapter);
 Vue.component('vue-toastr', Toastr);
 
 Vue.use(Toastr, {
@@ -56,7 +56,7 @@ window.addEventListener('turbolinks:load', function () {
         },
         deleteConta: function (id){
           axios
-            .delete(`${URL}contas/${id}.json`)
+            .delete(`${URL}/contas/${id}.json`)
             .then(response => {
               this.searchContas();
               this.$toastr.s("Registro apagado.");
@@ -81,7 +81,7 @@ window.addEventListener('turbolinks:load', function () {
               .finally(() => this.loading = false)
         },
         createConta: function(conta){
-          axios.post(`${URL}contas.json`, {
+          axios.post(`${URL}/contas.json`, {
             conta
           })
           .then(response => {
@@ -97,7 +97,7 @@ window.addEventListener('turbolinks:load', function () {
         },
         updateConta: function(conta){
           this.loading = true;
-          axios.put(`${URL}contas/${conta.id}.json`, {
+          axios.put(`${URL}/contas/${conta.id}.json`, {
             conta
           })
           .then(response => {
@@ -117,7 +117,7 @@ window.addEventListener('turbolinks:load', function () {
           this.allSelected = false;
         },
         closeModal(){
-          this.$refs.deleteContaModal.hide()
+          this.$refs.deleteContaModal.hide();
           this.$refs.formContaModal.hide()
         }
       }
