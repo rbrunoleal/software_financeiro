@@ -55,8 +55,8 @@
           <v-stepper-header>
             <v-stepper-step step="1" :complete="step > 1">Escolher tipo</v-stepper-step>
             <v-divider></v-divider>
-            <v-stepper-step v-if="step == 2" step="2" :complete="step > 2">Suas Informações</v-stepper-step>
-            <v-stepper-step v-if="step != 2"  step="3" :complete="step > 3">Suas Informações</v-stepper-step>
+            <v-stepper-step v-if="step == 2" step="2" :complete="step > 2">Informações</v-stepper-step>
+            <v-stepper-step v-if="step != 2"  step="3" :complete="step > 3">Informações</v-stepper-step>
             <v-divider></v-divider>
             <v-stepper-step step="4" :complete="step > 4">Endereço</v-stepper-step>
             <v-divider></v-divider>
@@ -68,7 +68,7 @@
                 <v-card>
                   <v-icon size="200" color="blue darken-2">business</v-icon>
                   <v-card-actions>
-                    <v-btn color="primary" @click="step = 3">Cadastrar Pessoa Física</v-btn>
+                    <v-btn color="primary" @click="step = 3">Cadastrar Pessoa Jurídica</v-btn>
                   </v-card-actions>
                 </v-card>
                 <v-card>
