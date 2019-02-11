@@ -45,7 +45,7 @@ window.addEventListener('turbolinks:load', function () {
       paises: [],
       pais: {estados: []},
       estado: {cidades: []},
-      step:4,
+      step: 4,
 
     },
     mounted () {
@@ -57,8 +57,8 @@ window.addEventListener('turbolinks:load', function () {
       mountCreateForm: function () {
         //this.$refs.formFavorecidoModal.show();
         this.create = true;
-        this.pais = {};
-        this.estado = {};
+        this.pais = [];
+        this.estado = [];
         this.clickedFavorecido = {
           contatos: [],
           endereco: {},
@@ -72,12 +72,16 @@ window.addEventListener('turbolinks:load', function () {
       },
       mountEditForm: function (favorecido) {
         //this.$refs.formFavorecidoModal.show();
+        this.setPais(favorecido.endereco.unidade_id);
+        this.setEstado(favorecido.endereco.estado_id);
         this.create = false;
-        this.clickedFavorecido = {... favorecido, pessoajuridica: {}};
+        favorecido.tipo === "Física"? this.step = 2: this.step = 3;
+        favorecido.pessoaFisica ? this.clickedFavorecido = {... favorecido, pessoafisica: {}} : this.clickedFavorecido = {... favorecido, pessoajuridica: {}};
         this.setPais(this.clickedFavorecido.endereco.unidade_id);
         this.setEstado(this.clickedFavorecido.endereco.estado_id);
       },
       deleteFavorecido: function (id){
+        this.loading = true;
         axios
             .delete(`${URL}/pessoas/${id}.json`)
             .then(response => {
@@ -99,11 +103,11 @@ window.addEventListener('turbolinks:load', function () {
           pessoajuridica: {},
 
         };
+
         axios
             .get(`${URL}/pessoas.json`)
             .then(response => {
               this.favorecidos = response.data;
-              this.clickedFavorecido = this.favorecidos[0];
               this.clickedFavorecido.pessoajuridica = {}
             })
             .catch(error => {
@@ -112,6 +116,8 @@ window.addEventListener('turbolinks:load', function () {
             .finally(() => this.loading = false)
       },
       createFavorecido: function(pessoa){
+        this.loading = true;
+        pessoa.tipo === "Física"? pessoa.pessoajuridica = null: pessoa.pessoafisica = null;
         axios
             .post(`${URL}/pessoas.json`, {pessoa})
             .then(response => {
@@ -126,6 +132,7 @@ window.addEventListener('turbolinks:load', function () {
       },
       updateFavorecido: function(pessoa){
         this.loading = true;
+        pessoa.tipo === "Física"? pessoa.pessoajuridica = null: pessoa.pessoafisica = null;
         axios
             .put(`${URL}/pessoas/${pessoa.id}.json`, {pessoa})
             .then(response => {
@@ -149,6 +156,7 @@ window.addEventListener('turbolinks:load', function () {
         this.$refs.formFavorecidoModal.hide()
       },
       setPaises(){
+        this.loading = true;
         axios.get(`${URL}/enderecos/paises.json`).then(response => {this.paises = response.data});
       },
       setPais(pais_id){
