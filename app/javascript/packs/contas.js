@@ -90,7 +90,6 @@ window.addEventListener('turbolinks:load', function () {
               this.$toastr.s("Registro criado.");
             })
             .catch(error => {
-              console.log(error);
               this.$toastr.e("Não foi possível adicionar.");
             })
               .finally(() => this.loading = false)

@@ -4,7 +4,12 @@ class MovimentosController < ApplicationController
   # GET /movimentos
   # GET /movimentos.json
   def index
-    @movimentos = Movimento.paginate(:page => params[:page], :per_page => 10)
+    @movimentos = Movimento.all
+    respond_to do |format|
+      format.html
+      #include: {estados: {include: :cidades,:except => ['created_at', 'updated_at']}}
+      format.json { render json: @movimentos.to_json(:except => ['created_at', 'updated_at'],:methods => [:favorecido,:contabancaria])}
+    end
   end
 
   # GET /movimentos/1
@@ -71,6 +76,6 @@ class MovimentosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def movimento_params
-      params.require(:movimento).permit(:data_competencia, :data_vencimento, :descricao, :valor, :conta_id)
+      params.require(:movimento).permit(:data_competencia, :data_vencimento, :descricao, :valor, :conta_id, :pessoa_id, :nota_id)
     end
 end

@@ -9,7 +9,6 @@ class Conta < ApplicationRecord
     movimentos.sum(&:valor)
   end
   
-  
   def conta
     self.conta_numero + "-" + self.conta_digito.to_s
   end
