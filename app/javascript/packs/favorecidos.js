@@ -42,18 +42,23 @@ window.addEventListener('turbolinks:load', function () {
       showModal: false,
       allSelected: false,
       show: false,
-      paises: [{estados: [{cidades: []}]}],
-      step:1,
+      paises: [],
+      pais: {estados: []},
+      estado: {cidades: []},
+      step:4,
 
     },
     mounted () {
       this.searchFavorecidos();
-      this.buildSelect();
+      this.setPaises();
+      
     },
     methods: {
       mountCreateForm: function () {
-        this.$refs.formFavorecidoModal.show();
+        //this.$refs.formFavorecidoModal.show();
         this.create = true;
+        this.pais = {};
+        this.estado = {};
         this.clickedFavorecido = {
           contatos: [],
           endereco: {},
@@ -66,9 +71,11 @@ window.addEventListener('turbolinks:load', function () {
         this.clickedFavorecido = favorecido;
       },
       mountEditForm: function (favorecido) {
-        this.$refs.formFavorecidoModal.show();
+        //this.$refs.formFavorecidoModal.show();
         this.create = false;
         this.clickedFavorecido = {... favorecido, pessoajuridica: {}};
+        this.setPais(this.clickedFavorecido.endereco.unidade_id);
+        this.setEstado(this.clickedFavorecido.endereco.estado_id);
       },
       deleteFavorecido: function (id){
         axios
@@ -141,8 +148,16 @@ window.addEventListener('turbolinks:load', function () {
         this.$refs.deleteFavorecidoModal.hide();
         this.$refs.formFavorecidoModal.hide()
       },
-      buildSelect(){
-        axios.get(`${URL}/enderecos/association.json`).then(response => {this.paises = response.data; console.log(this.paises[0])});
+      setPaises(){
+        axios.get(`${URL}/enderecos/paises.json`).then(response => {this.paises = response.data});
+      },
+      setPais(pais_id){
+        this.loading = true;
+        axios.get(`${URL}/enderecos/${pais_id}/pais.json`).then(response => {this.pais = response.data; this.loading = false; this.estado = {}});
+      },
+      setEstado(estado_id){
+        this.loading = true;
+        axios.get(`${URL}/enderecos/${estado_id}/estado.json`).then(response => {this.estado = response.data; this.loading = false});
       }
     }
   })

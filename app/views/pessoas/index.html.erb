@@ -45,7 +45,7 @@
           </tr>
       </tbody>
     </table>
-    <div class="hint-text">Mostrando <b>{{favorecidos.length}}</b> registros</div>{{clickedFavorecido}}
+    <div class="hint-text">Mostrando <b>{{favorecidos.length}}</b> registros</div>
     <br>
   </div>
   <v-app>
@@ -127,21 +127,21 @@
             </v-stepper-content>
             <v-stepper-content step="4">
               <div class="field form-group">
-                <label for="endereco_pais">País</label>
-                <select name="endereco[pais]" id="endereco_pais" class="form-control" v-model="clickedFavorecido.endereco.unidade_id"> {{clickedFavorecido.endereco.unidade_id}}
+                <label for="endereco_pais">País</label>{{pais.estados}}
+                <select name="endereco[pais]" id="endereco_pais" class="form-control" v-model="clickedFavorecido.endereco.unidade_id" @change="setPais(clickedFavorecido.endereco.unidade_id)">
                   <option v-for="pais in paises" v-bind:value="pais.id">{{pais.nome}}</option>
                 </select>
               </div>
-              <div class="field form-group" v-if="clickedFavorecido.endereco.unidade_id >= 0">
-                <label for="endereco_estado">Estado</label>
-                <select name="endereco[estado]" id="endereco_estado" class="form-control" v-model="clickedFavorecido.endereco.estado_id">
-                  <option v-for="estado in paises.map(() )" v-bind:value="estado.id">{{estado.nome}}</option >
+              <div class="field form-group" v-if="clickedFavorecido.endereco.unidade_id">
+                <label for="endereco_estado">Estado</label>{{estado.cidades}}
+                <select name="endereco[estado]" id="endereco_estado" class="form-control" v-model="clickedFavorecido.endereco.estado_id" @change="setEstado(clickedFavorecido.endereco.estado_id)">
+                  <option v-for="estado in pais.estados" v-bind:value="estado.id">{{estado.nome}}</option >
                 </select>
               </div>
               <div class="field form-group" v-if="clickedFavorecido.endereco.estado_id">
                 <label for="endereco_cidade">Cidade</label>
                 <select name="endereco[cidade]" id="endereco_cidade" class="form-control" v-model="clickedFavorecido.endereco.cidade_id">
-                  <option v-for="cidade in paises[0].estados[0].cidades" v-bind:value="cidade.id">{{cidade.nome}}</option>
+                  <option v-for="cidade in estado.cidades" v-bind:value="cidade.id">{{cidade.nome}}</option>
                 </select>
               </div>
               <div class="field form-group">
@@ -211,7 +211,7 @@
     <p class="text-danger"><small>Esta ação não poderá ser desfeita.</small></p>
     <div slot="modal-footer">
       <a class="btn btn-info text-light" @click="closeModal()">Fechar</a>
-      <a class="btn btn-danger text-light" @click="deleteConta(clickedFavorecido.id)">Confirmar</a>
+      <a class="btn btn-danger text-light" @click="deleteFavorecido(clickedFavorecido.id)">Confirmar</a>
     </div>
   </b-modal>
 </div>
