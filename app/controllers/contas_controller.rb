@@ -6,10 +6,6 @@ class ContasController < ApplicationController
   def index
     @contas = Conta.all
     @bancos = Banco.all
-    respond_to do |format|
-      format.html
-      format.json { render json: @contas.to_json(:except => ['created_at', 'updated_at'],:methods => [:conta,:banco,:agencia,:movimentos,:saldo])}
-    end
   end
   
   def conta_json_formatado

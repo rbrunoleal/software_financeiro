@@ -5,10 +5,6 @@ class PessoasController < ApplicationController
   # GET /pessoas.json
   def index
     @pessoas = Pessoa.all
-    respond_to do |format|
-      format.html
-      format.json { render json: @pessoas.to_json(:except => ['created_at', 'updated_at'],:methods => [:pessoafisica, :pessoajuridica, :endereco, :nome, :identificador, :contatos])}
-    end
   end
 
   # GET /pessoas/1

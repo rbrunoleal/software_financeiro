@@ -5,11 +5,6 @@ class MovimentosController < ApplicationController
   # GET /movimentos.json
   def index
     @movimentos = Movimento.all
-    respond_to do |format|
-      format.html
-      #include: {estados: {include: :cidades,:except => ['created_at', 'updated_at']}}
-      format.json { render json: @movimentos.to_json(:except => ['created_at', 'updated_at'],:methods => [:favorecido,:contabancaria])}
-    end
   end
 
   # GET /movimentos/1
