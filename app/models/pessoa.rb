@@ -1,6 +1,6 @@
 class Pessoa < ApplicationRecord
   enum tipo: [:Física, :Jurídica]
-  belongs_to :endereco
+  belongs_to :endereco, optional: true
   accepts_nested_attributes_for :endereco, reject_if: :all_blank, allow_destroy: true
   belongs_to :pessoafisica, optional: true
   accepts_nested_attributes_for :pessoafisica, reject_if: :all_blank, allow_destroy: true

@@ -42,12 +42,13 @@ window.addEventListener('turbolinks:load', function () {
       showModal: false,
       allSelected: false,
       show: false,
-      bancos: {},
+      paises: [{estados: [{cidades: []}]}],
       step:1,
-      sizes:['S','M','L','XL']
+
     },
     mounted () {
       this.searchFavorecidos();
+      this.buildSelect();
     },
     methods: {
       mountCreateForm: function () {
@@ -58,7 +59,6 @@ window.addEventListener('turbolinks:load', function () {
           endereco: {},
           pessoafisica: {},
           pessoajuridica: {},
-
         };
       },
       mountDeleteForm: function (favorecido) {
@@ -119,9 +119,8 @@ window.addEventListener('turbolinks:load', function () {
       },
       updateFavorecido: function(pessoa){
         this.loading = true;
-        axios.put(`${URL}/pessoas/${pessoa.id}.json`, {
-          pessoa
-        })
+        axios
+            .put(`${URL}/pessoas/${pessoa.id}.json`, {pessoa})
             .then(response => {
               this.$refs.formFavorecidoModal.hide();
               this.searchFavorecidos();
@@ -141,6 +140,9 @@ window.addEventListener('turbolinks:load', function () {
       closeModal(){
         this.$refs.deleteFavorecidoModal.hide();
         this.$refs.formFavorecidoModal.hide()
+      },
+      buildSelect(){
+        axios.get(`${URL}/enderecos/association.json`).then(response => {this.paises = response.data; console.log(this.paises[0])});
       }
     }
   })
