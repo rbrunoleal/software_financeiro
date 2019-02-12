@@ -32,12 +32,28 @@ window.addEventListener('turbolinks:load', function () {
         pickedBanco: {},
         showModal: false,
         allSelected: false,
-        show: false
+        show: false,
+        FiltroCodigo: '',
+        FiltroDescricao: ''
+      },
+      computed: {
+        BancosFiltro() {
+          var filtro = {
+            codigo: this.FiltroCodigo.toLowerCase(),
+            descricao:this.FiltroDescricao.toLowerCase()
+          };
+          var BancosFiltrados = this.bancos.filter(function(item) {
+            for (var key in filtro) {
+              if (item[key] === undefined || !item[key].toLowerCase().includes(filtro[key]))
+                return false;
+            }
+            return true;
+          });
+          return BancosFiltrados;
+        }
       },
       mounted(){
         this.searchBancos();
-        
-        
       },
       methods: { 
         mountCreateForm: function () {
