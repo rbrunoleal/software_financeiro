@@ -32,6 +32,7 @@ window.addEventListener('turbolinks:load', function () {
       dialog: false,
       loading: true,
       create: false,
+      contato: {},
       clickedFavorecido: {
         contatos: [],
         endereco: {},
@@ -45,7 +46,7 @@ window.addEventListener('turbolinks:load', function () {
       paises: [],
       pais: {estados: []},
       estado: {cidades: []},
-      step: 4,
+      step: 5,
 
     },
     mounted () {
@@ -75,10 +76,11 @@ window.addEventListener('turbolinks:load', function () {
         this.setPais(favorecido.endereco.unidade_id);
         this.setEstado(favorecido.endereco.estado_id);
         this.create = false;
-        favorecido.tipo === "Física"? this.step = 2: this.step = 3;
+        favorecido.tipo === "Física"? this.step = 5: this.step = 3;
         favorecido.pessoaFisica ? this.clickedFavorecido = {... favorecido, pessoafisica: {}} : this.clickedFavorecido = {... favorecido, pessoajuridica: {}};
         this.setPais(this.clickedFavorecido.endereco.unidade_id);
         this.setEstado(this.clickedFavorecido.endereco.estado_id);
+        this.clickedFavorecido.contatos = this.clickedFavorecido.contatos.map(function (contato, index, contatos) {contatos[index]._destroy = false});
       },
       deleteFavorecido: function (id){
         this.loading = true;
@@ -115,7 +117,8 @@ window.addEventListener('turbolinks:load', function () {
             })
             .finally(() => this.loading = false)
       },
-      createFavorecido: function(pessoa){
+      createFavorecido: function(favorecido){
+        let pessoa = {tipo: favorecido.tipo, pessoafisica_attributes: favorecido.pessoafisica, endereco_attributes: favorecido.endereco, contatos_attributes: favorecido.contatos };
         this.loading = true;
         pessoa.tipo === "Física"? pessoa.pessoajuridica = null: pessoa.pessoafisica = null;
         axios
@@ -130,9 +133,10 @@ window.addEventListener('turbolinks:load', function () {
             })
             .finally(() => this.loading = false)
       },
-      updateFavorecido: function(pessoa){
+      updateFavorecido: function(favorecido){
         this.loading = true;
-        pessoa.tipo === "Física"? pessoa.pessoajuridica = null: pessoa.pessoafisica = null;
+        let pessoa = {id: favorecido.id, tipo: favorecido.tipo, pessoafisica_attributes: favorecido.pessoafisica, endereco_attributes: favorecido.endereco, contatos_attributes: favorecido.contatos };
+        pessoa.tipo === "Física" ? pessoa.pessoajuridica = null: pessoa.pessoafisica = null;
         axios
             .put(`${URL}/pessoas/${pessoa.id}.json`, {pessoa})
             .then(response => {
@@ -166,6 +170,21 @@ window.addEventListener('turbolinks:load', function () {
       setEstado(estado_id){
         this.loading = true;
         axios.get(`${URL}/enderecos/${estado_id}/estado.json`).then(response => {this.estado = response.data; this.loading = false});
+      },
+      addContato(){
+        this.clickedFavorecido.contatos.push(this.contato);
+        this.contato = {}
+      },
+      editContato(index){
+        this.contato = this.clickedFavorecido.contatos[index];
+        this.clickedFavorecido.contatos.splice(index, 1);
+      },
+      deleteContato(index){
+        this.clickedFavorecido.contatos[index]._destroy = true;
+        console.log(this.clickedFavorecido.contatos[index]._destroy);
+      },
+      undoContato(index){
+        this.clickedFavorecido.contatos[index]._destroy = false;
       }
     }
   })

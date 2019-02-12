@@ -168,21 +168,44 @@
               <v-btn @click="step = 5" color="primary" >Avançar</v-btn>
             </v-stepper-content>
             <v-stepper-content step="5">
-              <div class="form-row" v-for="(contato, index) in clickedFavorecido.contatos">
+              <div class="form-row">
                 <div class="field form-group col-md-3">
                   <label for="contato_tipo">Tipo</label>
-                  <select name="contato[tipo]" id="contato_tipo" class="form-control" v-model="clickedFavorecido.contatos[index].tipo">
+                  <select name="contato[tipo]" id="contato_tipo" class="form-control" v-model="contato.tipo">
                     <option>Celular</option>
                     <option>Email</option>
                     <option>Telefone</option>
                   </select>
-                </div>
-
-                <div class="field form-group col-md-9">
+                </div>{{contato}}
+                <div class="field form-group col-md-8">
                   <label for="endereco_campo">Campo</label>
-                  <input class="form-control" type="text" name="endereco[campo]" id="endereco_campo" v-model="clickedFavorecido.contatos[0].campo">
+                  <input class="form-control" type="text" name="endereco[campo]" id="endereco_campo" v-model="contato.campo">
+                </div>
+                <div class="field form-group col-md-1">
+                  <label for="endereco_add">Ações</label>
+                  <a @click="addContato()" id="endereco_add"><i class="material-icons">add</i></a>
                 </div>
               </div>
+              <table class="table table-hover table-striped">
+                <thead>
+                  <tr>
+                    <th>Tipo</th>
+                    <th>Campo</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(contato, index) in clickedFavorecido.contatos">
+                    <td>{{contato.tipo}}</td>
+                    <td>{{contato}}</td>
+                    <th>
+                      <a @click="contato.id++"><i class="material-icons" v-if="!contato._destroy">remove</i></a>
+                      <a @click="editContato(index)"><i class="material-icons" v-if="!contato._destroy">create</i></a>
+                      <a @click="undoContato(index)"><i class="material-icons" v-if="contato.id > 5">undo</i></a>
+                    </th>
+                  </tr>
+                </tbody>
+              </table>
               <v-btn flat @click="step = 4">Anterior</v-btn>
               <v-btn @click="updateFavorecido(clickedFavorecido)" color="success" v-if="!create">Atualizar</v-btn>
               <v-btn @click="createFavorecido(clickedFavorecido)" color="success" v-if="create">Criar</v-btn>
