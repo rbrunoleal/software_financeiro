@@ -213,9 +213,7 @@
           </v-stepper>
 
         </v-container>
-
       </v-content>
-
     </v-app>
     <div slot="modal-footer">
       <a class="btn btn-secondary text-light" @click="closeModal">Fechar</a>
@@ -223,7 +221,7 @@
       <a class="btn btn-info text-light" @click="updateFavorecido(clickedFavorecido)" v-if="!create"> Atualizar</a>
     </div>
   </b-modal>
-  <b-modal ref="deleteFavorecidoModal" title="Apagar Conta" size="lg" centered>
+  <b-modal ref="deleteFavorecidoModal" title="Apagar Conta" size="sm" centered>
     <p>Tem certeza que deseja apagar esse registro?</p>
     <p>Nome: {{clickedFavorecido.nome}}</p>
     <p class="text-danger"><small>Esta ação não poderá ser desfeita.</small></p>
