@@ -56,7 +56,7 @@ window.addEventListener('turbolinks:load', function () {
     },
     methods: {
       mountCreateForm: function () {
-        //this.$refs.formFavorecidoModal.show();
+        this.$refs.formFavorecidoModal.show();
         this.create = true;
         this.pais = [];
         this.estado = [];
@@ -72,15 +72,14 @@ window.addEventListener('turbolinks:load', function () {
         this.clickedFavorecido = favorecido;
       },
       mountEditForm: function (favorecido) {
-        //this.$refs.formFavorecidoModal.show();
+        this.$refs.formFavorecidoModal.show();
         this.setPais(favorecido.endereco.unidade_id);
         this.setEstado(favorecido.endereco.estado_id);
         this.create = false;
-        favorecido.tipo === "Física"? this.step = 5: this.step = 3;
+        favorecido.tipo === "Física"? this.step = 2: this.step = 3;
         favorecido.pessoaFisica ? this.clickedFavorecido = {... favorecido, pessoafisica: {}} : this.clickedFavorecido = {... favorecido, pessoajuridica: {}};
         this.setPais(this.clickedFavorecido.endereco.unidade_id);
         this.setEstado(this.clickedFavorecido.endereco.estado_id);
-        this.clickedFavorecido.contatos = this.clickedFavorecido.contatos.map(function (contato, index, contatos) {contatos[index]._destroy = false});
       },
       deleteFavorecido: function (id){
         this.loading = true;
@@ -180,8 +179,7 @@ window.addEventListener('turbolinks:load', function () {
         this.clickedFavorecido.contatos.splice(index, 1);
       },
       deleteContato(index){
-        this.clickedFavorecido.contatos[index]._destroy = true;
-        console.log(this.clickedFavorecido.contatos[index]._destroy);
+        this.$set(this.clickedFavorecido.contatos[index], '_destroy', true);
       },
       undoContato(index){
         this.clickedFavorecido.contatos[index]._destroy = false;
