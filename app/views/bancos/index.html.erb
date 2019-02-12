@@ -11,6 +11,29 @@
 	      		</div>
 	      </div>
 	  </div>
+	  <div class="search-wrapper">
+		  <div class="form-row align-items-center">
+		  	<label for="bancos_filtro">Filtros:</label>
+		    <div class="col-auto">
+		      <label class="sr-only" for="inlineFormInput"></label>
+		      <div class="input-group mb-2">
+		        <div class="input-group-prepend">
+		          <div class="input-group-text">Código</div>
+		        </div>
+		        <input type="text" class="form-control" id="inlineFormInputGroupCodigo" v-model="FiltroCodigo">
+		      </div>
+		    </div>
+		    <div class="col-auto">
+		      <label class="sr-only" for="inlineFormInputGroup"></label>
+		      <div class="input-group mb-2">
+		        <div class="input-group-prepend">
+		          <div class="input-group-text">Descrição</div>
+		        </div>
+		        <input type="text" class="form-control" id="inlineFormInputGroup" v-model="FiltroDescricao">
+		      </div>
+		    </div>
+		  </div>
+		</div>
 	  <table class="table table-striped table-hover">
 	    <thead>
 	        <tr>
@@ -20,21 +43,21 @@
 						<label for="selectAll"></label>
 					</span>
 				</th>
-	          <th>Descrição</th>
-	          <th>Código do Banco</th>
-	          <th>Ações</th>
-	        </tr>
+					<th>Código do Banco</th>
+	        <th>Descrição</th>
+	        <th>Ações</th>
+	      </tr>
 	    </thead>
 	    <tbody>
-	        <tr v-for="(banco, index) in bancos">
+	        <tr v-for="(banco, index) in BancosFiltro">
 	    			<td>
 	    				<span class="custom-checkbox">
 	    					<input type="checkbox" :id="'checkbox'+banco.id" value="1" v-model="bancos[index].selected" @click="select">
 	    					<label :for="'checkbox'+banco.id"></label>
 	    				</span>
 	    			</td>
+	    			<td>{{ banco.codigo }}</td>
 	          <td>{{ banco.descricao }}</td>
-	          <td>{{ banco.codigo }}</td>
 	          <td>
 	            <a href="#deleteBancoModal" data-toggle="modal" class="edit" @click="mountEditForm(banco)"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
 	            <a href="#deleteBancoModal" data-toggle="modal" class="delete" @click="mountDeleteForm(banco)"><i class="material-icons" data-toggle="tooltip" title="Apagar">&#xE872;</i></a>
@@ -47,7 +70,7 @@
 				<span class="sr-only">Carregando...</span>
 			</div>
 		</div>
-	  <div class="hint-text">Mostrando <b>{{bancos.length }}</b> registros</div>
+	  <div class="hint-text">Mostrando <b>{{BancosFiltro.length }}</b> registros</div>
 	  </br>
 	</div>
 	
