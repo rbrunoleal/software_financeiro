@@ -82,17 +82,16 @@ window.addEventListener('turbolinks:load', function () {
             })
               .finally(() => this.loading = false)
         },
-        createMovimento: function(movimento){
-          let lmovimento = {
-            data_competencia: movimento.data_competencia,
-            data_vencimento: movimento.data_vencimento,
-            descricao: movimento.descricao,
-            valor: movimento.valor,
-            conta_id: movimento.conta_id,
-            pessoa_id: movimento.pessoa_id,
-            nota_attributes: movimento.nota
+        createMovimento: function(lmovimento){
+          let movimento = {
+            data_competencia: lmovimento.data_competencia,
+            data_vencimento: lmovimento.data_vencimento,
+            descricao: lmovimento.descricao,
+            valor: lmovimento.valor,
+            conta_id: lmovimento.conta_id,
+            pessoa_id: lmovimento.pessoa_id,
+            nota_attributes: lmovimento.nota
           };
-          movimento = lmovimento;
         this.loading = true;
           axios.post(`${URL}/movimentos.json`, {
             movimento
@@ -107,27 +106,25 @@ window.addEventListener('turbolinks:load', function () {
             })
               .finally(() => this.loading = false)
         },
-        updateMovimento: function(movimento){
+        updateMovimento: function(lmovimento){
           this.loading = true;
-          let lmovimento = {
-            id: movimento.id,
-            data_competencia: movimento.data_competencia,
-            data_vencimento: movimento.data_vencimento,
-            descricao: movimento.descricao,
-            valor: movimento.valor,
-            conta_id: movimento.conta_id,
-            pessoa_id: movimento.pessoa_id,
-            nota_attributes: movimento.nota
+          let movimento = {
+            id: lmovimento.id,
+            data_competencia: lmovimento.data_competencia,
+            data_vencimento: lmovimento.data_vencimento,
+            descricao: lmovimento.descricao,
+            valor: lmovimento.valor,
+            conta_id: lmovimento.conta_id,
+            pessoa_id: lmovimento.pessoa_id,
+            nota_attributes: lmovimento.nota
           };
-          movimento = lmovimento;
-          axios.put(`${URL}/movimentos/${lmovimento.id}.json`, {
+          axios.put(`${URL}/movimentos/${movimento.id}.json`, {
             movimento
           })
           .then(response => {
               this.$refs.formMovimentoModal.hide();
               this.searchMovimentos();
               this.$toastr.s("Registro atualizado.");
-              
           })
           .catch(error => {
             this.$toastr.e("Não foi possível adicionar.");
