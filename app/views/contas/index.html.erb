@@ -34,9 +34,9 @@
 		    					<label :for="'checkbox'+conta.id"></label>
 		    				</span>
 		    			</td>
-		    			<td>{{ conta.conta }}</td>
+		    			<td>{{ ContaFormatada(conta) }}</td>
 		          <td>{{ conta.banco.descricao }}</td>
-		          <td>{{ conta.agencia }}</td>
+		          <td>{{ AgenciaFormatada(conta) }}</td>
 		          <td>
 		            <a href="#deleteContaModal" data-toggle="modal" class="edit" @click="mountEditForm(conta)"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
 		            <a href="#deleteContaModal" data-toggle="modal" class="delete" @click="mountDeleteForm(conta)"><i class="material-icons" data-toggle="tooltip" title="Apagar">&#xE872;</i></a>

@@ -40,6 +40,12 @@ window.addEventListener('turbolinks:load', function () {
         axios.get(`${URL}/bancos.json`).then(response => {this.bancos = response.data});
       },
       methods: {
+        ContaFormatada (conta) {
+          return `${conta.conta_numero} - ${conta.conta_digito}`
+        },
+        AgenciaFormatada (conta) {
+          return `${conta.agencia_numero} - ${conta.agencia_digito}`
+        },
         mountCreateForm: function () {
           this.$refs.formContaModal.show();
           this.create = true;
