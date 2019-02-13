@@ -42,9 +42,9 @@
 	          <td>{{ DataFormatada(movimento.data_vencimento) }}</td>
 	          <td>{{ movimento.descricao }}</td>
 	          <td>{{ movimento.favorecido }}</td>
-	          <td>{{ movimento.contabancaria }}</td>
+	          <td>{{ ContaFormatada(movimento.conta.conta_numero,movimento.conta.conta_digito) }}</td>
 	          <td>{{ movimento.valor }}</td>
-	          <td>{{ movimento.informacaonota }}</td>
+	          <td>{{ NotaFormatada(movimento.nota) }}</td>
 	          <td>
 	            <a href="#deleteMovimentoModal" data-toggle="modal" class="edit" @click="mountEditForm(movimento)"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
 	            <a href="#deleteMovimentoModal" data-toggle="modal" class="delete" @click="mountDeleteForm(movimento)"><i class="material-icons" data-toggle="tooltip" title="Apagar">&#xE872;</i></a>

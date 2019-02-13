@@ -49,6 +49,14 @@ window.addEventListener('turbolinks:load', function () {
           var dataformatada = date.toLocaleDateString("pt-BR");
           return `${dataformatada}`
         },
+        ContaFormatada (contanumero,contadigito){
+          return `${contanumero} - ${contadigito}`
+        },
+        NotaFormatada (nota){
+          if(nota != null){
+            return `${nota.numero} - ${nota.descricao}`
+          }
+        },
         mountCreateForm: function () {
           this.$refs.formMovimentoModal.show();
           this.create = true;
