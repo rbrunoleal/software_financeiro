@@ -20,7 +20,7 @@ Vue.use(Toastr, {
 });
 Vue.use(BootstrapVue);
 
-window.addEventListener('turbolinks:load', function () {
+document.addEventListener('DOMContentLoaded', () => {
   axios.defaults.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     const bancosIndex = new Vue({
       el: document.getElementById('bancosApp'),

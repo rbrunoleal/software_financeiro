@@ -1,4 +1,5 @@
 <div id="favorecidosApp" v-cloak>
+  <v-app>
   <div class="table-wrapper">
     <div class="table-title">
         <div class="row">
@@ -49,10 +50,7 @@
     <br>
   </div>
 
-  <b-modal ref="formFavorecidoModal" size="lg" title="Conta" >
-    <v-app>
-      <v-content>
-        <v-container>
+  <b-modal ref="formFavorecidoModal" size="lg" title="Favorecido" >
           <v-stepper v-model="step">
             <v-stepper-header>
               <v-stepper-step step="1" :complete="step > 1">Escolher tipo</v-stepper-step>
@@ -212,9 +210,6 @@
             </v-stepper-items>
           </v-stepper>
 
-        </v-container>
-      </v-content>
-    </v-app>
     <div slot="modal-footer">
       <a class="btn btn-secondary text-light" @click="closeModal">Fechar</a>
       <a class="btn btn-success text-light" @click="createFavorecido(clickedFavorecido)" v-if="create"><span v-if="loading" class="spinner-border spinner-border-sm"></span> Criar</a>
@@ -230,6 +225,7 @@
       <a class="btn btn-danger text-light" @click="deleteFavorecido(clickedFavorecido.id)">Confirmar</a>
     </div>
   </b-modal>
+</v-app>
 </div>
 
 

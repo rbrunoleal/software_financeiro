@@ -20,8 +20,8 @@ Vue.use(Toastr, {
 });
 Vue.use(BootstrapVue);
 
-window.addEventListener('turbolinks:load', function () {
-  axios.defaults.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+document.addEventListener('DOMContentLoaded', () => {
+  axios.defaults.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     const movimentosIndex = new Vue({
       el: document.getElementById('movimentosApp'),
       data: {
@@ -124,4 +124,4 @@ window.addEventListener('turbolinks:load', function () {
         }
       }
     })
-}) 
+});

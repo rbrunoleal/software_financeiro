@@ -24,7 +24,7 @@ Vue.use(Toastr, {
 Vue.use(BootstrapVue);
 
 
-window.addEventListener('turbolinks:load', function () {
+document.addEventListener('DOMContentLoaded', () => {
   axios.defaults.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
   const favorecidosApp = new Vue({
     el: document.getElementById('favorecidosApp'),
@@ -46,7 +46,7 @@ window.addEventListener('turbolinks:load', function () {
       paises: [],
       pais: {estados: []},
       estado: {cidades: []},
-      step: 5,
+      step: 1,
 
     },
     mounted () {
@@ -66,6 +66,7 @@ window.addEventListener('turbolinks:load', function () {
           pessoafisica: {},
           pessoajuridica: {},
         };
+        this.step = 1;
       },
       mountDeleteForm: function (favorecido) {
         this.$refs.deleteFavorecidoModal.show();
