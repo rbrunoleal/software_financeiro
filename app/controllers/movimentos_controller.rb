@@ -71,6 +71,6 @@ class MovimentosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def movimento_params
-      params.require(:movimento).permit(:data_competencia, :data_vencimento, :descricao, :valor, :conta_id, :pessoa_id, :nota_id)
+      params.require(:movimento).permit(:data_competencia, :data_vencimento, :descricao, :valor, :conta_id, :pessoa_id, nota_attributes: [:id, :data, :descricao, :numero, :codigo, :_destroy])
     end
 end

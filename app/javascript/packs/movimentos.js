@@ -27,7 +27,7 @@ window.addEventListener('turbolinks:load', function () {
       data: {
         loading: true,
         create: false,
-        clickedMovimento: {pessoa: {}, conta: {}},
+        clickedMovimento: {pessoa: {}, conta: {}, nota: {}},
         movimentos: [],
         pickedMovimento: {},
         showModal: false,
@@ -45,7 +45,7 @@ window.addEventListener('turbolinks:load', function () {
         mountCreateForm: function () {
           this.$refs.formMovimentoModal.show();
           this.create = true;
-          this.clickedMovimento = {pessoa: {}, conta: {}};
+          this.clickedMovimento = {pessoa: {}, conta: {}, nota: {}};
         },
         mountDeleteForm: function (movimento) {
           this.$refs.deleteMovimentoModal.show();
@@ -71,7 +71,7 @@ window.addEventListener('turbolinks:load', function () {
         },
         searchMovimentos: function(){
           this.loading = true;
-          this.clickedMovimento = {pessoa: {}, conta: {}};
+          this.clickedMovimento = {pessoa: {}, conta: {}, nota: {}};
           axios
             .get(`${URL}/movimentos.json`)
             .then(response => {
@@ -83,6 +83,17 @@ window.addEventListener('turbolinks:load', function () {
               .finally(() => this.loading = false)
         },
         createMovimento: function(movimento){
+          let lmovimento = {
+            data_competencia: movimento.data_competencia,
+            data_vencimento: movimento.data_vencimento,
+            descricao: movimento.descricao,
+            valor: movimento.valor,
+            conta_id: movimento.conta_id,
+            pessoa_id: movimento.pessoa_id,
+            nota_attributes: movimento.nota
+          };
+          movimento = lmovimento;
+        this.loading = true;
           axios.post(`${URL}/movimentos.json`, {
             movimento
           })
@@ -98,7 +109,18 @@ window.addEventListener('turbolinks:load', function () {
         },
         updateMovimento: function(movimento){
           this.loading = true;
-          axios.put(`${URL}/movimentos/${movimento.id}.json`, {
+          let lmovimento = {
+            id: movimento.id,
+            data_competencia: movimento.data_competencia,
+            data_vencimento: movimento.data_vencimento,
+            descricao: movimento.descricao,
+            valor: movimento.valor,
+            conta_id: movimento.conta_id,
+            pessoa_id: movimento.pessoa_id,
+            nota_attributes: movimento.nota
+          };
+          movimento = lmovimento;
+          axios.put(`${URL}/movimentos/${lmovimento.id}.json`, {
             movimento
           })
           .then(response => {

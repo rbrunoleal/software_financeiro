@@ -11,4 +11,10 @@ class Movimento < ApplicationRecord
     def contabancaria
       self.conta.conta
     end
+    
+    def informacaonota
+      if (!self.nota.nil?)
+        self.nota.numero + ' - ' + self.nota.descricao
+      end
+    end
 end
