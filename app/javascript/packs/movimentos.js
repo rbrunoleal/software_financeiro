@@ -5,11 +5,12 @@ import axios from 'axios'
 import Toastr from 'vue-toastr';
 import BootstrapVue from 'bootstrap-vue'
 import { URL } from './env';
-
+import vSelect from 'vue-select'
 
 Vue.use(VueResource);
 Vue.use(TurbolinksAdapter);
 Vue.component('vue-toastr', Toastr);
+Vue.component('v-select', vSelect)
 
 Vue.use(Toastr, {
   defaultTimeout: 3000,
@@ -33,8 +34,9 @@ window.addEventListener('turbolinks:load', function () {
         showModal: false,
         allSelected: false,
         show: false,
-        pessoas: {},
-        contas: {}
+        pessoas: [],
+        contas: {},
+        nota: false
       },
       mounted(){
         this.searchMovimentos();
@@ -42,6 +44,11 @@ window.addEventListener('turbolinks:load', function () {
         axios.get(`${URL}/pessoas.json`).then(response => {this.pessoas = response.data});
       },
       methods: { 
+        DataFormatada (data) {
+          var date = new Date(data);
+          var dataformatada = date.toLocaleDateString("pt-BR");
+          return `${dataformatada}`
+        },
         mountCreateForm: function () {
           this.$refs.formMovimentoModal.show();
           this.create = true;
@@ -89,7 +96,7 @@ window.addEventListener('turbolinks:load', function () {
             descricao: lmovimento.descricao,
             valor: lmovimento.valor,
             conta_id: lmovimento.conta_id,
-            pessoa_id: lmovimento.pessoa_id,
+            pessoa_id: lmovimento.pessoa.id,
             nota_attributes: lmovimento.nota
           };
         this.loading = true;
@@ -115,7 +122,7 @@ window.addEventListener('turbolinks:load', function () {
             descricao: lmovimento.descricao,
             valor: lmovimento.valor,
             conta_id: lmovimento.conta_id,
-            pessoa_id: lmovimento.pessoa_id,
+            pessoa_id: lmovimento.pessoa_id.id,
             nota_attributes: lmovimento.nota
           };
           axios.put(`${URL}/movimentos/${movimento.id}.json`, {
