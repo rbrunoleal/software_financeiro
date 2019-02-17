@@ -28,4 +28,8 @@ class EnderecosController < ApplicationController
     @cidades = Cidade.all
     render json: @cidades, :include => [:estado]
   end
+  def cidade
+    @cidade = Cidade.find(params[:id])
+    render json: @cidade, :include => [:estado]
+  end
 end

@@ -23,4 +23,5 @@ Rails.application.routes.draw do
   get 'enderecos/estados'
   get 'enderecos/:id/estado', to: 'enderecos#estado'
   get 'enderecos/cidades'
+  get 'enderecos/:id/cidade', to: 'enderecos#cidade'
 end
