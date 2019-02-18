@@ -40,7 +40,7 @@ class ContasController < ApplicationController
         format.json { render :show, status: :created, location: @conta }
       else
         format.html { redirect_to(:contas, :notice => t('activerecord.unsuccessful.messages.created', :model => @conta.class.model_name.human)+ ': ' + @conta.errors.full_messages.to_sentence)}
-        format.json { render json: @conta.errors, status: :unprocessable_entity }
+        format.json { render :json => { :errors => @conta.errors.full_messages }, :status => 422 }
       end
     end
   end

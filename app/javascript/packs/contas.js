@@ -88,10 +88,17 @@ const contasIndex = new Vue({
           this.searchContas();
           this.$toastr.s("Registro criado.");
         })
-        .catch(error => {
-          this.$toastr.e("Não foi possível adicionar.");
-        })
-          .finally(() => this.loading = false)
+         .catch(error => {
+            this.$toastr.e("Não foi possível adicionar.");
+            if (error.response.status == 422){
+              var lErros = error.response.data.errors;
+              var i = 0;
+              for(i=0; i < lErros.length; i++){
+                this.$toastr.e(lErros[i]);
+              }
+            }
+          })
+            .finally(() => this.loading = false)
     },
     updateConta: function(conta){
       this.loading = true;
