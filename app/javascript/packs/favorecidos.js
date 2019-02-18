@@ -18,7 +18,6 @@ Vue.use(Toastr, {
   defaultProgressBar: false,
   defaultPosition: "toast-top-right",
   closeButton: true
-
 });
 
 Vue.use(BootstrapVue);
@@ -51,10 +50,9 @@ const favorecidosApp = new Vue({
   mounted () {
     this.searchFavorecidos();
     this.setPaises();
-
   },
   methods: {
-    mountCreateForm: function () {
+    mountCreateForm: function (){
       this.$refs.formFavorecidoModal.show();
       this.create = true;
       this.pais = [];
@@ -69,11 +67,11 @@ const favorecidosApp = new Vue({
       };
       this.step = 1;
     },
-    mountDeleteForm: function (favorecido) {
+    mountDeleteForm: function (favorecido){
       this.$refs.deleteFavorecidoModal.show();
       favorecido.tipo === "Jurídica" ? this.clickedFavorecido = {... favorecido, pessoafisica: {}} : this.clickedFavorecido = {... favorecido, pessoajuridica: {}};
     },
-    mountEditForm: function (favorecido) {
+    mountEditForm: function (favorecido){
       this.$refs.formFavorecidoModal.show();
       axios.get(`${URL}/enderecos/${favorecido.endereco.cidade_id}/cidade`)
       .then(response => {
@@ -164,10 +162,10 @@ const favorecidosApp = new Vue({
           })
           .finally(() => this.loading = false)
     },
-    selectAll: function() {
+    selectAll: function(){
       this.allSelected ? this.favorecidos.map( favorecido  => favorecido.selected = false) : this.favorecidos.map( favorecido  => favorecido.selected = true);
     },
-    select: function() {
+    select: function(){
       this.allSelected = false;
     },
     closeModal(){
