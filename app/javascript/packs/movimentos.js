@@ -33,7 +33,9 @@ const movimentosIndex = new Vue({
     allSelected: false,
     show: false,
     pessoas: {},
-    contas: {}
+    contas: {},
+    nota: false,
+    movimento: false
   },
   mounted(){
     this.searchMovimentos();
@@ -54,6 +56,12 @@ const movimentosIndex = new Vue({
       this.$refs.formMovimentoModal.show();
       this.create = false;
       this.clickedMovimento = {... movimento};
+    },
+    carregaNota: function() {
+      this.nota = true;
+    },
+    carregaMovimento: function() {
+      this.nota = false;
     },
     deleteMovimento: function (id){
       axios
