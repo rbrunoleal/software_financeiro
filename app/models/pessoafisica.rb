@@ -1,4 +1,5 @@
 class Pessoafisica < ApplicationRecord
+  belongs_to :pessoa, optional: true,  dependent: :destroy
   enum sexo: [:Masculino, :Feminino]
   validates :cpf, presence: true
   validates :rg, presence: true

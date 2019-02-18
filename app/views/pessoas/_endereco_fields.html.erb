@@ -1,12 +1,4 @@
 <div class="nested-fields">
-  <div class="field">
-    <%= f.label :unidade_id, "País" %>
-    <%= f.collection_select :unidade_id, Unidade.order(:nome), :id, :nome, include_blank: true %>
-  </div>
-  <div class="field">
-    <%= f.label :estado_id %>
-    <%= f.grouped_collection_select :estado_id, Unidade.order(:nome), :estados, :nome, :id, :nome, include_blank: true %>
-  </div>
    <div class="field">
     <%= f.label :cidade_id %>
     <%= f.grouped_collection_select :cidade_id, Estado.order(:nome), :cidades, :nome, :id, :nome, include_blank: true %>

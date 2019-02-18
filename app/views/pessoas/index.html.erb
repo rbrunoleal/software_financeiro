@@ -68,13 +68,13 @@
                   <v-card>
                     <v-icon size="200" color="blue darken-2">business</v-icon>
                     <v-card-actions>
-                      <v-btn color="primary" @click="step = 3">Cadastrar Pessoa Jurídica</v-btn>
+                      <v-btn color="primary" @click="selecionaTipo(0)">Cadastrar Pessoa Jurídica</v-btn>
                     </v-card-actions>
                   </v-card>
                   <v-card>
                     <v-icon size="200" color="blue darken-2">people</v-icon>
                     <v-card-actions>
-                      <v-btn color="primary" @click="step = 2">Cadastrar Pessoa Física</v-btn>
+                      <v-btn color="primary" @click="selecionaTipo(1)">Cadastrar Pessoa Física</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-layout>
@@ -122,23 +122,23 @@
                   <label for="pessoajuridica_cnpj">CNPJ</label>
                   <input class="form-control" type="text" name="pessoajuridica[cnpj]" id="pessoajuridica_cnpj" v-model="clickedFavorecido.pessoajuridica.cnpj">
                 </div>
-                <v-btn flat @click.native="step = 1">Voltar</v-btn>
+                <v-btn v-if="create" flat @click.native="step = 1">Voltar</v-btn>
                 <v-btn color="primary" @click="step = 4">Avançar</v-btn>
               </v-stepper-content>
               <v-stepper-content step="4">
                 <div class="field form-group">
                   <label for="endereco_pais">País</label>
-                  <select name="endereco[pais]" id="endereco_pais" class="form-control" v-model="clickedFavorecido.endereco.unidade_id" @change="setPais(clickedFavorecido.endereco.unidade_id)">
+                  <select name="endereco[pais]" id="endereco_pais" class="form-control" v-model="unidade_id" @change="setPais(unidade_id)">
                     <option v-for="pais in paises" v-bind:value="pais.id">{{pais.nome}}</option>
                   </select>
                 </div>
-                <div class="field form-group" v-if="clickedFavorecido.endereco.unidade_id">
+                <div class="field form-group" v-if="unidade_id">
                   <label for="endereco_estado">Estado</label>
-                  <select name="endereco[estado]" id="endereco_estado" class="form-control" v-model="clickedFavorecido.endereco.estado_id" @change="setEstado(clickedFavorecido.endereco.estado_id)">
+                  <select name="endereco[estado]" id="endereco_estado" class="form-control" v-model="estado_id" @change="setEstado(estado_id)">
                     <option v-for="estado in pais.estados" v-bind:value="estado.id">{{estado.nome}}</option >
                   </select>
                 </div>
-                <div class="field form-group" v-if="clickedFavorecido.endereco.estado_id">
+                <div class="field form-group" v-if="estado_id">
                   <label for="endereco_cidade">Cidade</label>
                   <select name="endereco[cidade]" id="endereco_cidade" class="form-control" v-model="clickedFavorecido.endereco.cidade_id">
                     <option v-for="cidade in estado.cidades" v-bind:value="cidade.id">{{cidade.nome}}</option>
@@ -164,7 +164,7 @@
                   <label for="endereco_complemento">Complemento</label>
                   <input class="form-control" type="text" name="endereco[complemento]" id="endereco_complemento" v-model="clickedFavorecido.endereco.complemento">
                 </div>
-                <v-btn flat @click="step = 2">Anterior</v-btn>
+                <v-btn flat @click="step = 2" >Anterior</v-btn>
                 <v-btn @click="step = 5" color="primary" >Avançar</v-btn>
               </v-stepper-content>
               <v-stepper-content step="5">
@@ -216,7 +216,7 @@
       <a class="btn btn-info text-light" @click="updateFavorecido(clickedFavorecido)" v-if="!create"> Atualizar</a>
     </div>
   </b-modal>
-  <b-modal ref="deleteFavorecidoModal" title="Apagar Conta" size="sm" centered>
+  <b-modal ref="deleteFavorecidoModal" title="Apagar Favorecido" size="sm" centered>
     <p>Tem certeza que deseja apagar esse registro?</p>
     <p>Nome: {{clickedFavorecido.nome}}</p>
     <p class="text-danger"><small>Esta ação não poderá ser desfeita.</small></p>
@@ -227,6 +227,5 @@
   </b-modal>
 </v-app>
 </div>
-
 
 <%= javascript_pack_tag 'favorecidos', 'data-turbolinks-track': 'reload' %>

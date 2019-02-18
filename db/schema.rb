@@ -49,8 +49,6 @@ ActiveRecord::Schema.define(version: 2019_02_05_192515) do
   end
 
   create_table "enderecos", force: :cascade do |t|
-    t.integer "unidade_id"
-    t.integer "estado_id"
     t.integer "cidade_id"
     t.string "cep"
     t.string "bairro"
@@ -60,8 +58,6 @@ ActiveRecord::Schema.define(version: 2019_02_05_192515) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["cidade_id"], name: "index_enderecos_on_cidade_id"
-    t.index ["estado_id"], name: "index_enderecos_on_estado_id"
-    t.index ["unidade_id"], name: "index_enderecos_on_unidade_id"
   end
 
   create_table "estados", force: :cascade do |t|
@@ -111,10 +107,8 @@ ActiveRecord::Schema.define(version: 2019_02_05_192515) do
     t.string "nomefantasia"
     t.string "razaosocial"
     t.string "cnpj"
-    t.integer "cnae_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["cnae_id"], name: "index_pessoajuridicas_on_cnae_id"
   end
 
   create_table "pessoas", force: :cascade do |t|
