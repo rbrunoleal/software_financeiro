@@ -44,7 +44,7 @@
 	          <td>{{ movimento.favorecido }}</td>
 	          <td>{{ movimento.contabancaria }}</td>
 	          <td>{{ movimento.valor }}</td>
-	          <td>{{ movimento.nota }}</td>
+	          <td>{{ movimento.informacaonota }}</td>
 	          <td>
 	            <a href="#deleteMovimentoModal" data-toggle="modal" class="edit" @click="mountEditForm(movimento)"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
 	            <a href="#deleteMovimentoModal" data-toggle="modal" class="delete" @click="mountDeleteForm(movimento)"><i class="material-icons" data-toggle="tooltip" title="Apagar">&#xE872;</i></a>
@@ -106,21 +106,21 @@
 				<div v-if="nota">
 					<div class="field form-group">
 				    <label for="movimento_nota_data">Data</label>
-				    <input class="form-control" type="date" name="movimento_nota[data]" id="movimento_nota_data">
+				    <input class="form-control" type="date" name="movimento_nota[data]" id="movimento_nota_data" v-model="clickedMovimento.nota.data">
 				  </div>
 				  <div class="field form-group">
 				    <label for="movimento_nota_descricao">Descrição</label>
-				    <input class="form-control" type="number" name="movimento_nota[descricao]" id="movimento_nota_descricao">
+				    <input class="form-control" type="text" name="movimento_nota[descricao]" id="movimento_nota_descricao" v-model="clickedMovimento.nota.descricao">
 				  </div>
 				  
 				  <div class="form-row">
 				    <div class="field form-group col-md-8">
 				      <label for="movimento_numero_nota">Número da nota</label>
-				      <input class="form-control" type="text" name="movimento_nota[numero]" id="movimento_nota_numero">
+				      <input class="form-control" type="number" name="movimento_nota[numero]" id="movimento_nota_numero" v-model="clickedMovimento.nota.numero">
 				    </div>
 				    <div class="field form-group col-md-4">
 				      <label for="movimento_codigo_nota">Código da nota</label>
-				      <input class="form-control" type="number" name="movimento_nota[codigo]" id="movimento_nota_codigo">
+				      <input class="form-control" type="number" name="movimento_nota[codigo]" id="movimento_nota_codigo" v-model="clickedMovimento.nota.codigo">
 				    </div>
 				  </div>
 			  </div>

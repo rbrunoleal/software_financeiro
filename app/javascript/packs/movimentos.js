@@ -26,7 +26,7 @@ const movimentosIndex = new Vue({
   data: {
     loading: true,
     create: false,
-    clickedMovimento: {pessoa: {}, conta: {}},
+    clickedMovimento: {pessoa: {}, conta: {}, nota: {}},
     movimentos: [],
     pickedMovimento: {},
     showModal: false,
@@ -46,7 +46,7 @@ const movimentosIndex = new Vue({
     mountCreateForm: function () {
       this.$refs.formMovimentoModal.show();
       this.create = true;
-      this.clickedMovimento = {pessoa: {}, conta: {}};
+      this.clickedMovimento = {pessoa: {}, conta: {}, nota: {}};
     },
     mountDeleteForm: function (movimento) {
       this.$refs.deleteMovimentoModal.show();
@@ -72,7 +72,7 @@ const movimentosIndex = new Vue({
     },
     searchMovimentos: function(){
       this.loading = true;
-      this.clickedMovimento = {pessoa: {}, conta: {}};
+      this.clickedMovimento = {pessoa: {}, conta: {}, nota: {}};
       axios
         .get(`${URL}/movimentos.json`)
         .then(response => {
@@ -83,7 +83,17 @@ const movimentosIndex = new Vue({
         })
           .finally(() => this.loading = false)
     },
-    createMovimento: function(movimento){
+    createMovimento: function(lmovimento){
+      let movimento = {
+            data_competencia: lmovimento.data_competencia,
+            data_vencimento: lmovimento.data_vencimento,
+            descricao: lmovimento.descricao,
+            valor: lmovimento.valor,
+            conta_id: lmovimento.conta_id,
+            pessoa_id: lmovimento.pessoa_id,
+            nota_attributes: lmovimento.nota
+          };
+      this.loading = true;
       axios.post(`${URL}/movimentos.json`, {
         movimento
       })
@@ -97,8 +107,18 @@ const movimentosIndex = new Vue({
         })
           .finally(() => this.loading = false)
     },
-    updateMovimento: function(movimento){
+    updateMovimento: function(lmovimento){
       this.loading = true;
+      let movimento = {
+            id: lmovimento.id,
+            data_competencia: lmovimento.data_competencia,
+            data_vencimento: lmovimento.data_vencimento,
+            descricao: lmovimento.descricao,
+            valor: lmovimento.valor,
+            conta_id: lmovimento.conta_id,
+            pessoa_id: lmovimento.pessoa_id,
+            nota_attributes: lmovimento.nota
+          };
       axios.put(`${URL}/movimentos/${movimento.id}.json`, {
         movimento
       })
