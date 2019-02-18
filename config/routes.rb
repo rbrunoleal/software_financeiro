@@ -11,11 +11,7 @@ Rails.application.routes.draw do
   resources :bancos
   resources :movimentos
   devise_for :usuarios
-  
-  devise_scope :usuario do
-    root to: "pages#welcome"
-  end
-  
+
   #Rotas JSON(País, Estado, Cidade)
   get 'enderecos/association'
   get 'enderecos/paises'

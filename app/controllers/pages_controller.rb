@@ -5,6 +5,7 @@ class PagesController < ApplicationController
   end
 
   def index
+    @contas = Conta.all
   end
 
   def contact

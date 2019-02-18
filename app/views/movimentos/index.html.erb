@@ -38,8 +38,8 @@
 	    					<label :for="'checkbox'+movimento.id"></label>
 	    				</span>
 	    			</td>
-	          <td>{{ movimento.data_competencia }}</td>
-	          <td>{{ movimento.data_vencimento }}</td>
+	          <td>{{ new Date(movimento.data_competencia).toLocaleDateString() }}</td>
+	          <td>{{ new Date(movimento.data_vencimento).toLocaleDateString() }}</td>
 	          <td>{{ movimento.descricao }}</td>
 	          <td>{{ movimento.favorecido }}</td>
 	          <td>{{ movimento.contabancaria }}</td>
