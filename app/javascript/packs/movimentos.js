@@ -45,6 +45,7 @@ const movimentosIndex = new Vue({
     mountCreateForm: function () {
       this.$refs.formMovimentoModal.show();
       this.create = true;
+      this.nota = false;
       this.clickedMovimento = {pessoa: {}, conta: {}, nota: {}};
     },
     mountDeleteForm: function (movimento) {
