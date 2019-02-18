@@ -57,12 +57,6 @@ const movimentosIndex = new Vue({
       this.create = false;
       this.clickedMovimento = {... movimento};
     },
-    carregaNota: function() {
-      this.nota = true;
-    },
-    carregaMovimento: function() {
-      this.nota = false;
-    },
     deleteMovimento: function (id){
       axios
         .delete(`${URL}/movimentos/${id}.json`)
