@@ -10,7 +10,7 @@ class ContasController < ApplicationController
   
   def conta_json_formatado
     @contas = Conta.all
-    render json: @contas.to_json(:methods => [:conta,:banco,:agencia])
+    render json: @contas.to_json(:methods => [:conta, :banco, :agencia])
   end
 
   # GET /contas/1
