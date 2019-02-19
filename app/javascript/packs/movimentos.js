@@ -56,6 +56,8 @@ const movimentosIndex = new Vue({
       this.$refs.formMovimentoModal.show();
       this.create = false;
       this.nota = false;
+      if(!movimento.nota)
+        movimento.nota = {};
       this.clickedMovimento = {... movimento};
     },
     deleteMovimento: function (id){

@@ -34,7 +34,7 @@
 		    					<label :for="'checkbox'+conta.id"></label>
 		    				</span>
 		    			</td>
-		    			<td>{{ conta.conta }}</td>
+		    			<td><a v-bind:href="'/contas/'+conta.id">{{ conta.conta }}</a></td>
 		          <td>{{ conta.banco.descricao }}</td>
 		          <td>{{ conta.agencia }}</td>
 		          <td>
