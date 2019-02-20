@@ -143,7 +143,6 @@ const contaShow = new Vue({
     create: false,
     clickedMovimento: {pessoa: {}, conta: {}, nota: {}},
     conta: { movimentos: []},
-    pickedMovimento: {},
     showModal: false,
     allSelected: false,
     show: false,
