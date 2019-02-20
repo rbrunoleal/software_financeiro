@@ -28,7 +28,6 @@ const movimentosIndex = new Vue({
         create: false,
         clickedMovimento: {pessoa: {}, conta: {}, nota: {}},
         movimentos: [],
-        pickedMovimento: {},
         showModal: false,
         allSelected: false,
         show: false,
