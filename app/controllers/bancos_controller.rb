@@ -32,7 +32,7 @@ class BancosController < ApplicationController
         format.json { render :show, status: :created, location: @banco }
       else
         format.html { render :new }
-        format.json { render json: @banco.errors, status: :unprocessable_entity }
+        format.json { render :json => { :errors => @banco.errors.full_messages }, :status => 422 }
       end
     end
   end
@@ -46,7 +46,7 @@ class BancosController < ApplicationController
         format.json { render :show, status: :ok, location: @banco }
       else
         format.html { render :edit }
-        format.json { render json: @banco.errors, status: :unprocessable_entity }
+        format.json { render :json => { :errors => @banco.errors.full_messages }, :status => 422 }
       end
     end
   end
@@ -57,9 +57,10 @@ class BancosController < ApplicationController
     @banco.destroy
     respond_to do |format|
       format.html { redirect_to(@banco, :notice => t('activerecord.successful.messages.destroyed', :model => @banco.class.model_name.human))}
-      format.json { head :no_content }
+      format.json { render :json => { :errors => @banco.errors.full_messages }, :status => 422 }
     end
   end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_banco

@@ -94,7 +94,12 @@ const favorecidosApp = new Vue({
             this.$refs.deleteFavorecidoModal.hide();
           })
           .catch(error => {
-            this.$toastr.e("Não foi possível excluir")
+            if (error.response.status === 422){
+              error.response.data.errors.map(error => this.$toastr.e(error));
+            }
+            else{
+               this.$toastr.e("Não foi possível excluir");
+            }
           })
           .finally(() => this.loading = false)
     },
@@ -142,7 +147,12 @@ const favorecidosApp = new Vue({
             this.$toastr.s("Registro criado.");
           })
           .catch(error => {
-            this.$toastr.e("Não foi possível adicionar.");
+            if (error.response.status === 422){
+              error.response.data.errors.map(error => this.$toastr.e(error));
+            }
+            else{
+              this.$toastr.e("Não foi possível salvar as alterações");
+            }
           })
           .finally(() => this.loading = false)
     },
@@ -157,8 +167,13 @@ const favorecidosApp = new Vue({
             this.searchFavorecidos();
             this.$toastr.s("Registro atualizado.");
           })
-          .catch(error => {
-            this.$toastr.e("Não foi possível adicionar.");
+           .catch(error => {
+            if (error.response.status === 422){
+              error.response.data.errors.map(error => this.$toastr.e(error));
+            }
+            else{
+              this.$toastr.e("Não foi possível atualizar as informações");
+            }
           })
           .finally(() => this.loading = false)
     },

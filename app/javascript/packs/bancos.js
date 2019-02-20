@@ -5,7 +5,7 @@ import axios from 'axios'
 import Toastr from 'vue-toastr';
 import BootstrapVue from 'bootstrap-vue'
 import { URL } from './env';
-
+import jsPDF from 'jspdf'
 
 Vue.use(VueResource);
 Vue.use(TurbolinksAdapter);
@@ -55,6 +55,12 @@ const bancosIndex = new Vue({
     this.searchBancos();
   },
   methods: {
+    createPDF () {
+      let pdfName = 'test'; 
+      var doc = new jsPDF();
+      doc.text("Hello World", 10, 10);
+      doc.save(pdfName + '.pdf');
+    },
     mountCreateForm: function () {
       this.$refs.formBancoModal.show();
       this.create = true;
@@ -78,9 +84,14 @@ const bancosIndex = new Vue({
           this.$refs.deleteBancoModal.hide();
         })
         .catch(error => {
-          this.$toastr.e("Não foi possível excluir")
-        })
-        .finally(() => this.loading = false)
+            if (error.response.status === 422){
+              error.response.data.errors.map(error => this.$toastr.e(error));
+            }
+            else{
+               this.$toastr.e("Não foi possível excluir");
+            }
+          })
+          .finally(() => this.loading = false)
     },
     searchBancos: function(){
       this.loading = true;
@@ -105,8 +116,13 @@ const bancosIndex = new Vue({
           this.$toastr.s("Registro criado.");
         })
         .catch(error => {
-          this.$toastr.e("Não foi possível adicionar.");
-        })
+            if (error.response.status === 422){
+              error.response.data.errors.map(error => this.$toastr.e(error));
+            }
+            else{
+              this.$toastr.e("Não foi possível salvar as alterações");
+            }
+          })
           .finally(() => this.loading = false)
     },
     updateBanco: function(banco){
@@ -120,10 +136,15 @@ const bancosIndex = new Vue({
           this.$toastr.s("Registro atualizado.");
 
       })
-      .catch(error => {
-        this.$toastr.e("Não foi possível adicionar.");
-      })
-      .finally(() => this.loading = false)
+       .catch(error => {
+            if (error.response.status === 422){
+              error.response.data.errors.map(error => this.$toastr.e(error));
+            }
+            else{
+              this.$toastr.e("Não foi possível atualizar as informações");
+            }
+          })
+          .finally(() => this.loading = false)
     },
     selectAll: function() {
       this.allSelected ? this.bancos.map( banco  => banco.selected = false) : this.bancos.map( banco  => banco.selected = true);

@@ -33,7 +33,7 @@ class PessoasController < ApplicationController
         format.json { render :show, status: :created, location: @pessoa }
       else
         format.html { render :new }
-        format.json { render json: @pessoa.errors, status: :unprocessable_entity }
+        format.json { render :json => { :errors => @pessoa.errors.full_messages }, :status => 422 }
       end
     end
   end
@@ -47,7 +47,7 @@ class PessoasController < ApplicationController
         format.json { render :show, status: :ok, location: @pessoa }
       else
         format.html { render :edit }
-        format.json { render json: @pessoa.errors, status: :unprocessable_entity }
+        format.json { render :json => { :errors => @pessoa.errors.full_messages }, :status => 422 }
       end
     end
   end
@@ -58,7 +58,7 @@ class PessoasController < ApplicationController
     @pessoa.destroy
     respond_to do |format|
       format.html { redirect_to(@pessoa, :notice => t('activerecord.successful.messages.destroyed', :model => @pessoa.class.model_name.human))}
-      format.json { head :no_content }
+      format.json { render :json => { :errors => @pessoa.errors.full_messages }, :status => 422 }
     end
   end
 

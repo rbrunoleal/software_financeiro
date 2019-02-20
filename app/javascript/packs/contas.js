@@ -62,7 +62,12 @@ const contasIndex = new Vue({
             this.$refs.deleteContaModal.hide();
           })
           .catch(error => {
-            this.$toastr.e("Não foi possível excluir")
+            if (error.response.status === 422){
+              error.response.data.errors.map(error => this.$toastr.e(error));
+            }
+            else{
+               this.$toastr.e("Não foi possível excluir");
+            }
           })
           .finally(() => this.loading = false)
     },
@@ -108,8 +113,13 @@ const contasIndex = new Vue({
             this.searchContas();
             this.$toastr.s("Registro atualizado.");
           })
-          .catch(error => {
-            this.$toastr.e("Não foi possível adicionar.");
+           .catch(error => {
+            if (error.response.status === 422){
+              error.response.data.errors.map(error => this.$toastr.e(error));
+            }
+            else{
+              this.$toastr.e("Não foi possível atualizar as informações");
+            }
           })
           .finally(() => this.loading = false)
     },

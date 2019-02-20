@@ -34,7 +34,7 @@ class MovimentosController < ApplicationController
         format.json { render :show, status: :created, location: @movimento }
       else
         format.html { render :new }
-        format.json { render json: @movimento.errors, status: :unprocessable_entity }
+        format.json { render :json => { :errors => @movimento.errors.full_messages }, :status => 422 }
       end
     end
   end
@@ -48,7 +48,7 @@ class MovimentosController < ApplicationController
         format.json { render :show, status: :ok, location: @movimento }
       else
         format.html { render :edit }
-        format.json { render json: @movimento.errors, status: :unprocessable_entity }
+        format.json { render :json => { :errors => @movimento.errors.full_messages }, :status => 422 }
       end
     end
   end
@@ -59,7 +59,7 @@ class MovimentosController < ApplicationController
     @movimento.destroy
     respond_to do |format|
       format.html { redirect_to(@movimento, :notice => t('activerecord.successful.messages.destroyed', :model => @movimento.class.model_name.human))}
-      format.json { head :no_content }
+      format.json { render :json => { :errors => @movimento.errors.full_messages }, :status => 422 }
     end
   end
 

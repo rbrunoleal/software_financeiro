@@ -69,7 +69,7 @@ class ContasController < ApplicationController
         format.json { render :show, status: :ok, location: @conta }
       else
         format.html { render :edit }
-        format.json { render json: @conta.errors, status: :unprocessable_entity }
+        format.json { render :json => { :errors => @conta.errors.full_messages }, :status => 422 }
       end
     end
   end
@@ -80,7 +80,7 @@ class ContasController < ApplicationController
     @conta.destroy
     respond_to do |format|
       format.html { redirect_to(@conta, :notice => t('activerecord.successful.messages.destroyed', :model => @conta.class.model_name.human))}
-      format.json { head :no_content }
+      format.json { render :json => { :errors => @conta.errors.full_messages }, :status => 422 }
     end
   end
 

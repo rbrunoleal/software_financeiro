@@ -1,7 +1,7 @@
 class Banco < ApplicationRecord
   has_many :contas, :dependent => :delete_all
   
-  validates :codigo, presence: true
+  validates :codigo, numericality: true, presence: true
   validates :descricao, presence: true
   
   mount_uploader :foto, FotoUploader

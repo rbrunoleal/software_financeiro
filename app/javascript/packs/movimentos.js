@@ -69,9 +69,14 @@ const movimentosIndex = new Vue({
                     this.$refs.deleteMovimentoModal.hide();
                 })
                 .catch(error => {
-                    this.$toastr.e("Não foi possível excluir")
-                })
-                .finally(() => this.loading = false)
+            if (error.response.status === 422){
+              error.response.data.errors.map(error => this.$toastr.e(error));
+            }
+            else{
+               this.$toastr.e("Não foi possível excluir");
+            }
+          })
+          .finally(() => this.loading = false)
         },
         searchMovimentos: function(){
             this.loading = true;
@@ -106,9 +111,14 @@ const movimentosIndex = new Vue({
                     this.$toastr.s("Registro criado.");
                 })
                 .catch(error => {
-                    this.$toastr.e("Não foi possível adicionar.");
-                })
-                .finally(() => this.loading = false)
+            if (error.response.status === 422){
+              error.response.data.errors.map(error => this.$toastr.e(error));
+            }
+            else{
+              this.$toastr.e("Não foi possível salvar as alterações");
+            }
+          })
+          .finally(() => this.loading = false)
         },
         updateMovimento: function(lmovimento){
             this.loading = true;
@@ -131,10 +141,15 @@ const movimentosIndex = new Vue({
                     this.$toastr.s("Registro atualizado.");
 
                 })
-                .catch(error => {
-                    this.$toastr.e("Não foi possível adicionar.");
-                })
-                .finally(() => this.loading = false)
+                 .catch(error => {
+            if (error.response.status === 422){
+              error.response.data.errors.map(error => this.$toastr.e(error));
+            }
+            else{
+              this.$toastr.e("Não foi possível atualizar as informações");
+            }
+          })
+          .finally(() => this.loading = false)
         },
         selectAll: function() {
             this.allSelected ? this.movimentos.map( movimento  => movimento.selected = false) : this.movimentos.map( movimento  => movimento.selected = true);

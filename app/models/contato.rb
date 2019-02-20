@@ -5,4 +5,5 @@ class Contato < ApplicationRecord
 	  :Telefone,
 	  :Celular]
 	validates :campo, presence: true
+	validates :tipo, presence: true
 end
