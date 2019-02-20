@@ -227,7 +227,7 @@ const contaShow = new Vue({
           .finally(() => this.loading = false)
     },
     selectAll: function() {
-      this.allSelected ? this.movimentos.map( movimento  => movimento.selected = false) : this.movimentos.map( movimento  => movimento.selected = true);
+      this.allSelected ? this.conta.movimentos.map( movimento  => movimento.selected = false) : this.conta.movimentos.map( movimento  => movimento.selected = true);
     },
     select: function() {
       this.allSelected = false;

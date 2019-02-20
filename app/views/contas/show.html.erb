@@ -32,10 +32,10 @@
       <tbody>
       <tr v-for="(movimento, index) in conta.movimentos">
         <td>
-	    				<span class="custom-checkbox">
-	    					<input type="checkbox" :id="'checkbox'+movimento.id" value="1" v-model="conta.movimentos[index].selected" @click="select">
-	    					<label :for="'checkbox'+movimento.id"></label>
-	    				</span>
+          <span class="custom-checkbox">
+            <input type="checkbox" :id="'checkbox'+movimento.id" value="1" v-model="conta.movimentos[index].selected" @click="select">
+            <label :for="'checkbox'+movimento.id"></label>
+          </span>
         </td>
         <td>{{ new Date(movimento.data_competencia).toLocaleDateString() }}</td>
         <td>{{ new Date(movimento.data_vencimento).toLocaleDateString() }}</td>
@@ -91,7 +91,6 @@
           <input step="0.01" class="form-control" type="number" name="movimento[valor]" id="movimento_valor" v-model="clickedMovimento.valor">
         </div>
       </div>
-
       <div v-if="nota">
         <div class="field form-group">
           <label for="movimento_nota_data">Data</label>
@@ -113,7 +112,6 @@
           </div>
         </div>
       </div>
-
     </form>
     <div slot="modal-footer">
       <a class="btn btn-secondary text-light" @click="closeModal">Fechar</a>
