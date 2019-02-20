@@ -5,7 +5,6 @@ class ContasController < ApplicationController
   # GET /contas.json
   def index
     @contas = Conta.all
-    @bancos = Banco.all
   end
   
   def conta_json_formatado
