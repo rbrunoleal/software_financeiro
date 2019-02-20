@@ -5,12 +5,11 @@ class ContasController < ApplicationController
   # GET /contas.json
   def index
     @contas = Conta.all
-    @bancos = Banco.all
   end
   
   def conta_json_formatado
     @contas = Conta.all
-    render json: @contas.to_json(:methods => [:conta,:banco,:agencia])
+    render json: @contas.to_json(:methods => [:conta, :banco, :agencia])
   end
 
   # GET /contas/1
@@ -18,19 +17,19 @@ class ContasController < ApplicationController
   def show
     @conta = Conta.find(params[:id])
     respond_to do |format|
-        format.html { render :show }
-        format.json { render json: @conta, :include => {
+      format.html { render :show }
+      format.json { render json: @conta, :include => {
           :movimentos => {
-            :include => {
-              :nota => {},
-              :pessoa => {},
-            },
-            :methods => [:favorecido],
-            :except => [:created_at, :updated_at]
+              :include => {
+                  :nota => {},
+                  :pessoa => {},
+              },
+              :methods => [:favorecido],
+              :except => [:created_at, :updated_at]
           }
-        },
-          :methods => [:saldo]
-        }
+      },
+                           :methods => [:saldo]
+      }
     end
   end
 

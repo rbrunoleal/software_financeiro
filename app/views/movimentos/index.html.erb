@@ -128,8 +128,8 @@
 			</form>
 			<div slot="modal-footer">
 				<a class="btn btn-secondary text-light" @click="closeModal">Fechar</a>
-				<a class="btn btn-success text-light" @click="nota = true" v-if="!nota">Nota Fiscal</a>
-				<a class="btn btn-success text-light" @click="nota = false" v-if="nota">Movimento</a>
+				<a class="btn btn-info text-light" @click="nota = true" v-if="!nota">Nota Fiscal</a>
+				<a class="btn btn-info text-light" @click="nota = false" v-if="nota">Movimento</a>
 				<a class="btn btn-success text-light" @click="createMovimento(clickedMovimento)" v-if="create"><span v-if="loading" class="spinner-border spinner-border-sm"></span> Criar</a>
 				<a class="btn btn-info text-light" @click="updateMovimento(clickedMovimento)" v-if="!create"> Atualizar</a>
 			</div>

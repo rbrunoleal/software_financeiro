@@ -16,7 +16,7 @@ Vue.use(Toastr, {
   defaultProgressBar: false,
   defaultPosition: "toast-top-right",
   closeButton: true
-  
+
 });
 Vue.use(BootstrapVue);
 
@@ -55,62 +55,62 @@ const contasIndex = new Vue({
     },
     deleteConta: function (id){
       axios
-        .delete(`${URL}/contas/${id}.json`)
-        .then(response => {
-          this.searchContas();
-          this.$toastr.s("Registro apagado.");
-          this.$refs.deleteContaModal.hide();
-        })
-        .catch(error => {
-          this.$toastr.e("Não foi possível excluir")
-        })
-        .finally(() => this.loading = false)
+          .delete(`${URL}/contas/${id}.json`)
+          .then(response => {
+            this.searchContas();
+            this.$toastr.s("Registro apagado.");
+            this.$refs.deleteContaModal.hide();
+          })
+          .catch(error => {
+            this.$toastr.e("Não foi possível excluir")
+          })
+          .finally(() => this.loading = false)
     },
     searchContas: function(){
       this.loading = true;
       this.clickedConta = {banco: {}};
       axios
-        .get(`${URL}/contas.json`)
-        .then(response => {
-          this.contas = response.data
-        })
-        .catch(error => {
-          this.errored = true
-        })
+          .get(`${URL}/contas.json`)
+          .then(response => {
+            this.contas = response.data
+          })
+          .catch(error => {
+            this.errored = true
+          })
           .finally(() => this.loading = false)
     },
     createConta: function(conta){
       axios.post(`${URL}/contas.json`, {
         conta
       })
-      .then(response => {
-          this.$refs.formContaModal.hide();
-          this.searchContas();
-          this.$toastr.s("Registro criado.");
-        })
-         .catch(error => {
-            if (error.response.status == 422){
+          .then(response => {
+            this.$refs.formContaModal.hide();
+            this.searchContas();
+            this.$toastr.s("Registro criado.");
+          })
+          .catch(error => {
+            if (error.response.status === 422){
               error.response.data.errors.map(error => this.$toastr.e(error));
             }
             else{
               this.$toastr.e("Não foi possível salvar as alterações");
             }
           })
-            .finally(() => this.loading = false)
+          .finally(() => this.loading = false)
     },
     updateConta: function(conta){
       this.loading = true;
       axios.put(`${URL}/contas/${conta.id}.json`, {
         conta
       })
-      .then(response => {
-          this.$refs.formContaModal.hide();
-          this.searchContas();
-          this.$toastr.s("Registro atualizado.");
-        })
-        .catch(error => {
-          this.$toastr.e("Não foi possível adicionar.");
-        })
+          .then(response => {
+            this.$refs.formContaModal.hide();
+            this.searchContas();
+            this.$toastr.s("Registro atualizado.");
+          })
+          .catch(error => {
+            this.$toastr.e("Não foi possível adicionar.");
+          })
           .finally(() => this.loading = false)
     },
     selectAll: function() {
@@ -166,47 +166,47 @@ const contaShow = new Vue({
     },
     deleteMovimento: function (id){
       axios
-        .delete(`${URL}/movimentos/${id}.json`)
-        .then(response => {
-          this.searchConta(this.id);
-          this.$toastr.s("Registro apagado.");
-          this.$refs.deleteMovimentoModal.hide();
-        })
-        .catch(error => {
-          this.$toastr.e("Não foi possível excluir")
-        })
-        .finally(() => this.loading = false)
+          .delete(`${URL}/movimentos/${id}.json`)
+          .then(response => {
+            this.searchConta(this.id);
+            this.$toastr.s("Registro apagado.");
+            this.$refs.deleteMovimentoModal.hide();
+          })
+          .catch(error => {
+            this.$toastr.e("Não foi possível excluir")
+          })
+          .finally(() => this.loading = false)
     },
     searchConta: function(id){
       this.loading = true;
       this.clickedMovimento = {pessoa: {}, conta: {}, nota: {}};
       axios
-        .get(`${URL}/contas/${id}.json`)
-        .then(response => {
-          this.conta = response.data
-        })
-        .catch(error => {
-          this.errored = true
-        })
-        .finally(() => this.loading = false)
+          .get(`${URL}/contas/${id}.json`)
+          .then(response => {
+            this.conta = response.data
+          })
+          .catch(error => {
+            this.errored = true
+          })
+          .finally(() => this.loading = false)
     },
     createMovimento: function(movimento){
       movimento.conta_id = this.id;
       movimento.nota_attributes = movimento.nota;
       this.loading = true;
       axios
-      .post(`${URL}/movimentos.json`, {
-        movimento
-      })
-      .then(response => {
-        this.$refs.formMovimentoModal.hide();
-        this.searchConta(this.id);
-        this.$toastr.s("Registro criado.");
-      })
-      .catch(error => {
-        this.$toastr.e("Não foi possível adicionar.");
-      })
-      .finally(() => this.loading = false);
+          .post(`${URL}/movimentos.json`, {
+            movimento
+          })
+          .then(response => {
+            this.$refs.formMovimentoModal.hide();
+            this.searchConta(this.id);
+            this.$toastr.s("Registro criado.");
+          })
+          .catch(error => {
+            this.$toastr.e("Não foi possível adicionar.");
+          })
+          .finally(() => this.loading = false);
     },
     updateMovimento: function(movimento){
       this.loading = true;
@@ -214,16 +214,16 @@ const contaShow = new Vue({
       axios.put(`${URL}/movimentos/${movimento.id}.json`, {
         movimento
       })
-      .then(response => {
-          this.$refs.formMovimentoModal.hide();
-          this.searchConta(this.id);
-          this.$toastr.s("Registro atualizado.");
+          .then(response => {
+            this.$refs.formMovimentoModal.hide();
+            this.searchConta(this.id);
+            this.$toastr.s("Registro atualizado.");
 
-      })
-      .catch(error => {
-        this.$toastr.e("Não foi possível adicionar.");
-      })
-      .finally(() => this.loading = false)
+          })
+          .catch(error => {
+            this.$toastr.e("Não foi possível adicionar.");
+          })
+          .finally(() => this.loading = false)
     },
     selectAll: function() {
       this.allSelected ? this.conta.movimentos.map( movimento  => movimento.selected = false) : this.conta.movimentos.map( movimento  => movimento.selected = true);
