@@ -6,6 +6,7 @@ import Toastr from 'vue-toastr';
 import BootstrapVue from 'bootstrap-vue'
 import { URL } from './env';
 import jsPDF from 'jspdf'
+import jsAutoTable from 'jspdf-autotable'
 
 Vue.use(VueResource);
 Vue.use(TurbolinksAdapter);
@@ -48,6 +49,7 @@ const bancosIndex = new Vue({
         }
         return true;
       });
+      this.bancos = BancosFiltrados;
       return BancosFiltrados;
     }
   },
@@ -55,11 +57,48 @@ const bancosIndex = new Vue({
     this.searchBancos();
   },
   methods: {
-    createPDF () {
-      let pdfName = 'test'; 
-      var doc = new jsPDF();
-      doc.text("Hello World", 10, 10);
-      doc.save(pdfName + '.pdf');
+    createPDF: function (){
+      var lBancos = this.bancos;
+      var Columns = [
+          {title: "Código", dataKey: "codigo"},
+          {title: "Descrição", dataKey: "descricao"}
+      ];
+      
+      let Rows = [];
+      var x=0;
+      for(x=0; x < lBancos.length ; x++){
+        var codigo = lBancos[x].codigo;
+        var descricao = lBancos[x].descricao;   
+        Rows.push({codigo,descricao});
+      }
+      
+      if(lBancos.length > 0){
+        let pdfName = 'Bancos'; 
+        var pdfsize='a4';
+        var doc = new jsPDF('p', 'pt', pdfsize);
+        
+        if(Rows.length > 0){
+          doc.setFontStyle("bold");
+          doc.setFontSize(20);
+          doc.text("Relatório - Bancos", 65, 25);
+          doc.text(150,200, doc.internal.getCurrentPageInfo().pageNumber + "/" + doc.internal.getNumberOfPages());
+          doc.autoTable(Columns, Rows, {
+          	theme: 'grid', 
+          	headStyles: {
+              fillColor: [0, 0, 0],
+              textColor: [255, 255, 255]
+            },
+          	styles: {
+              overflow: 'linebreak',
+              cellWidth: 88
+            },
+            columnStyles: {
+                0: {cellWidth: 200}
+            }
+          });
+          doc.save(pdfName + ".pdf");
+        }
+      }
     },
     mountCreateForm: function () {
       this.$refs.formBancoModal.show();
