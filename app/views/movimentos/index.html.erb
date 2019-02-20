@@ -6,8 +6,8 @@
 	            <h2>Gerenciar <b>Movimentos</b></h2>
 	          </div>
 	      		<div class="col-sm-6">
-	      			<a href="#formMovimentoModal" class="btn btn-success" data-toggle="modal" @click="mountCreateForm()"><i class="material-icons">&#xE147;</i> <span>Adiciona novo movimento</span></a>
-	      			<a href="#deleteMovimentoModal" class="btn btn-danger" data-toggle="modal"><i class="material-icons">&#xE15C;</i> <span>Apagar</span></a>						
+	      			<a href="#formMovimentoModal" class="btn btn-success" data-toggle="modal" @click="mountCreateForm()"><i class="material-icons">&#xE147;</i> <span>Novo</span></a>
+	      			<a href="#deleteMovimentoModal" class="btn btn-danger" data-toggle="modal" @click="mountMultipleDeleteForm()"><i class="material-icons">&#xE15C;</i> <span>Apagar</span></a>						
 	      		</div>
 	      </div>
 	  </div>
@@ -38,8 +38,8 @@
 	    					<label :for="'checkbox'+movimento.id"></label>
 	    				</span>
 	    			</td>
-	          <td>{{ new Date(movimento.data_competencia).toLocaleDateString() }}</td>
-	          <td>{{ new Date(movimento.data_vencimento).toLocaleDateString() }}</td>
+	          <td>{{ new Date(movimento.data_competencia+"T00:00:00").toLocaleDateString() }}</td>
+	          <td>{{ new Date(movimento.data_vencimento+"T00:00:00").toLocaleDateString() }}</td>
 	          <td>{{ movimento.descricao }}</td>
 	          <td>{{ movimento.favorecido }}</td>
 	          <td>{{ movimento.contabancaria }}</td>
@@ -136,7 +136,7 @@
 	</b-modal>
 	
 	<b-modal ref="deleteMovimentoModal" title="Apagar Movimento">
-			<p>Data Competência: {{clickedMovimento.data_competencia}}</p>
+			<p>Data Competência: {{ new Date(clickedMovimento.data_competencia+"T00:00:00").toLocaleDateString()}}</p>
 			<p>Descrição: {{clickedMovimento.descricao}}</p>
 			<p>Favorecido: {{clickedMovimento.favorecido}}</p>
 			<p>Conta: {{clickedMovimento.contabancaria}}</p>

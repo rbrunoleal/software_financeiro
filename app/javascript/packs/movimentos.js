@@ -51,6 +51,15 @@ const movimentosIndex = new Vue({
             this.$refs.deleteMovimentoModal.show();
             this.clickedMovimento = movimento;
         },
+        mountMultipleDeleteForm: function () {
+            this.$refs.deleteMovimentoModal.show();
+            this.selectedMovimentos = [];
+            this.movimentos.map(movimento => {
+                if (movimento.selected) 
+                    return this.selectedMovimentos.push(movimento.id)
+            });
+            
+        },
         mountEditForm: function (movimento) {
             this.$refs.formMovimentoModal.show();
             this.create = false;
