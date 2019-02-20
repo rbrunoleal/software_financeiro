@@ -28,11 +28,41 @@ const contasIndex = new Vue({
     create: false,
     clickedConta: {banco: {}},
     contas: [],
+    contasfiltro: [],
     pickedConta: {},
     showModal: false,
     allSelected: false,
     show: false,
+    FiltroConta: '',
+    FiltroBanco: '',
+    FiltroAgencia: '',
     bancos: {}
+  },
+ computed: {
+    ContasFiltro() {
+      var filtro = {
+        conta: this.FiltroConta.toLowerCase(),
+        banco: this.FiltroBanco.toLowerCase(),
+        agencia:this.FiltroAgencia.toLowerCase()
+      };
+      
+      var lresult = this.contas.map(x => 
+        ({  conta: x.conta,
+            banco: x.banco.descricao,
+            agencia: x.agencia
+        })
+      );
+      
+      var ContasFiltrados = lresult.filter(function(item) {
+        for (var key in filtro) {
+          if (item[key] === undefined || !item[key].toLowerCase().includes(filtro[key]))
+            return false;
+        }
+        return true;
+      });
+      this.contasfiltro = ContasFiltrados;
+      return ContasFiltrados;
+    }
   },
   mounted () {
     this.searchContas();

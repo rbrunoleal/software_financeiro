@@ -29,6 +29,7 @@ const bancosIndex = new Vue({
     create: false,
     clickedBanco: {},
     bancos: [],
+    bancosfiltro: [],
     pickedBanco: {},
     showModal: false,
     allSelected: false,
@@ -49,7 +50,7 @@ const bancosIndex = new Vue({
         }
         return true;
       });
-      this.bancos = BancosFiltrados;
+      this.bancosfiltro = BancosFiltrados;
       return BancosFiltrados;
     }
   },
@@ -58,7 +59,7 @@ const bancosIndex = new Vue({
   },
   methods: {
     createPDF: function (){
-      var lBancos = this.bancos;
+      var lBancos = this.bancosfiltro;
       var Columns = [
           {title: "Código", dataKey: "codigo"},
           {title: "Descrição", dataKey: "descricao"}
@@ -138,7 +139,8 @@ const bancosIndex = new Vue({
       axios
         .get(`${URL}/bancos.json`)
         .then(response => {
-          this.bancos = response.data
+          this.bancos = response.data;
+          this.bancosfiltro = this.bancos;
         })
         .catch(error => {
           this.errored = true
