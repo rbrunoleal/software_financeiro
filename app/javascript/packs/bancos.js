@@ -65,13 +65,11 @@ const bancosIndex = new Vue({
           {title: "Descrição", dataKey: "descricao"}
       ];
       
-      let Rows = [];
-      var x=0;
-      for(x=0; x < lBancos.length ; x++){
-        var codigo = lBancos[x].codigo;
-        var descricao = lBancos[x].descricao;   
-        Rows.push({codigo,descricao});
-      }
+      var Rows = lBancos.map(x => 
+        ({  codigo: x.codigo,
+            descricao: x.descricao
+        })
+      );
       
       if(lBancos.length > 0){
         let pdfName = 'Bancos'; 
@@ -82,7 +80,7 @@ const bancosIndex = new Vue({
           doc.setFontStyle("bold");
           doc.setFontSize(20);
           doc.text("Relatório - Bancos", 65, 25);
-          doc.text(150,200, doc.internal.getCurrentPageInfo().pageNumber + "/" + doc.internal.getNumberOfPages());
+          //doc.text(150,200, doc.internal.getCurrentPageInfo().pageNumber + "/" + doc.internal.getNumberOfPages());
           doc.autoTable(Columns, Rows, {
           	theme: 'grid', 
           	headStyles: {
