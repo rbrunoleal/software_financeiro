@@ -16,6 +16,22 @@ class ContasController < ApplicationController
   # GET /contas/1
   # GET /contas/1.json
   def show
+    @conta = Conta.find(params[:id])
+    respond_to do |format|
+      format.html { render :show }
+      format.json { render json: @conta, :include => {
+          :movimentos => {
+              :include => {
+                  :nota => {},
+                  :pessoa => {},
+              },
+              :methods => [:favorecido],
+              :except => [:created_at, :updated_at]
+          }
+      },
+                           :methods => [:saldo]
+      }
+    end
   end
 
   # GET /contas/new

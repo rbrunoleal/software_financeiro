@@ -16,11 +16,11 @@ Vue.use(Toastr, {
   defaultProgressBar: false,
   defaultPosition: "toast-top-right",
   closeButton: true
-  
+
 });
 Vue.use(BootstrapVue);
 
-axios.defaults.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+axios.defaults.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 const contasIndex = new Vue({
   el: document.getElementById('contasApp'),
   data: {
@@ -55,64 +55,62 @@ const contasIndex = new Vue({
     },
     deleteConta: function (id){
       axios
-        .delete(`${URL}/contas/${id}.json`)
-        .then(response => {
-          this.searchContas();
-          this.$toastr.s("Registro apagado.");
-          this.$refs.deleteContaModal.hide();
-        })
-        .catch(error => {
-          this.$toastr.e("Não foi possível excluir")
-        })
-        .finally(() => this.loading = false)
+          .delete(`${URL}/contas/${id}.json`)
+          .then(response => {
+            this.searchContas();
+            this.$toastr.s("Registro apagado.");
+            this.$refs.deleteContaModal.hide();
+          })
+          .catch(error => {
+            this.$toastr.e("Não foi possível excluir")
+          })
+          .finally(() => this.loading = false)
     },
     searchContas: function(){
       this.loading = true;
       this.clickedConta = {banco: {}};
       axios
-        .get(`${URL}/contas.json`)
-        .then(response => {
-          this.contas = response.data
-        })
-        .catch(error => {
-          this.errored = true
-        })
+          .get(`${URL}/contas.json`)
+          .then(response => {
+            this.contas = response.data
+          })
+          .catch(error => {
+            this.errored = true
+          })
           .finally(() => this.loading = false)
     },
     createConta: function(conta){
       axios.post(`${URL}/contas.json`, {
         conta
       })
-      .then(response => {
-          this.$refs.formContaModal.hide();
-          this.searchContas();
-          this.$toastr.s("Registro criado.");
-        })
-         .catch(error => {
-            this.$toastr.e("Não foi possível adicionar.");
-            if (error.response.status == 422){
-              var lErros = error.response.data.errors;
-              var i = 0;
-              for(i=0; i < lErros.length; i++){
-                this.$toastr.e(lErros[i]);
-              }
+          .then(response => {
+            this.$refs.formContaModal.hide();
+            this.searchContas();
+            this.$toastr.s("Registro criado.");
+          })
+          .catch(error => {
+            if (error.response.status === 422){
+              error.response.data.errors.map(error => this.$toastr.e(error));
+            }
+            else{
+              this.$toastr.e("Não foi possível salvar as alterações");
             }
           })
-            .finally(() => this.loading = false)
+          .finally(() => this.loading = false)
     },
     updateConta: function(conta){
       this.loading = true;
       axios.put(`${URL}/contas/${conta.id}.json`, {
         conta
       })
-      .then(response => {
-          this.$refs.formContaModal.hide();
-          this.searchContas();
-          this.$toastr.s("Registro atualizado.");
-        })
-        .catch(error => {
-          this.$toastr.e("Não foi possível adicionar.");
-        })
+          .then(response => {
+            this.$refs.formContaModal.hide();
+            this.searchContas();
+            this.$toastr.s("Registro atualizado.");
+          })
+          .catch(error => {
+            this.$toastr.e("Não foi possível adicionar.");
+          })
           .finally(() => this.loading = false)
     },
     selectAll: function() {
@@ -127,24 +125,25 @@ const contasIndex = new Vue({
     }
   }
 });
+
 const contaShow = new Vue({
   el: document.getElementById('contaShowApp'),
   data: {
     loading: true,
     create: false,
     clickedMovimento: {pessoa: {}, conta: {}, nota: {}},
-    movimentos: [],
+    conta: { movimentos: []},
     pickedMovimento: {},
     showModal: false,
     allSelected: false,
     show: false,
     pessoas: {},
     contas: {},
-    nota: false
+    nota: false,
+    id: window.location.pathname.split("/")[2]
   },
   mounted(){
-    this.searchMovimentos();
-    axios.get(`${URL}/contas.json`).then(response => {this.contas = response.data});
+    this.searchConta(this.id);
     axios.get(`${URL}/pessoas.json`).then(response => {this.pessoas = response.data});
   },
   methods: {
@@ -162,13 +161,15 @@ const contaShow = new Vue({
       this.$refs.formMovimentoModal.show();
       this.create = false;
       this.nota = false;
+      if(!movimento.nota)
+        movimento.nota = {};
       this.clickedMovimento = {... movimento};
     },
     deleteMovimento: function (id){
       axios
           .delete(`${URL}/movimentos/${id}.json`)
           .then(response => {
-            this.searchMovimentos();
+            this.searchConta(this.id);
             this.$toastr.s("Registro apagado.");
             this.$refs.deleteMovimentoModal.hide();
           })
@@ -177,61 +178,46 @@ const contaShow = new Vue({
           })
           .finally(() => this.loading = false)
     },
-    searchMovimentos: function(){
+    searchConta: function(id){
       this.loading = true;
       this.clickedMovimento = {pessoa: {}, conta: {}, nota: {}};
       axios
-          .get(`${URL}/movimentos.json`)
+          .get(`${URL}/contas/${id}.json`)
           .then(response => {
-            this.movimentos = response.data
+            this.conta = response.data
           })
           .catch(error => {
             this.errored = true
           })
           .finally(() => this.loading = false)
     },
-    createMovimento: function(lmovimento){
-      let movimento = {
-        data_competencia: lmovimento.data_competencia,
-        data_vencimento: lmovimento.data_vencimento,
-        descricao: lmovimento.descricao,
-        valor: lmovimento.valor,
-        conta_id: lmovimento.conta_id,
-        pessoa_id: lmovimento.pessoa_id,
-        nota_attributes: lmovimento.nota
-      };
+    createMovimento: function(movimento){
+      movimento.conta_id = this.id;
+      movimento.nota_attributes = movimento.nota;
       this.loading = true;
-      axios.post(`${URL}/movimentos.json`, {
-        movimento
-      })
+      axios
+          .post(`${URL}/movimentos.json`, {
+            movimento
+          })
           .then(response => {
             this.$refs.formMovimentoModal.hide();
-            this.searchMovimentos();
+            this.searchConta(this.id);
             this.$toastr.s("Registro criado.");
           })
           .catch(error => {
             this.$toastr.e("Não foi possível adicionar.");
           })
-          .finally(() => this.loading = false)
+          .finally(() => this.loading = false);
     },
-    updateMovimento: function(lmovimento){
+    updateMovimento: function(movimento){
       this.loading = true;
-      let movimento = {
-        id: lmovimento.id,
-        data_competencia: lmovimento.data_competencia,
-        data_vencimento: lmovimento.data_vencimento,
-        descricao: lmovimento.descricao,
-        valor: lmovimento.valor,
-        conta_id: lmovimento.conta_id,
-        pessoa_id: lmovimento.pessoa_id,
-        nota_attributes: lmovimento.nota
-      };
+      movimento.nota_attributes = movimento.nota;
       axios.put(`${URL}/movimentos/${movimento.id}.json`, {
         movimento
       })
           .then(response => {
             this.$refs.formMovimentoModal.hide();
-            this.searchMovimentos();
+            this.searchConta(this.id);
             this.$toastr.s("Registro atualizado.");
 
           })

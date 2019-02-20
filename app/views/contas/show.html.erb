@@ -3,7 +3,7 @@
     <div class="table-title">
       <div class="row">
         <div class="col-sm-6">
-          <h2>Situação da conta<b>{{conta.conta}}</b></h2>
+          <h2>Lista de <b>Movimentos</b></h2>
         </div>
         <div class="col-sm-6">
           <a href="#formMovimentoModal" class="btn btn-success" data-toggle="modal" @click="mountCreateForm()"><i class="material-icons">&#xE147;</i> <span>Adiciona novo movimento</span></a>
@@ -24,17 +24,16 @@
         <th>Data Vencimento</th>
         <th>Descrição</th>
         <th>Favorecido</th>
-        <th>Conta</th>
         <th>Valor</th>
         <th>Nota</th>
         <th>Ações</th>
       </tr>
       </thead>
       <tbody>
-      <tr v-for="(movimento, index) in movimentos">
+      <tr v-for="(movimento, index) in conta.movimentos">
         <td>
 	    				<span class="custom-checkbox">
-	    					<input type="checkbox" :id="'checkbox'+movimento.id" value="1" v-model="movimentos[index].selected" @click="select">
+	    					<input type="checkbox" :id="'checkbox'+movimento.id" value="1" v-model="conta.movimentos[index].selected" @click="select">
 	    					<label :for="'checkbox'+movimento.id"></label>
 	    				</span>
         </td>
@@ -42,7 +41,6 @@
         <td>{{ new Date(movimento.data_vencimento).toLocaleDateString() }}</td>
         <td>{{ movimento.descricao }}</td>
         <td>{{ movimento.favorecido }}</td>
-        <td>{{ movimento.contabancaria }}</td>
         <td>{{ movimento.valor }}</td>
         <td>{{ movimento.informacaonota }}</td>
         <td>
@@ -57,7 +55,8 @@
         <span class="sr-only">Carregando...</span>
       </div>
     </div>
-    <div class="hint-text">Mostrando <b>{{movimentos.length }}</b> registros</div>
+    <div class="hint-text">Mostrando <b>{{conta.movimentos.length }}</b> registros</div>
+    <div class="pull-right"><p class="hint-text">Saldo da conta: <span v-bind:class="[conta.saldo > 0 ? 'text-success' : 'text-danger', 'font-weight-bold']">{{conta.saldo}}</span></p></div>
     </br>
   </div>
 
@@ -87,16 +86,6 @@
             </option>
           </select>
         </div>
-
-        <div class="field form-group">
-          <label for="movimento_pessoa_id">Conta</label>
-          <select v-model = 'clickedMovimento.conta_id' class="form-control">
-            <option v-for="conta in contas" v-bind:value="conta.id">
-              {{conta.conta}}
-            </option>
-          </select>
-        </div>
-
         <div class="field form-group">
           <label for="movimento_valor">Valor</label>
           <input step="0.01" class="form-control" type="number" name="movimento[valor]" id="movimento_valor" v-model="clickedMovimento.valor">
@@ -128,8 +117,8 @@
     </form>
     <div slot="modal-footer">
       <a class="btn btn-secondary text-light" @click="closeModal">Fechar</a>
-      <a class="btn btn-success text-light" @click="nota = true" v-if="!nota">Nota Fiscal</a>
-      <a class="btn btn-success text-light" @click="nota = false" v-if="nota">Movimento</a>
+      <a class="btn btn-info text-light" @click="nota = true" v-if="!nota">Nota Fiscal</a>
+      <a class="btn btn-info text-light" @click="nota = false" v-if="nota">Movimento</a>
       <a class="btn btn-success text-light" @click="createMovimento(clickedMovimento)" v-if="create"><span v-if="loading" class="spinner-border spinner-border-sm"></span> Criar</a>
       <a class="btn btn-info text-light" @click="updateMovimento(clickedMovimento)" v-if="!create"> Atualizar</a>
     </div>
@@ -148,4 +137,4 @@
   </b-modal>
 
 </div>
-<%= javascript_pack_tag 'movimentos', 'data-turbolinks-track': 'reload' %>
+<%= javascript_pack_tag 'contas', 'data-turbolinks-track': 'reload' %>
