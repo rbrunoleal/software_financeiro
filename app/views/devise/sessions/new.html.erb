@@ -1,32 +1,32 @@
-<div class="card">
-  <div class="card-header">Entrar</div>
-  <div class="card-body">
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => {:class => "form-signin"}) do |f| %>
-    <%= devise_error_messages! %>
-      <div class="field form-group">
-        <%= f.label :email %><br />
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", :class => "form-control" %>
+<div class="row justify-content-md-center">
+  <div class="col-md-6">
+    <div class="table-wrapper">
+      <div class="table-title">Login</div>
+      <div class="card-body">
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => {:class => "form-signin"}) do |f| %>
+        <%= devise_error_messages! %>
+          <div class="field form-group">
+            <%= f.label :email %><br />
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", :class => "form-control" %>
+          </div>
+
+          <div class="field">
+            <%= f.label :password, "Senha" %><br />
+            <%= f.password_field :password, autocomplete: "current-password", :class => "form-control"%>
+          </div>
+
+          <% if devise_mapping.rememberable? -%>
+            <div class="field">
+              <%= f.check_box :remember_me %>
+              <%= f.label :remember_me, "Lembrar-me" %>
+            </div>
+          <% end -%>
+
+          <div class="actions">
+            <%= f.submit "Entrar", :class => "btn btn-dark" %>
+          </div>
+        <% end %>
       </div>
-    
-      <div class="field">
-        <%= f.label :password, "Senha" %><br />
-        <%= f.password_field :password, autocomplete: "current-password", :class => "form-control"%>
-      </div>
-    
-      <% if devise_mapping.rememberable? -%>
-        <div class="field">
-          <%= f.check_box :remember_me %>
-          <%= f.label :remember_me, "Lembrar-me" %>
-        </div>
-      <% end -%>
-    
-      <div class="actions">
-        <%= f.submit "Log in", :class => "btn btn-dark" %>
-      </div>
-    <% end %>
+    </div>
   </div>
 </div>
-
-
-
-<%= render "devise/shared/links" %>
