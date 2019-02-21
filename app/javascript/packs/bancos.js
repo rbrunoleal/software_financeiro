@@ -35,29 +35,17 @@ const bancosIndex = new Vue({
     allSelected: false,
     show: false,
     FiltroCodigo: '',
-    FiltroDescricao: ''
-  },
-  computed: {
-    BancosFiltro() {
-      var filtro = {
-        codigo: this.FiltroCodigo.toLowerCase(),
-        descricao:this.FiltroDescricao.toLowerCase()
-      };
-      var BancosFiltrados = this.bancos.filter(function(item) {
-        for (var key in filtro) {
-          if (item[key] === undefined || !item[key].toLowerCase().includes(filtro[key]))
-            return false;
-        }
-        return true;
-      });
-      this.bancosfiltro = BancosFiltrados;
-      return BancosFiltrados;
-    }
+    FiltroDescricao: '',
+    total: 0
   },
   mounted(){
     this.searchBancos();
   },
   methods: {
+    mudaPagina: function() {
+      //this.searchBancos();
+      console.log("Teste")
+    },
     createPDF: function (){
       var lBancos = this.bancosfiltro;
       var Columns = [
@@ -135,10 +123,10 @@ const bancosIndex = new Vue({
       this.loading = true;
       this.clickedBanco = {};
       axios
-        .get(`${URL}/bancos.json`)
+        .get(`${URL}/bancos.json?page=${this.currentPage}`)
         .then(response => {
-          this.bancos = response.data;
-          this.bancosfiltro = this.bancos;
+          this.bancos = response.data.bancos;
+          this.total = response.data.total;
         })
         .catch(error => {
           this.errored = true
