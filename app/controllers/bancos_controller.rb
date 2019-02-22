@@ -4,8 +4,13 @@ class BancosController < ApplicationController
   # GET /bancos
   # GET /bancos.json
   def index
-    #@bancos = Banco.all
-    @bancos = Banco.paginate(:page => params[:page], :per_page => 3)
+    #Busca Banco
+    @bancos = Banco.where(nil) #Inicia Escopo
+    @bancos = @bancos.codigo(params[:codigo]) if params[:codigo].present?
+    @bancos = @bancos.descricao(params[:descricao]) if params[:descricao].present?
+    #End Busca Banco
+    
+    @bancos = @bancos.paginate(:page => params[:page], :per_page => 3)
     respond_to do |format|
       format.html { render :index }
       format.json { render json:{ bancos: @bancos, total: @bancos.total_entries } }
