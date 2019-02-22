@@ -36,15 +36,16 @@ const bancosIndex = new Vue({
     show: false,
     FiltroCodigo: '',
     FiltroDescricao: '',
-    total: 0
+    total: 0,
+    currentPage: 1
+
   },
   mounted(){
-    this.searchBancos();
+    this.searchBancos(this.currentPage);
   },
   methods: {
-    mudaPagina: function() {
-      //this.searchBancos();
-      console.log("Teste")
+    changePage: function(page) {
+      this.searchBancos(page);
     },
     createPDF: function (){
       var lBancos = this.bancosfiltro;
@@ -61,8 +62,8 @@ const bancosIndex = new Vue({
       
       if(lBancos.length > 0){
         let pdfName = 'Bancos'; 
-        var pdfsize='a4';
-        var doc = new jsPDF('p', 'pt', pdfsize);
+        let pdfsize='a4';
+        let doc = new jsPDF('p', 'pt', pdfsize);
         
         if(Rows.length > 0){
           doc.setFontStyle("bold");
@@ -105,7 +106,7 @@ const bancosIndex = new Vue({
       axios
         .delete(`${URL}/bancos/${id}.json`)
         .then(response => {
-          this.searchBancos();
+          this.searchBancos(this.currentPage);
           this.$toastr.s("Registro apagado.");
           this.$refs.deleteBancoModal.hide();
         })
@@ -119,14 +120,15 @@ const bancosIndex = new Vue({
           })
           .finally(() => this.loading = false)
     },
-    searchBancos: function(){
+    searchBancos: function(page){
       this.loading = true;
       this.clickedBanco = {};
       axios
-        .get(`${URL}/bancos.json?page=${this.currentPage}`)
+        .get(`${URL}/bancos.json?page=${page}`)
         .then(response => {
           this.bancos = response.data.bancos;
           this.total = response.data.total;
+          this.$forceUpdate()
         })
         .catch(error => {
           this.errored = true
@@ -139,7 +141,7 @@ const bancosIndex = new Vue({
       })
       .then(response => {
           this.$refs.formBancoModal.hide();
-          this.searchBancos();
+          this.searchBancos(this.currentPage);
           this.$toastr.s("Registro criado.");
         })
         .catch(error => {
@@ -159,11 +161,11 @@ const bancosIndex = new Vue({
       })
       .then(response => {
           this.$refs.formBancoModal.hide();
-          this.searchBancos();
+          this.searchBancos(this.currentPage);
           this.$toastr.s("Registro atualizado.");
 
       })
-       .catch(error => {
+      .catch(error => {
             if (error.response.status === 422){
               error.response.data.errors.map(error => this.$toastr.e(error));
             }
@@ -171,7 +173,7 @@ const bancosIndex = new Vue({
               this.$toastr.e("Não foi possível atualizar as informações");
             }
           })
-          .finally(() => this.loading = false)
+      .finally(() => this.loading = false)
     },
     selectAll: function() {
       this.allSelected ? this.bancos.map( banco  => banco.selected = false) : this.bancos.map( banco  => banco.selected = true);
