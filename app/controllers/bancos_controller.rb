@@ -10,7 +10,7 @@ class BancosController < ApplicationController
     @bancos = @bancos.descricao(params[:descricao]) if params[:descricao].present?
     #End Busca Banco
     
-    @bancos = @bancos.paginate(:page => params[:page], :per_page => 3)
+    @bancos = @bancos.paginate(:page => params[:page], :per_page => 10)
     respond_to do |format|
       format.html { render :index }
       format.json { render json:{ bancos: @bancos, total: @bancos.total_entries } }

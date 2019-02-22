@@ -38,7 +38,7 @@ const bancosIndex = new Vue({
     currentPage: 1
   },
   mounted(){
-    this.searchBancos(this.currentPage);
+    this.searchBancos();
   },
   methods: {
     changePage: function(page) {
@@ -106,7 +106,7 @@ const bancosIndex = new Vue({
       axios
         .delete(`${URL}/bancos/${id}.json`)
         .then(response => {
-          this.searchBancos(this.currentPage);
+          this.searchBancos();
           this.$toastr.s("Registro apagado.");
           this.$refs.deleteBancoModal.hide();
         })
@@ -120,7 +120,7 @@ const bancosIndex = new Vue({
           })
           .finally(() => this.loading = false)
     },
-    searchBancos: function(page){
+    searchBancos: function(){
       this.loading = true;
       this.clickedBanco = {};
       axios
@@ -139,7 +139,7 @@ const bancosIndex = new Vue({
       .post(`${URL}/bancos.json`, {banco})
       .then(response => {
         this.$refs.formBancoModal.hide();
-        this.searchBancos(this.currentPage);
+        this.searchBancos();
         this.$toastr.s("Registro criado.");
       })
       .catch(error => {
