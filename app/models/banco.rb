@@ -9,4 +9,7 @@ class Banco < ApplicationRecord
   def busca(id)
     Banco.find(id)
   end
+  
+  scope :codigo, -> (codigo) { where("codigo like ?", "%#{codigo}%")}
+  scope :descricao, -> (descricao) { where("descricao like ?", "%#{descricao}%")}
 end

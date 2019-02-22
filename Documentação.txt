@@ -54,3 +54,10 @@ rails generate scaffold Movimento data:datetime descricao:string valor:integer
 
 
 (67/30.to_f).ceil
+
+ var lresult = this.contas.map(x => 
+        ({  conta: x.conta,
+            banco: x.banco.descricao,
+            agencia: x.agencia
+        })
+      );
