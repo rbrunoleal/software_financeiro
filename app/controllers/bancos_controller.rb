@@ -71,6 +71,14 @@ class BancosController < ApplicationController
       format.json { render :json => { :errors => @banco.errors.full_messages }, :status => 422 }
     end
   end
+
+  #GET /bancos/all
+  def all
+    @bancos = Banco.all
+    respond_to do |format|
+      format.json{ render json: @bancos, :only => [:id, :descricao]}
+    end
+  end
   
   private
     # Use callbacks to share common setup or constraints between actions.

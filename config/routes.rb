@@ -5,7 +5,10 @@ Rails.application.routes.draw do
   get 'pages/welcome'
   get 'pages/index'
   get 'pages/contact'
-  
+
+  #Rotas montar selects
+  get 'bancos/all'
+
   resources :contas
   resources :pessoas
   resources :bancos
