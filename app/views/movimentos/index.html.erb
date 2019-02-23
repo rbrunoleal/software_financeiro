@@ -81,14 +81,10 @@
 				
 				  <div class="field form-group">
 				    <label for="movimento_pessoa_id">Favorecido/Sacado</label>
-				    <select v-model = 'clickedMovimento.pessoa_id' class="form-control">
-				    	<option v-for="pessoa in pessoas" v-bind:value="pessoa.id">
-				    		{{pessoa.nome}}
-				    	</option>
-				    </select>
+				    <v-select v-model="clickedMovimento.favorecido" label="nome" placeholder="Selecione" :options="pessoas"><span slot="no-options">Não foi encontrado.</span></v-select>
 				  </div>
 				  
-				  <div class="field form-group">
+				   <div class="field form-group">
 				    <label for="movimento_pessoa_id">Conta</label>
 				    <select v-model = 'clickedMovimento.conta_id' class="form-control">
 				    	<option v-for="conta in contas" v-bind:value="conta.id">
