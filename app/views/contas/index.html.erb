@@ -58,7 +58,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="(conta, index) in ContasFiltro">
+      <tr v-for="(conta, index) in contas">
         <td>
 		    				<span class="custom-checkbox">
 		    					<input type="checkbox" :id="'checkbox'+conta.id" value="1" v-model="contas[index].selected" @click="select">
@@ -80,8 +80,7 @@
         <span class="sr-only">Carregando...</span>
       </div>
     </div>
-    <div class="hint-text">Mostrando <b>{{ContasFiltro.length }}</b> registros</div>
-    <%# will_paginate @contas, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
+    <div class="hint-text">Mostrando <b>{{contas.length }}</b> registros</div>
     </br>
   </div>
 
