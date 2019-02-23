@@ -36,11 +36,11 @@ const contasIndex = new Vue({
     FiltroConta: '',
     FiltroBanco: '',
     FiltroAgencia: '',
-    bancos: {}
+    bancos: []
   },
   mounted () {
     this.searchContas();
-    axios.get(`${URL}/bancos.json`).then(response => {this.bancos = response.data});
+    axios.get(`${URL}/bancos/all.json`).then(response => {this.bancos = response.data});
   },
   methods: {
     mountCreateForm: function () {

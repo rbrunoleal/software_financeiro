@@ -28,7 +28,7 @@ class ContasController < ApplicationController
               :except => [:created_at, :updated_at]
           }
       },
-                           :methods => [:saldo]
+      :methods => [:saldo]
       }
     end
   end
