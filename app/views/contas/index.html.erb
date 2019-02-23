@@ -66,7 +66,7 @@
 		    				</span>
         </td>
         <td><a v-bind:href="'/contas/'+conta.id">{{ conta.conta }}</a></td>
-        <td>{{ conta.banco }}</td>
+        <td>{{ conta.banco.descricao }}</td>
         <td>{{ conta.agencia }}</td>
         <td>
           <a href="#deleteContaModal" data-toggle="modal" class="edit" @click="mountEditForm(conta)"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
