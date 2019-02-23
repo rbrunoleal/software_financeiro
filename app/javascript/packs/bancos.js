@@ -30,22 +30,22 @@ const bancosIndex = new Vue({
     clickedBanco: {},
     bancos: [],
     bancosfiltro: [],
-    pickedBanco: {},
     showModal: false,
     allSelected: false,
-    show: false,
     FiltroCodigo: '',
     FiltroDescricao: '',
     total: 0,
     currentPage: 1
-
   },
   mounted(){
-    this.searchBancos(this.currentPage);
+    this.searchBancos();
   },
   methods: {
     changePage: function(page) {
-      this.searchBancos(page);
+      if(page != this.currentPage){
+        this.currentPage = page;
+        this.searchBancos();
+      }
     },
     createPDF: function (){
       var lBancos = this.bancosfiltro;
@@ -106,7 +106,7 @@ const bancosIndex = new Vue({
       axios
         .delete(`${URL}/bancos/${id}.json`)
         .then(response => {
-          this.searchBancos(this.currentPage);
+          this.searchBancos();
           this.$toastr.s("Registro apagado.");
           this.$refs.deleteBancoModal.hide();
         })
@@ -120,59 +120,55 @@ const bancosIndex = new Vue({
           })
           .finally(() => this.loading = false)
     },
-    searchBancos: function(page){
+    searchBancos: function(){
       this.loading = true;
       this.clickedBanco = {};
       axios
-        .get(`${URL}/bancos.json?page=${page}`)
+        .get(`${URL}/bancos.json?page=${this.currentPage}`)
         .then(response => {
           this.bancos = response.data.bancos;
           this.total = response.data.total;
-          this.$forceUpdate()
         })
         .catch(error => {
           this.errored = true
         })
-          .finally(() => this.loading = false)
+        .finally(() => this.loading = false)
     },
     createBanco: function(banco){
-      axios.post(`${URL}/bancos.json`, {
-        banco
-      })
+      axios
+      .post(`${URL}/bancos.json`, {banco})
       .then(response => {
-          this.$refs.formBancoModal.hide();
-          this.searchBancos(this.currentPage);
-          this.$toastr.s("Registro criado.");
-        })
-        .catch(error => {
-            if (error.response.status === 422){
-              error.response.data.errors.map(error => this.$toastr.e(error));
-            }
-            else{
-              this.$toastr.e("Não foi possível salvar as alterações");
-            }
-          })
-          .finally(() => this.loading = false)
+        this.$refs.formBancoModal.hide();
+        this.searchBancos();
+        this.$toastr.s("Registro criado.");
+      })
+      .catch(error => {
+        if (error.response.status === 422){
+          error.response.data.errors.map(error => this.$toastr.e(error));
+        }
+        else{
+          this.$toastr.e("Não foi possível salvar as alterações");
+        }
+      })
+      .finally(() => this.loading = false)
     },
     updateBanco: function(banco){
       this.loading = true;
-      axios.put(`${URL}/bancos/${banco.id}.json`, {
-        banco
-      })
+      axios
+      .put(`${URL}/bancos/${banco.id}.json`, { banco })
       .then(response => {
-          this.$refs.formBancoModal.hide();
-          this.searchBancos(this.currentPage);
-          this.$toastr.s("Registro atualizado.");
-
+        this.$refs.formBancoModal.hide();
+        this.searchBancos();
+        this.$toastr.s("Registro atualizado.");
       })
       .catch(error => {
-            if (error.response.status === 422){
-              error.response.data.errors.map(error => this.$toastr.e(error));
-            }
-            else{
-              this.$toastr.e("Não foi possível atualizar as informações");
-            }
-          })
+        if (error.response.status === 422){
+          error.response.data.errors.map(error => this.$toastr.e(error));
+        }
+        else{
+          this.$toastr.e("Não foi possível atualizar as informações");
+        }
+      })
       .finally(() => this.loading = false)
     },
     selectAll: function() {
