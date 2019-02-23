@@ -100,16 +100,8 @@ const movimentosIndex = new Vue({
                 })
                 .finally(() => this.loading = false)
         },
-        createMovimento: function(lmovimento){
-            let movimento = {
-                data_competencia: lmovimento.data_competencia,
-                data_vencimento: lmovimento.data_vencimento,
-                descricao: lmovimento.descricao,
-                valor: lmovimento.valor,
-                conta_id: lmovimento.conta_id,
-                pessoa_id: lmovimento.favorecido.id,
-                nota_attributes: lmovimento.nota
-            };
+        createMovimento: function(movimento){
+            movimento = {... movimento, nota_attributes: movimento.nota, pessoa_id: movimento.favorecido.id};
             this.loading = true;
             axios.post(`${URL}/movimentos.json`, {
                 movimento
@@ -129,18 +121,11 @@ const movimentosIndex = new Vue({
           })
           .finally(() => this.loading = false)
         },
-        updateMovimento: function(lmovimento){
+        updateMovimento: function(movimento){
             this.loading = true;
-            let movimento = {
-                id: lmovimento.id,
-                data_competencia: lmovimento.data_competencia,
-                data_vencimento: lmovimento.data_vencimento,
-                descricao: lmovimento.descricao,
-                valor: lmovimento.valor,
-                conta_id: lmovimento.conta_id,
-                pessoa_id: lmovimento.favorecido.id,
-                nota_attributes: lmovimento.nota
-            };
+
+            movimento = {... movimento, pessoa_id: movimento.favorecido.id, nota_attributes: movimento.nota};
+
             axios.put(`${URL}/movimentos/${movimento.id}.json`, {
                 movimento
             })

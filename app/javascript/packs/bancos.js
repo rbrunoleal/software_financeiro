@@ -42,7 +42,7 @@ const bancosIndex = new Vue({
   },
   methods: {
     changePage: function(page) {
-      if(page != this.currentPage){
+      if(page !== this.currentPage){
         this.currentPage = page;
         this.searchBancos();
       }

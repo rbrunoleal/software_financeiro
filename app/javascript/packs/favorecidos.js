@@ -161,21 +161,21 @@ const favorecidosApp = new Vue({
       let pessoa = {id: favorecido.id, tipo: favorecido.tipo, pessoafisica_attributes: favorecido.pessoafisica, endereco_attributes: favorecido.endereco, contatos_attributes: favorecido.contatos };
       pessoa.tipo === "Física" ? pessoa.pessoajuridica = null: pessoa.pessoafisica = null;
       axios
-          .put(`${URL}/pessoas/${pessoa.id}.json`, {pessoa})
-          .then(response => {
-            this.$refs.formFavorecidoModal.hide();
-            this.searchFavorecidos();
-            this.$toastr.s("Registro atualizado.");
-          })
-           .catch(error => {
-            if (error.response.status === 422){
-              error.response.data.errors.map(error => this.$toastr.e(error));
-            }
-            else{
-              this.$toastr.e("Não foi possível atualizar as informações");
-            }
-          })
-          .finally(() => this.loading = false)
+        .put(`${URL}/pessoas/${pessoa.id}.json`, {pessoa})
+        .then(response => {
+          this.$refs.formFavorecidoModal.hide();
+          this.searchFavorecidos();
+          this.$toastr.s("Registro atualizado.");
+        })
+         .catch(error => {
+          if (error.response.status === 422){
+            error.response.data.errors.map(error => this.$toastr.e(error));
+          }
+          else{
+            this.$toastr.e("Não foi possível atualizar as informações");
+          }
+        })
+        .finally(() => this.loading = false)
     },
     selectAll: function(){
       this.allSelected ? this.favorecidos.map( favorecido  => favorecido.selected = false) : this.favorecidos.map( favorecido  => favorecido.selected = true);
