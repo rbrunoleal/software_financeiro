@@ -32,8 +32,8 @@ const bancosIndex = new Vue({
     bancosfiltro: [],
     showModal: false,
     allSelected: false,
-    FiltroCodigo: '',
-    FiltroDescricao: '',
+    codigo: '',
+    descricao: '',
     total: 0,
     currentPage: 1
   },
@@ -123,8 +123,12 @@ const bancosIndex = new Vue({
     searchBancos: function(){
       this.loading = true;
       this.clickedBanco = {};
+
+      let filter = this.codigo? `codigo=${this.codigo}`:'';
+      filter += this.descricao? `&descricao=${this.descricao}`:'';
+      filter += `&page=${this.currentPage}`;
       axios
-        .get(`${URL}/bancos.json?page=${this.currentPage}`)
+        .get(`${URL}/bancos.json?${filter}`)
         .then(response => {
           this.bancos = response.data.bancos;
           this.total = response.data.total;

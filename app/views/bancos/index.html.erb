@@ -20,20 +20,20 @@
 		        <div class="input-group-prepend">
 		          <div class="input-group-text">Código</div>
 		        </div>
-		        <input type="text" class="form-control" id="inlineFormInputGroupCodigo" v-model="FiltroCodigo">
+		        <input type="text" class="form-control" id="codigo" v-model="codigo">
 		      </div>
 		    </div>
-		    <div class="col-md-6">
+		    <div class="col-md-7">
 		      <label class="sr-only" for="inlineFormInputGroup"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
 		          <div class="input-group-text">Descrição</div>
 		        </div>
-		        <input type="text" class="form-control" id="inlineFormInputGroup" v-model="FiltroDescricao">
+		        <input type="text" class="form-control" id="descricao" v-model="descricao">
 		      </div>
 		    </div>
 		     <div class="col-auto">
-			  <a class="btn btn-primary mb-2 text-light">Procurar</a>
+			  <a class="btn btn-primary mb-2 text-light" @click="searchBancos()"><span class="fa fa-search"></span></a>
 			</div>
 		  </div>
 		</div>
