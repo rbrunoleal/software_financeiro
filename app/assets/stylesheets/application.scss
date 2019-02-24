@@ -273,5 +273,14 @@ table.table .avatar {
 .application--wrap {
 	background-color: #f3f5f4;
 }
+select{
+  -moz-appearance: menulist;
+  -webkit-appearance: menulist;
+}
+
+.v-select > .dropdown-toggle::after{
+  border-top: none;
+  border-bottom: none;
+}
     
 [v-cloak] { display:none; }
