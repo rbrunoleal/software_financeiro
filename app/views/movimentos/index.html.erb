@@ -20,13 +20,10 @@
 						<label for="selectAll"></label>
 					</span>
 				</th>
-	          <th>Data Competência</th>
-	          <th>Data Vencimento</th>
-	          <th>Descrição</th>
+            <th>Descrição</th>
+            <th>Data Competência</th>
 	          <th>Favorecido</th>
-	          <th>Conta</th>
 	          <th>Valor</th>
-	          <th>Nota</th>
 	          <th>Ações</th>
 	        </tr>
 	    </thead>
@@ -38,14 +35,11 @@
 	    					<label :for="'checkbox'+movimento.id"></label>
 	    				</span>
 	    			</td>
-	          <td>{{ new Date(movimento.data_competencia+"T00:00:00").toLocaleDateString() }}</td>
-	          <td>{{ new Date(movimento.data_vencimento+"T00:00:00").toLocaleDateString() }}</td>
-	          <td>{{ movimento.descricao }}</td>
-	          <td>{{ movimento.favorecido }}</td>
-	          <td>{{ movimento.contabancaria }}</td>
-	          <td>{{ movimento.valor }}</td>
-	          <td>{{ movimento.informacaonota }}</td>
-	          <td>
+            <td>{{ movimento.descricao }}</td>
+            <td>{{ new Date(movimento.data_competencia+"T00:00:00").toLocaleDateString() }}</td>
+            <td>{{ movimento.favorecido }}</td>
+            <td>{{ movimento.valor }}</td>
+            <td>
 	            <a href="#deleteMovimentoModal" data-toggle="modal" class="edit" @click="mountEditForm(movimento)"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
 	            <a href="#deleteMovimentoModal" data-toggle="modal" class="delete" @click="mountDeleteForm(movimento)"><i class="material-icons" data-toggle="tooltip" title="Apagar">&#xE872;</i></a>
 	          </td>
