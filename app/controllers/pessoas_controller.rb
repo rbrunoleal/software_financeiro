@@ -66,6 +66,14 @@ class PessoasController < ApplicationController
     end
   end
 
+  #GET /pessoas/all
+  def all
+    @pessoas = Pessoa.all
+    respond_to do |format|
+      format.json { render json: @pessoas, :only => [:id], :methods => [:nome] }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_pessoa
