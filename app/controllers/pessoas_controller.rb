@@ -4,7 +4,11 @@ class PessoasController < ApplicationController
   # GET /pessoas
   # GET /pessoas.json
   def index
-    @pessoas = Pessoa.all
+    @pessoas = Pessoa.paginate(:page => params[:page], :per_page => 10)
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: {pessoas: @pessoas.as_json(:include => [:pessoafisica, :pessoajuridica, :endereco, :contatos], methods: [:nome, :identificador]), total: @pessoas.total_entries}}
+    end
   end
 
   # GET /pessoas/1

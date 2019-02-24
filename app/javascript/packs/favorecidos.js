@@ -45,13 +45,21 @@ const favorecidosApp = new Vue({
     estado: {cidades: []},
     step: 1,
     unidade_id: 0,
-    estado_id: 0
+    estado_id: 0,
+    currentPage: 1,
+    total: 0
   },
   mounted () {
     this.searchFavorecidos();
     this.setPaises();
   },
   methods: {
+    changePage: function(page) {
+      if(page !== this.currentPage){
+        this.currentPage = page;
+        this.searchFavorecidos();
+      }
+    },
     mountCreateForm: function (){
       this.$refs.formFavorecidoModal.show();
       this.create = true;
@@ -115,6 +123,10 @@ const favorecidosApp = new Vue({
     },
     searchFavorecidos: function(){
       this.loading = true;
+      //let filter = this.contaNumero? `contaNumero=${this.contaNumero}`:'';
+      //filter += this.agenciaNumero? `&agenciaNumero=${this.agenciaNumero}`:'';
+      //filter += this.bancoId? `&bancoId=${this.bancoId}`:'';
+      let filter = `&page=${this.currentPage}`;
       this.clickedFavorecido = {
         contatos: [],
         endereco: {},
@@ -124,9 +136,10 @@ const favorecidosApp = new Vue({
       };
 
       axios
-          .get(`${URL}/pessoas.json`)
+          .get(`${URL}/pessoas.json?${filter}`)
           .then(response => {
-            this.favorecidos = response.data;
+            this.favorecidos = response.data.pessoas;
+            this.total = response.data.total;
             this.clickedFavorecido.pessoajuridica = {}
           })
           .catch(error => {
