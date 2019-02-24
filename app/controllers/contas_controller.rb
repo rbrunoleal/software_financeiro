@@ -90,6 +90,14 @@ class ContasController < ApplicationController
     end
   end
 
+  #GET ALL CONTAS
+  def all
+    @contas = Conta.all
+    respond_to do |format|
+      format.json { render json: @contas, :only => [:id], :methods => [:conta] }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_conta

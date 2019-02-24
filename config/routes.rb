@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   #Rotas montar selects
   get 'bancos/all'
+  get 'contas/all'
 
   resources :contas
   resources :pessoas
