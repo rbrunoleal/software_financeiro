@@ -12,7 +12,7 @@ class ContasController < ApplicationController
     @contas = @contas.paginate(:page => params[:page], :per_page => 10)
     respond_to do |format|
       format.html { render :index }
-      format.json { render json: {contas: @contas.as_json(:include => [:banco], methods: [:conta, :agencia]), total: @contas.total_entries}}
+      format.json { render json: {contas: @contas.as_json(:include => [:banco], methods: [:conta, :agencia, :saldo]), total: @contas.total_entries}}
     end
   end
   
