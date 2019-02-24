@@ -38,7 +38,7 @@ const movimentosIndex = new Vue({
     },
     mounted(){
         this.searchMovimentos();
-        axios.get(`${URL}/contas.json`).then(response => {this.contas = response.data});
+        axios.get(`${URL}/contas/all.json`).then(response => {this.contas = response.data});
         axios.get(`${URL}/pessoas.json`).then(response => {this.pessoas = response.data});
     },
     methods: {
