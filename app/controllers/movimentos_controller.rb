@@ -4,7 +4,11 @@ class MovimentosController < ApplicationController
   # GET /movimentos
   # GET /movimentos.json
   def index
-    @movimentos = Movimento.all
+    @movimentos = Movimento.paginate(:page => params[:page], :per_page => 10)
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: {movimentos: @movimentos.as_json(:include => [:conta, :pessoa, :nota], methods: [:favorecido, :contabancaria, :informacaonota]), total: @movimentos.total_entries}}
+    end
   end
 
   # GET /movimentos/1

@@ -13,147 +13,160 @@ Vue.component('vue-toastr', Toastr);
 Vue.component('v-select', vSelect)
 
 Vue.use(Toastr, {
-    defaultTimeout: 3000,
-    defaultProgressBar: false,
-    defaultPosition: "toast-top-right",
-    closeButton: true
+  defaultTimeout: 3000,
+  defaultProgressBar: false,
+  defaultPosition: "toast-top-right",
+  closeButton: true
 
 });
 Vue.use(BootstrapVue);
 
 axios.defaults.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 const movimentosIndex = new Vue({
-    el: document.getElementById('movimentosApp'),
-    data: {
-        loading: true,
-        create: false,
-        clickedMovimento: {pessoa: {}, conta: {}, nota: {}},
-        movimentos: [],
-        showModal: false,
-        allSelected: false,
-        show: false,
-        pessoas: [{id:'',nome:''}],
-        contas: {},
-        nota: false
-    },
-    mounted(){
+  el: document.getElementById('movimentosApp'),
+  data: {
+    loading: true,
+    create: false,
+    clickedMovimento: {pessoa: {}, conta: {}, nota: {}},
+    movimentos: [],
+    showModal: false,
+    allSelected: false,
+    show: false,
+    pessoas: [{id:'',nome:''}],
+    contas: {},
+    nota: false,
+    total: 0,
+    currentPage: 1
+  },
+  mounted(){
+    this.searchMovimentos();
+    axios.get(`${URL}/contas/all.json`).then(response => {this.contas = response.data});
+    axios.get(`${URL}/pessoas/all.json`).then(response => {this.pessoas = response.data});
+  },
+  methods: {
+    changePage: function(page) {
+      if(page !== this.currentPage){
+        this.currentPage = page;
         this.searchMovimentos();
-        axios.get(`${URL}/contas/all.json`).then(response => {this.contas = response.data});
-        axios.get(`${URL}/pessoas.json`).then(response => {this.pessoas = response.data});
+      }
     },
-    methods: {
-        mountCreateForm: function () {
-            this.$refs.formMovimentoModal.show();
-            this.create = true;
-            this.nota = false;
-            this.clickedMovimento = {pessoa: {}, conta: {}, nota: {}};
-        },
-        mountDeleteForm: function (movimento) {
-            this.$refs.deleteMovimentoModal.show();
-            this.clickedMovimento = movimento;
-        },
-        mountMultipleDeleteForm: function () {
-            this.$refs.deleteMovimentoModal.show();
-            this.selectedMovimentos = [];
-            this.movimentos.map(movimento => {
-                if (movimento.selected) 
-                    return this.selectedMovimentos.push(movimento.id)
-            });
-            
-        },
-        mountEditForm: function (movimento) {
-            this.$refs.formMovimentoModal.show();
-            this.create = false;
-            this.nota = false;
-            if(!movimento.nota)
-                movimento.nota = {};
-            this.clickedMovimento = {... movimento};
-        },
-        deleteMovimento: function (id){
-            axios
-                .delete(`${URL}/movimentos/${id}.json`)
-                .then(response => {
-                    this.searchMovimentos();
-                    this.$toastr.s("Registro apagado.");
-                    this.$refs.deleteMovimentoModal.hide();
-                })
-                .catch(error => {
-            if (error.response.status === 422){
-              error.response.data.errors.map(error => this.$toastr.e(error));
-            }
-            else{
-               this.$toastr.e("Não foi possível excluir");
-            }
-          })
-          .finally(() => this.loading = false)
-        },
-        searchMovimentos: function(){
-            this.loading = true;
-            this.clickedMovimento = {pessoa: {}, conta: {}, nota: {}};
-            axios
-                .get(`${URL}/movimentos.json`)
-                .then(response => {
-                    this.movimentos = response.data
-                })
-                .catch(error => {
-                    this.errored = true
-                })
-                .finally(() => this.loading = false)
-        },
-        createMovimento: function(movimento){
-            movimento = {... movimento, nota_attributes: movimento.nota, pessoa_id: movimento.favorecido.id};
-            this.loading = true;
-            axios.post(`${URL}/movimentos.json`, {
-                movimento
-            })
-                .then(response => {
-                    this.$refs.formMovimentoModal.hide();
-                    this.searchMovimentos();
-                    this.$toastr.s("Registro criado.");
-                })
-                .catch(error => {
-            if (error.response.status === 422){
-              error.response.data.errors.map(error => this.$toastr.e(error));
-            }
-            else{
-              this.$toastr.e("Não foi possível salvar as alterações");
-            }
-          })
-          .finally(() => this.loading = false)
-        },
-        updateMovimento: function(movimento){
-            this.loading = true;
+    mountCreateForm: function () {
+      this.$refs.formMovimentoModal.show();
+      this.create = true;
+      this.nota = false;
+      this.clickedMovimento = {pessoa: {}, conta: {}, nota: {}};
+    },
+    mountDeleteForm: function (movimento) {
+      this.$refs.deleteMovimentoModal.show();
+      this.clickedMovimento = movimento;
+    },
+    mountMultipleDeleteForm: function () {
+      this.$refs.deleteMovimentoModal.show();
+      this.selectedMovimentos = [];
+      this.movimentos.map(movimento => {
+        if (movimento.selected)
+          return this.selectedMovimentos.push(movimento.id)
+      });
 
-            movimento = {... movimento, pessoa_id: movimento.favorecido.id, nota_attributes: movimento.nota};
+    },
+    mountEditForm: function (movimento) {
+      this.$refs.formMovimentoModal.show();
+      this.create = false;
+      this.nota = false;
+      if(!movimento.nota)
+        movimento.nota = {};
+      this.clickedMovimento = {... movimento};
+    },
+    deleteMovimento: function (id){
+      axios
+        .delete(`${URL}/movimentos/${id}.json`)
+        .then(response => {
+          this.searchMovimentos();
+          this.$toastr.s("Registro apagado.");
+          this.$refs.deleteMovimentoModal.hide();
+        })
+        .catch(error => {
+          if (error.response.status === 422){
+            error.response.data.errors.map(error => this.$toastr.e(error));
+          }
+          else{
+            this.$toastr.e("Não foi possível excluir");
+          }
+        })
+        .finally(() => this.loading = false)
+    },
+    searchMovimentos: function(){
+      //let filter = this.contaNumero? `contaNumero=${this.contaNumero}`:'';
+      //filter += this.agenciaNumero? `&agenciaNumero=${this.agenciaNumero}`:'';
+      //filter += this.bancoId? `&bancoId=${this.bancoId}`:'';
+      let filter = `&page=${this.currentPage}`;
+      this.loading = true;
+      this.clickedMovimento = {pessoa: {}, conta: {}, nota: {}};
+      axios
+        .get(`${URL}/movimentos.json?${filter}`)
+        .then(response => {
+          this.movimentos = response.data.movimentos;
+          this.total = response.data.total
+        })
+        .catch(error => {
+          this.errored = true
+        })
+        .finally(() => this.loading = false)
+    },
+    createMovimento: function(movimento){
+      movimento = {... movimento, nota_attributes: movimento.nota, pessoa_id: movimento.favorecido.id};
+      this.loading = true;
+      axios.post(`${URL}/movimentos.json`, {
+        movimento
+      })
+        .then(response => {
+          this.$refs.formMovimentoModal.hide();
+          this.searchMovimentos();
+          this.$toastr.s("Registro criado.");
+        })
+        .catch(error => {
+          if (error.response.status === 422){
+            error.response.data.errors.map(error => this.$toastr.e(error));
+          }
+          else{
+            this.$toastr.e("Não foi possível salvar as alterações");
+          }
+        })
+        .finally(() => this.loading = false)
+    },
+    updateMovimento: function(movimento){
+      this.loading = true;
 
-            axios.put(`${URL}/movimentos/${movimento.id}.json`, {
-                movimento
-            })
-                .then(response => {
-                    this.$refs.formMovimentoModal.hide();
-                    this.searchMovimentos();
-                    this.$toastr.s("Registro atualizado.");
+      movimento = {... movimento, pessoa_id: movimento.favorecido.id, nota_attributes: movimento.nota};
 
-                })
-                 .catch(error => {
-            if (error.response.status === 422){
-              error.response.data.errors.map(error => this.$toastr.e(error));
-            }
-            else{
-              this.$toastr.e("Não foi possível atualizar as informações");
-            }
-          })
-          .finally(() => this.loading = false)
-        },
-        selectAll: function() {
-            this.allSelected ? this.movimentos.map( movimento  => movimento.selected = false) : this.movimentos.map( movimento  => movimento.selected = true);
-        },
-        select: function() {
-            this.allSelected = false;
-        },
-        closeModal(){
-            this.$refs.deleteMovimentoModal.hide();
-            this.$refs.formMovimentoModal.hide()
-        }
+      axios.put(`${URL}/movimentos/${movimento.id}.json`, {
+        movimento
+      })
+        .then(response => {
+          this.$refs.formMovimentoModal.hide();
+          this.searchMovimentos();
+          this.$toastr.s("Registro atualizado.");
+
+        })
+        .catch(error => {
+          if (error.response.status === 422){
+            error.response.data.errors.map(error => this.$toastr.e(error));
+          }
+          else{
+            this.$toastr.e("Não foi possível atualizar as informações");
+          }
+        })
+        .finally(() => this.loading = false)
+    },
+    selectAll: function() {
+      this.allSelected ? this.movimentos.map( movimento  => movimento.selected = false) : this.movimentos.map( movimento  => movimento.selected = true);
+    },
+    select: function() {
+      this.allSelected = false;
+    },
+    closeModal(){
+      this.$refs.deleteMovimentoModal.hide();
+      this.$refs.formMovimentoModal.hide()
     }
+  }
 });
