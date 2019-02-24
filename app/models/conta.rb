@@ -18,4 +18,8 @@ class Conta < ApplicationRecord
   def agencia
     self.agencia_numero + "-" + self.agencia_digito.to_s  
   end
+
+  scope :conta_numero, -> (conta_numero) { where("conta_numero like ?", "%#{conta_numero}%")}
+  scope :agencia_numero, -> (agencia_numero) { where("agencia_numero like ?", "%#{agencia_numero}%")}
+  scope :banco_id, -> (bancoId) { where("banco_id = ?", "#{bancoId}")}
 end

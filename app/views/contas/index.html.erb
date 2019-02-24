@@ -13,7 +13,7 @@
     </div>
     <div class="search-wrapper">
 		  <div class="form-row align-items-center">
-		    <div class="col-md-4">
+		    <div class="col-md-3">
 		      <label class="sr-only" for="contaNumero"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
@@ -28,7 +28,11 @@
 		        <div class="input-group-prepend">
 		          <div class="input-group-text">Banco</div>
 		        </div>
-		        <input type="text" class="form-control" id="contaBanco" v-model="contaBanco">
+            <select v-model = 'bancoId' class="form-control">
+              <option v-for="banco in bancos" v-bind:value="banco.id">
+                {{banco.descricao}}
+              </option>
+            </select>
 		      </div>
 		    </div>
 		    <div class="col-md-4">
@@ -40,6 +44,9 @@
 		        <input type="text" class="form-control" id="agenciaNumero" v-model="agenciaNumero">
 		      </div>
 		    </div>
+        <div class="col-auto">
+          <a class="btn btn-primary mb-2 text-light" @click="searchContas()"><span class="fa fa-search"></span></a>
+        </div>
 		  </div>
 		</div>
     <table class="table table-striped table-hover">

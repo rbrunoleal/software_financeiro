@@ -36,6 +36,7 @@ const contasIndex = new Vue({
     contaNumero: '',
     contaBanco: '',
     agenciaNumero: '',
+    bancoId: '',
     bancos: [],
     currentPage: 1,
     total: 0
@@ -86,7 +87,10 @@ const contasIndex = new Vue({
     searchContas: function(){
       this.loading = true;
       this.clickedConta = {banco: {}};
-      let filter = `&page=${this.currentPage}`;
+      let filter = this.contaNumero? `contaNumero=${this.contaNumero}`:'';
+      filter += this.agenciaNumero? `&agenciaNumero=${this.agenciaNumero}`:'';
+      filter += this.bancoId? `&bancoId=${this.bancoId}`:'';
+      filter += `&page=${this.currentPage}`;
       axios
           .get(`${URL}/contas.json?${filter}`)
           .then(response => {

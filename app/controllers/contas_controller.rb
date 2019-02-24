@@ -4,12 +4,15 @@ class ContasController < ApplicationController
   # GET /contas
   # GET /contas.json
   def index
-    @contas = Conta.all
+    @contas = Conta.where(nil) #Inicia Escopo
+    @contas = @contas.conta_numero(params[:contaNumero]) if params[:contaNumero].present?
+    @contas = @contas.agencia_numero(params[:agenciaNumero]) if params[:agenciaNumero].present?
+    @contas = @contas.banco_id(params[:bancoId]) if params[:bancoId].present?
+
     @contas = @contas.paginate(:page => params[:page], :per_page => 10)
-    print @contas
     respond_to do |format|
       format.html { render :index }
-      format.json { render json: {contas: @contas.as_json(:include => [:banco], methods: [:conta]), total: @contas.total_entries}}
+      format.json { render json: {contas: @contas.as_json(:include => [:banco], methods: [:conta, :agencia]), total: @contas.total_entries}}
     end
   end
   
