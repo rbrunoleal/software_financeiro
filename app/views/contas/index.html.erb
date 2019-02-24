@@ -14,30 +14,30 @@
     <div class="search-wrapper">
 		  <div class="form-row align-items-center">
 		    <div class="col-md-4">
-		      <label class="sr-only" for="inlineFormInput"></label>
+		      <label class="sr-only" for="contaNumero"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
 		          <div class="input-group-text">Conta</div>
 		        </div>
-		        <input type="text" class="form-control" id="inlineFormInputGroup" v-model="FiltroConta">
+		        <input type="text" class="form-control" id="contaNumero" v-model="contaNumero">
 		      </div>
 		    </div>
 		    <div class="col-md-4">
-		      <label class="sr-only" for="inlineFormInputGroup"></label>
+		      <label class="sr-only" for="contaBanco"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
 		          <div class="input-group-text">Banco</div>
 		        </div>
-		        <input type="text" class="form-control" id="inlineFormInputGroup" v-model="FiltroBanco">
+		        <input type="text" class="form-control" id="contaBanco" v-model="contaBanco">
 		      </div>
 		    </div>
 		    <div class="col-md-4">
-		      <label class="sr-only" for="inlineFormInputGroup"></label>
+		      <label class="sr-only" for="agenciaNumero"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
 		          <div class="input-group-text">Agência</div>
 		        </div>
-		        <input type="text" class="form-control" id="inlineFormInputGroup" v-model="FiltroAgencia">
+		        <input type="text" class="form-control" id="agenciaNumero" v-model="agenciaNumero">
 		      </div>
 		    </div>
 		  </div>
@@ -46,10 +46,10 @@
       <thead>
       <tr>
         <th>
-	    				<span class="custom-checkbox">
-	    					<input type="checkbox" id="selectAll" v-model="allSelected" @click="selectAll">
-								<label for="selectAll"></label>
-	    				</span>
+          <span class="custom-checkbox">
+            <input type="checkbox" id="selectAll" v-model="allSelected" @click="selectAll">
+            <label for="selectAll"></label>
+          </span>
         </th>
         <th>Conta</th>
         <th>Banco</th>
@@ -60,10 +60,10 @@
       <tbody>
       <tr v-for="(conta, index) in contas">
         <td>
-		    				<span class="custom-checkbox">
-		    					<input type="checkbox" :id="'checkbox'+conta.id" value="1" v-model="contas[index].selected" @click="select">
-		    					<label :for="'checkbox'+conta.id"></label>
-		    				</span>
+            <span class="custom-checkbox">
+              <input type="checkbox" :id="'checkbox'+conta.id" value="1" v-model="contas[index].selected" @click="select">
+              <label :for="'checkbox'+conta.id"></label>
+            </span>
         </td>
         <td><a v-bind:href="'/contas/'+conta.id">{{ conta.conta }}</a></td>
         <td>{{ conta.banco.descricao }}</td>
@@ -80,8 +80,11 @@
         <span class="sr-only">Carregando...</span>
       </div>
     </div>
+    <div class="mt-3 text-right" v-if="total > 10">
+      <b-pagination align="right" :total-rows="total" :per-page="10" @change="changePage" />
+    </div>
     <div class="hint-text">Mostrando <b>{{contas.length }}</b> registros</div>
-    </br>
+    <br>
   </div>
 
   <b-modal ref="formContaModal" title="Conta">

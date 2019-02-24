@@ -27,22 +27,30 @@ const contasIndex = new Vue({
     loading: true,
     create: false,
     clickedConta: {banco: {}},
-    contas: [],
+    contas: [{id: 1, numero: '12312', agencia: '1231', banco: {id: '', descricao: 'Brasil'}}],
     contasfiltro: [],
     pickedConta: {},
     showModal: false,
     allSelected: false,
     show: false,
-    FiltroConta: '',
-    FiltroBanco: '',
-    FiltroAgencia: '',
-    bancos: []
+    contaNumero: '',
+    contaBanco: '',
+    agenciaNumero: '',
+    bancos: [],
+    currentPage: 1,
+    total: 0
   },
   mounted () {
     this.searchContas();
     axios.get(`${URL}/bancos/all.json`).then(response => {this.bancos = response.data});
   },
   methods: {
+    changePage: function(page) {
+      if(page !== this.currentPage){
+        this.currentPage = page;
+        this.searchContas();
+      }
+    },
     mountCreateForm: function () {
       this.$refs.formContaModal.show();
       this.create = true;
@@ -59,29 +67,31 @@ const contasIndex = new Vue({
     },
     deleteConta: function (id){
       axios
-          .delete(`${URL}/contas/${id}.json`)
-          .then(response => {
-            this.searchContas();
-            this.$toastr.s("Registro apagado.");
-            this.$refs.deleteContaModal.hide();
-          })
-          .catch(error => {
-            if (error.response.status === 422){
-              error.response.data.errors.map(error => this.$toastr.e(error));
-            }
-            else{
-               this.$toastr.e("Não foi possível excluir");
-            }
-          })
-          .finally(() => this.loading = false)
+        .delete(`${URL}/contas/${id}.json`)
+        .then(response => {
+          this.searchContas();
+          this.$toastr.s("Registro apagado.");
+          this.$refs.deleteContaModal.hide();
+        })
+        .catch(error => {
+          if (error.response.status === 422){
+            error.response.data.errors.map(error => this.$toastr.e(error));
+          }
+          else{
+             this.$toastr.e("Não foi possível excluir");
+          }
+        })
+        .finally(() => this.loading = false)
     },
     searchContas: function(){
       this.loading = true;
       this.clickedConta = {banco: {}};
+      let filter = `&page=${this.currentPage}`;
       axios
-          .get(`${URL}/contas.json`)
+          .get(`${URL}/contas.json?${filter}`)
           .then(response => {
-            this.contas = response.data
+            this.contas = response.data.contas;
+            this.total = response.data.total;
           })
           .catch(error => {
             this.errored = true
@@ -89,43 +99,41 @@ const contasIndex = new Vue({
           .finally(() => this.loading = false)
     },
     createConta: function(conta){
-      axios.post(`${URL}/contas.json`, {
-        conta
-      })
-          .then(response => {
-            this.$refs.formContaModal.hide();
-            this.searchContas();
-            this.$toastr.s("Registro criado.");
-          })
-          .catch(error => {
-            if (error.response.status === 422){
-              error.response.data.errors.map(error => this.$toastr.e(error));
-            }
-            else{
-              this.$toastr.e("Não foi possível salvar as alterações");
-            }
-          })
-          .finally(() => this.loading = false)
+      axios
+        .post(`${URL}/contas.json`, {conta})
+        .then(response => {
+          this.$refs.formContaModal.hide();
+          this.searchContas();
+          this.$toastr.s("Registro criado.");
+        })
+        .catch(error => {
+          if (error.response.status === 422){
+            error.response.data.errors.map(error => this.$toastr.e(error));
+          }
+          else{
+            this.$toastr.e("Não foi possível salvar as alterações");
+          }
+        })
+        .finally(() => this.loading = false)
     },
     updateConta: function(conta){
       this.loading = true;
-      axios.put(`${URL}/contas/${conta.id}.json`, {
-        conta
-      })
-          .then(response => {
-            this.$refs.formContaModal.hide();
-            this.searchContas();
-            this.$toastr.s("Registro atualizado.");
-          })
-           .catch(error => {
-            if (error.response.status === 422){
-              error.response.data.errors.map(error => this.$toastr.e(error));
-            }
-            else{
-              this.$toastr.e("Não foi possível atualizar as informações");
-            }
-          })
-          .finally(() => this.loading = false)
+      axios
+        .put(`${URL}/contas/${conta.id}.json`, {conta})
+        .then(response => {
+          this.$refs.formContaModal.hide();
+          this.searchContas();
+          this.$toastr.s("Registro atualizado.");
+        })
+        .catch(error => {
+          if (error.response.status === 422){
+            error.response.data.errors.map(error => this.$toastr.e(error));
+          }
+          else{
+            this.$toastr.e("Não foi possível atualizar as informações");
+          }
+        })
+        .finally(() => this.loading = false)
     },
     selectAll: function() {
       this.allSelected ? this.contas.map( conta  => conta.selected = false) : this.contas.map( conta  => conta.selected = true);

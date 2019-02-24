@@ -5,6 +5,12 @@ class ContasController < ApplicationController
   # GET /contas.json
   def index
     @contas = Conta.all
+    @contas = @contas.paginate(:page => params[:page], :per_page => 10)
+    print @contas
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: {contas: @contas.as_json(:include => [:banco], methods: [:conta]), total: @contas.total_entries}}
+    end
   end
   
   def conta_json_formatado
@@ -20,10 +26,7 @@ class ContasController < ApplicationController
       format.html { render :show }
       format.json { render json: @conta, :include => {
           :movimentos => {
-              :include => {
-                  :nota => {},
-                  :pessoa => {},
-              },
+              :include => [:nota, :pessoa],
               :methods => [:favorecido],
               :except => [:created_at, :updated_at]
           }
