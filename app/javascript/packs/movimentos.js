@@ -100,13 +100,12 @@ const movimentosIndex = new Vue({
         .finally(() => this.loading = false)
     },
     searchMovimentos: function(){
-      console.log(this.dataCompetenciaInicio);
       let filter = this.valor ? `valor=${this.valor}`:'';
       filter += this.dataCompetenciaInicio? `&dataCompetenciaInicio=${this.dataCompetenciaInicio}`:'';
       filter += this.dataCompetenciaFinal? `&dataCompetenciaFinal=${this.dataCompetenciaFinal}`:'';
-      filter += this.pessoaId? `&pessoaId=${this.pessoaId}`:'';
+      filter += this.pessoaId? `&pessoaId=${this.pessoaId.id}`:'';
+      console.log(this.pessoaId);
       filter += `&page=${this.currentPage}`;
-      console.log(filter);
       this.loading = true;
       this.clickedMovimento = {pessoa: {}, conta: {}, nota: {}};
       axios

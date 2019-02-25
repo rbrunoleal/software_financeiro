@@ -5,10 +5,10 @@ class MovimentosController < ApplicationController
   # GET /movimentos.json
   def index
     @movimentos = Movimento.where(nil) #Inicia Escopo
-    @movimentos = @movimentos.valor(params[:valor]) if params[:valor].present?
     @movimentos = @movimentos.data_competencia(params[:dataCompetenciaInicio]) if params[:dataCompetenciaInicio].present?
-    @movimentos = @movimentos.data_competencia(params[:dataCompetenciaFinal]) if params[:dataCompetenciaFinal].present?
-    @movimentos = @movimentos.data_competencia(params[:pessoaId]) if params[:pessoaId].present?
+    @movimentos = @movimentos.data_competencia_final(params[:dataCompetenciaFinal]) if params[:dataCompetenciaFinal].present?
+    @movimentos = @movimentos.pessoa_id(params[:pessoaId]) if params[:pessoaId].present?
+    @movimentos = @movimentos.valor(params[:valor]) if params[:valor].present?
     
     @movimentos = @movimentos.paginate(:page => params[:page], :per_page => 10)
     respond_to do |format|

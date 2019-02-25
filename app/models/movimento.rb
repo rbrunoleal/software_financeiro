@@ -20,6 +20,6 @@ class Movimento < ApplicationRecord
     
     scope :valor, -> (valor) { where("valor = ?", "#{valor}")}
     scope :data_competencia, -> (dataCompetenciaInicio) { where("data_competencia >= ?", "#{dataCompetenciaInicio}")}
-    scope :data_competencia, -> (dataCompetenciaFinal) { where("data_competencia <= ?", "#{dataCompetenciaFinal}")}
+    scope :data_competencia_final, -> (dataCompetenciaFinal) { where("data_competencia <= ?", "#{dataCompetenciaFinal}")}
     scope :pessoa_id, -> (pessoaId) { where("pessoa_id = ?", "#{pessoaId}")}
 end
