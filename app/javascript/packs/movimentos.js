@@ -68,7 +68,7 @@ const movimentosIndex = new Vue({
             favorecido: x.favorecido,
             descricao: x.descricao,
             valor: x.valor,
-            conta: x.conta,
+            conta: x.contabancaria,
             nota: x.nota
         })
       );
@@ -76,7 +76,7 @@ const movimentosIndex = new Vue({
       if(lMovimentos.length > 0){
         let pdfName = 'Movimentos'; 
         let pdfsize='a4';
-        let doc = new jsPDF('p', 'pt', pdfsize);
+        let doc = new jsPDF('l', 'pt', pdfsize);
         
         if(Rows.length > 0){
           doc.setFontStyle("bold");
