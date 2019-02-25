@@ -6,6 +6,8 @@ import Toastr from 'vue-toastr';
 import BootstrapVue from 'bootstrap-vue'
 import { URL } from './env';
 import Vuetify from 'vuetify'
+import jsPDF from 'jspdf'
+import jsAutoTable from 'jspdf-autotable'
 
 Vue.use(Vuetify);
 
@@ -54,6 +56,50 @@ const favorecidosApp = new Vue({
     this.setPaises();
   },
   methods: {
+    createPDF: function (){
+      var lFavorecidos = this.favorecidos;
+      var Columns = [
+          {title: "Tipo", dataKey: "tipo"},
+          {title: "Identificação", dataKey: "identificacao"},
+          {title: "Nome", dataKey: "nome"},
+          {title: "Endereço", dataKey: "endereco"}
+      ];
+      
+      var Rows = lFavorecidos.map(x => 
+        ({
+          tipo: x.tipo,
+          identificacao: x.identificador,
+          nome: x.nome,
+          endereco: x.endereco.descricao
+        })
+      );
+      
+      if(lFavorecidos.length > 0){
+        let pdfName = 'Favorecidos/Sacados'; 
+        let pdfsize='a4';
+        let doc = new jsPDF('p', 'pt', pdfsize);
+        if(Rows.length > 0){
+          doc.setFontStyle("bold");
+          doc.setFontSize(20);
+          doc.text("Relatório - Fav/Sac", 65, 25);
+          doc.autoTable(Columns, Rows, {
+          	theme: 'grid', 
+          	headStyles: {
+              fillColor: [0, 0, 0],
+              textColor: [255, 255, 255]
+            },
+          	styles: {
+              overflow: 'linebreak',
+              cellWidth: 88
+            },
+            columnStyles: {
+                0: {cellWidth: 200}
+            }
+          });
+          doc.save(pdfName + ".pdf");
+        }
+      }
+    },
     changePage: function(page) {
       if(page !== this.currentPage){
         this.currentPage = page;

@@ -5,6 +5,8 @@ import axios from 'axios'
 import Toastr from 'vue-toastr';
 import BootstrapVue from 'bootstrap-vue'
 import { URL } from './env';
+import jsPDF from 'jspdf'
+import jsAutoTable from 'jspdf-autotable'
 
 
 Vue.use(VueResource);
@@ -46,6 +48,47 @@ const contasIndex = new Vue({
     axios.get(`${URL}/bancos/all.json`).then(response => {this.bancos = response.data});
   },
   methods: {
+    createPDF: function (){
+      var lContas = this.contas;
+      var Columns = [
+          {title: "Conta", dataKey: "conta"},
+          {title: "Banco", dataKey: "banco"},
+          {title: "Agência", dataKey: "agencia"}
+      ];
+      
+      var Rows = lContas.map(x => 
+        ({  conta: x.conta,
+            banco: x.banco.descricao,
+            agencia: x.agencia
+        })
+      );
+      
+      if(lContas.length > 0){
+        let pdfName = 'Contas'; 
+        let pdfsize='a4';
+        let doc = new jsPDF('p', 'pt', pdfsize);
+        if(Rows.length > 0){
+          doc.setFontStyle("bold");
+          doc.setFontSize(20);
+          doc.text("Relatório - Contas", 65, 25);
+          doc.autoTable(Columns, Rows, {
+          	theme: 'grid', 
+          	headStyles: {
+              fillColor: [0, 0, 0],
+              textColor: [255, 255, 255]
+            },
+          	styles: {
+              overflow: 'linebreak',
+              cellWidth: 88
+            },
+            columnStyles: {
+                0: {cellWidth: 200}
+            }
+          });
+          doc.save(pdfName + ".pdf");
+        }
+      }
+    },
     changePage: function(page) {
       if(page !== this.currentPage){
         this.currentPage = page;

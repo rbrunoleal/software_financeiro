@@ -6,6 +6,8 @@ import Toastr from 'vue-toastr';
 import BootstrapVue from 'bootstrap-vue';
 import { URL } from './env';
 import vSelect from 'vue-select'
+import jsPDF from 'jspdf'
+import jsAutoTable from 'jspdf-autotable'
 
 Vue.use(VueResource);
 Vue.use(TurbolinksAdapter);
@@ -48,6 +50,56 @@ const movimentosIndex = new Vue({
     axios.get(`${URL}/pessoas/all.json`).then(response => {this.pessoas = response.data});
   },
   methods: {
+    createPDF: function (){
+      var lMovimentos = this.movimentos;
+      var Columns = [
+          {title: "Data Competência", dataKey: "dataCompetencia"},
+          {title: "Data Vencimento", dataKey: "dataVencimento"},
+          {title: "Favorecido/Sacado", dataKey: "favorecido"},
+          {title: "Descrição", dataKey: "descricao"},
+          {title: "Conta", dataKey: "conta"},
+          {title: "Valor", dataKey: "valor"},
+          {title: "Nota Fiscal", dataKey: "nota"},
+      ];
+      
+      var Rows = lMovimentos.map(x => 
+        ({  dataCompetencia: new Date(x.data_competencia + "T00:00:00").toLocaleDateString(),
+            dataVencimento: new Date(x.data_vencimento + "T00:00:00").toLocaleDateString(),
+            favorecido: x.favorecido,
+            descricao: x.descricao,
+            valor: x.valor,
+            conta: x.conta,
+            nota: x.nota
+        })
+      );
+      
+      if(lMovimentos.length > 0){
+        let pdfName = 'Movimentos'; 
+        let pdfsize='a4';
+        let doc = new jsPDF('p', 'pt', pdfsize);
+        
+        if(Rows.length > 0){
+          doc.setFontStyle("bold");
+          doc.setFontSize(20);
+          doc.text("Relatório - Movimentos", 65, 25);
+          doc.autoTable(Columns, Rows, {
+          	theme: 'grid', 
+          	headStyles: {
+              fillColor: [0, 0, 0],
+              textColor: [255, 255, 255]
+            },
+          	styles: {
+              overflow: 'linebreak',
+              cellWidth: 88
+            },
+            columnStyles: {
+                0: {cellWidth: 200}
+            }
+          });
+          doc.save(pdfName + ".pdf");
+        }
+      }
+    },
     changePage: function(page) {
       if(page !== this.currentPage){
         this.currentPage = page;

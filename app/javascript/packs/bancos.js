@@ -17,8 +17,8 @@ Vue.use(Toastr, {
   defaultProgressBar: false,
   defaultPosition: "toast-top-right",
   closeButton: true
-  
 });
+
 Vue.use(BootstrapVue);
 
 axios.defaults.headers.common['X-CSRF-Token'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
