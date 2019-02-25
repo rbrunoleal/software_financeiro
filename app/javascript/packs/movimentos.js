@@ -104,7 +104,6 @@ const movimentosIndex = new Vue({
       filter += this.dataCompetenciaInicio? `&dataCompetenciaInicio=${this.dataCompetenciaInicio}`:'';
       filter += this.dataCompetenciaFinal? `&dataCompetenciaFinal=${this.dataCompetenciaFinal}`:'';
       filter += this.pessoaId? `&pessoaId=${this.pessoaId.id}`:'';
-      console.log(this.pessoaId);
       filter += `&page=${this.currentPage}`;
       this.loading = true;
       this.clickedMovimento = {pessoa: {}, conta: {}, nota: {}};
