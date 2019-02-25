@@ -64,6 +64,11 @@ const movimentosIndex = new Vue({
       this.$refs.deleteMovimentoModal.show();
       this.clickedMovimento = movimento;
     },
+    mountShowModal: function (movimento){
+      console.log(movimento);
+      this.clickedMovimento = movimento;
+      this.$refs.showMovimentoModal.show();
+    },
     mountMultipleDeleteForm: function () {
       this.$refs.deleteMovimentoModal.show();
       this.selectedMovimentos = [];
@@ -171,7 +176,8 @@ const movimentosIndex = new Vue({
     },
     closeModal(){
       this.$refs.deleteMovimentoModal.hide();
-      this.$refs.formMovimentoModal.hide()
+      this.$refs.formMovimentoModal.hide();
+      this.$refs.showMovimentoModal.hide();
     }
   }
 });

@@ -37,7 +37,7 @@
 		        <div class="input-group-prepend">
 		          <div class="input-group-text">Fav/Sac</div>
 		        </div>
-				    	 <v-select v-model="pessoaId" label="nome" placeholder="Selecione" :options="pessoas"><span slot="no-options">Não foi encontrado.</span></v-select>
+				<v-select v-model="pessoaId" label="nome" placeholder="Selecione" :options="pessoas"><span slot="no-options">Não foi encontrado.</span></v-select>
 		      </div>
 		    </div>
 		    <div class="col-md-2">
@@ -70,7 +70,7 @@
 	        </tr>
 	    </thead>
 	    <tbody>
-	        <tr v-for="(movimento, index) in movimentos">
+	        <tr v-for="(movimento, index) in movimentos" @click="mountShowModal(movimento)">
 	    			<td>
 	    				<span class="custom-checkbox">
 	    					<input type="checkbox" :id="'checkbox'+movimento.id" value="1" v-model="movimentos[index].selected" @click="select">
@@ -79,11 +79,11 @@
 	    			</td>
             <td>{{ new Date(movimento.data_competencia+"T00:00:00").toLocaleDateString() }}</td>
             <td>{{ movimento.favorecido }}</td>
-            <td>{{ movimento.valor }}</td>
+            <td v-bind:class="[movimento.saldo > 0 ? 'text-success' : 'text-danger', 'font-weight-bold']">{{ movimento.valor }}</td>
             <td>
 	            <a href="#deleteMovimentoModal" data-toggle="modal" class="edit" @click="mountEditForm(movimento)"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
 	            <a href="#deleteMovimentoModal" data-toggle="modal" class="delete" @click="mountDeleteForm(movimento)"><i class="material-icons" data-toggle="tooltip" title="Apagar">&#xE872;</i></a>
-	          </td>
+	        </td>
 	        </tr>
 	    </tbody>
 	  </table>
@@ -168,7 +168,6 @@
 				<a class="btn btn-info text-light" @click="updateMovimento(clickedMovimento)" v-if="!create"> Atualizar</a>
 			</div>
 	</b-modal>
-	
 	<b-modal ref="deleteMovimentoModal" title="Apagar Movimento">
 			<p>Data Competência: {{ new Date(clickedMovimento.data_competencia+"T00:00:00").toLocaleDateString()}}</p>
 			<p>Descrição: {{clickedMovimento.descricao}}</p>
@@ -180,6 +179,21 @@
 				<a class="btn btn-danger text-light" @click="deleteMovimento(clickedMovimento.id)">Confirmar</a>
 			</div>
 	</b-modal>
-	
+	<b-modal ref="showMovimentoModal" title="Exibir Movimento">
+		<p><strong>Descrição</strong>: {{clickedMovimento.descricao}}</p>
+		<p><strong>Data Competência</strong>: {{ new Date(clickedMovimento.data_competencia+"T00:00:00").toLocaleDateString()}}</p>
+		<p><strong>Favorecido</strong>: {{clickedMovimento.favorecido}}</p>
+		<p><strong>Conta</strong>: {{clickedMovimento.contabancaria}}</p>
+		<p><strong>Valor</strong>: <span v-bind:class="[clickedMovimento.saldo > 0 ? 'text-success' : 'text-danger', 'font-weight-bold']">{{clickedMovimento.valor}}</span></p>
+		<div v-if="clickedMovimento.nota">
+			<p class="text-center font-weight-bold">Informações sobre nota:</p>
+			<p><strong>Descrição</strong>: {{clickedMovimento.descricao}}</p>
+			<p><strong>Data</strong>: {{ new Date(clickedMovimento.nota.data+"T00:00:00").toLocaleDateString() }}</p>
+			<p><strong>Número</strong>: {{clickedMovimento.nota.numero}} - {{clickedMovimento.nota.codigo}}</p>
+		</div>
+		<div slot="modal-footer">
+			<a class="btn btn-info text-light" @click="closeModal()">Fechar</a>
+		</div>
+	</b-modal>
 </div>
 <%= javascript_pack_tag 'movimentos', 'data-turbolinks-track': 'reload' %>
