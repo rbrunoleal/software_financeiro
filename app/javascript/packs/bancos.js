@@ -29,7 +29,6 @@ const bancosIndex = new Vue({
     create: false,
     clickedBanco: {},
     bancos: [],
-    bancosfiltro: [],
     showModal: false,
     allSelected: false,
     codigo: '',
@@ -48,7 +47,7 @@ const bancosIndex = new Vue({
       }
     },
     createPDF: function (){
-      var lBancos = this.bancosfiltro;
+      var lBancos = this.bancos;
       var Columns = [
           {title: "Código", dataKey: "codigo"},
           {title: "Descrição", dataKey: "descricao"}
@@ -69,7 +68,6 @@ const bancosIndex = new Vue({
           doc.setFontStyle("bold");
           doc.setFontSize(20);
           doc.text("Relatório - Bancos", 65, 25);
-          //doc.text(150,200, doc.internal.getCurrentPageInfo().pageNumber + "/" + doc.internal.getNumberOfPages());
           doc.autoTable(Columns, Rows, {
           	theme: 'grid', 
           	headStyles: {

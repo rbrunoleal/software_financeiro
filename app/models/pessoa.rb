@@ -32,4 +32,5 @@ class Pessoa < ApplicationRecord
     end
     self.pessoajuridica.razaosocial
   end
+  
 end

@@ -11,6 +11,49 @@
 	      		</div>
 	      </div>
 	  </div>
+	  <div class="search-wrapper">
+		  <div class="form-row align-items-center">
+		    <div class="col-md-4">
+		      <label class="sr-only" for="inlineFormInput"></label>
+		      <div class="input-group mb-2">
+		        <div class="input-group-prepend">
+		          <div class="input-group-text">Data - Início</div>
+		        </div>
+		        <input class="form-control" type="date" id="dataCompetenciaI" v-model="dataCompetenciaInicio">
+		      </div>
+		    </div>
+		    <div class="col-md-4">
+		      <label class="sr-only" for="inlineFormInput"></label>
+		      <div class="input-group mb-2">
+		        <div class="input-group-prepend">
+		          <div class="input-group-text">Data - Final</div>
+		        </div>
+		        <input class="form-control" type="date" id="dataCompetenciaF" v-model="dataCompetenciaFinal">
+		      </div>
+		    </div>
+		    <div class="col-md-4">
+		      <label class="sr-only" for="inlineFormInputGroup"></label>
+		      <div class="input-group mb-2">
+		        <div class="input-group-prepend">
+		          <div class="input-group-text">Fav/Sac</div>
+		        </div>
+				    	 <v-select v-model="pessoaId" label="nome" placeholder="Selecione" :options="pessoas"><span slot="no-options">Não foi encontrado.</span></v-select>
+		      </div>
+		    </div>
+		    <div class="col-md-2">
+		      <label class="sr-only" for="agenciaNumero"></label>
+		      <div class="input-group mb-2">
+		        <div class="input-group-prepend">
+		          <div class="input-group-text">Valor</div>
+		        </div>
+		        <input step="0.01" class="form-control" type="number" id="valor" v-model="valor">
+		      </div>
+		    </div>
+		     <div class="col-auto">
+			  <a class="btn btn-primary mb-2 text-light" @click="searchMovimentos()"><span class="fa fa-search"></span></a>
+			</div>
+		  </div>
+		</div>
 	  <table class="table table-striped table-hover">
 	    <thead>
 	        <tr>
@@ -20,9 +63,8 @@
 						<label for="selectAll"></label>
 					</span>
 				</th>
-            <th>Descrição</th>
             <th>Data Competência</th>
-	          <th>Favorecido</th>
+	          <th>Fav/Sac</th>
 	          <th>Valor</th>
 	          <th>Ações</th>
 	        </tr>
@@ -35,7 +77,6 @@
 	    					<label :for="'checkbox'+movimento.id"></label>
 	    				</span>
 	    			</td>
-            <td>{{ movimento.descricao }}</td>
             <td>{{ new Date(movimento.data_competencia+"T00:00:00").toLocaleDateString() }}</td>
             <td>{{ movimento.favorecido }}</td>
             <td>{{ movimento.valor }}</td>

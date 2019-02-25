@@ -36,7 +36,11 @@ const movimentosIndex = new Vue({
     contas: {},
     nota: false,
     total: 0,
-    currentPage: 1
+    currentPage: 1,
+    valor: '',
+    pessoaId: '',
+    dataCompetenciaInicio: '',
+    dataCompetenciaFinal: ''
   },
   mounted(){
     this.searchMovimentos();
@@ -96,10 +100,13 @@ const movimentosIndex = new Vue({
         .finally(() => this.loading = false)
     },
     searchMovimentos: function(){
-      //let filter = this.contaNumero? `contaNumero=${this.contaNumero}`:'';
-      //filter += this.agenciaNumero? `&agenciaNumero=${this.agenciaNumero}`:'';
-      //filter += this.bancoId? `&bancoId=${this.bancoId}`:'';
-      let filter = `&page=${this.currentPage}`;
+      console.log(this.dataCompetenciaInicio);
+      let filter = this.valor ? `valor=${this.valor}`:'';
+      filter += this.dataCompetenciaInicio? `&dataCompetenciaInicio=${this.dataCompetenciaInicio}`:'';
+      filter += this.dataCompetenciaFinal? `&dataCompetenciaFinal=${this.dataCompetenciaFinal}`:'';
+      filter += this.pessoaId? `&pessoaId=${this.pessoaId}`:'';
+      filter += `&page=${this.currentPage}`;
+      console.log(filter);
       this.loading = true;
       this.clickedMovimento = {pessoa: {}, conta: {}, nota: {}};
       axios
