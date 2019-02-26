@@ -80,6 +80,17 @@ class BancosController < ApplicationController
     end
   end
   
+   def pdf
+    #Busca Banco
+    @bancos = Banco.where(nil) #Inicia Escopo
+    @bancos = @bancos.codigo(params[:codigo]) if params[:codigo].present?
+    @bancos = @bancos.descricao(params[:descricao]) if params[:descricao].present?
+    #End Busca Banco
+    respond_to do |format|
+      format.json { render json: @bancos }
+    end 
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_banco

@@ -33,6 +33,9 @@ const bancosIndex = new Vue({
     allSelected: false,
     codigo: '',
     descricao: '',
+    bancosPDF: [],
+    codigoPDF: '',
+    descricaoPDF: '',
     total: 0,
     currentPage: 1
   },
@@ -47,27 +50,43 @@ const bancosIndex = new Vue({
       }
     },
     createPDF: function (){
-      var lBancos = this.bancos;
+      let filter = this.codigo? `codigo=${this.codigoPDF}`:'';
+      filter += this.descricao? `&descricao=${this.descricaoPDF}`:'';
+      this.isLoading = true;
+      axios
+        .get(`${URL}/bancos/pdf.json?${filter}`)
+        .then(response => {
+          this.bancosPDF = response.data;
+        })
+        .catch(error => {
+          this.errored = true
+          this.loading = false;
+      })
+      .finally(() => this.mountPDF())
+    },
+    mountPDF: function (){ 
+     this.loading = false;
+     
       var Columns = [
           {title: "Código", dataKey: "codigo"},
           {title: "Descrição", dataKey: "descricao"}
       ];
       
-      var Rows = lBancos.map(x => 
+      var Rows = this.bancosPDF.map(x => 
         ({  codigo: x.codigo,
             descricao: x.descricao
         })
       );
       
-      if(lBancos.length > 0){
+      if(this.bancosPDF.length > 0){
         let pdfName = 'Bancos'; 
         let pdfsize='a4';
         let doc = new jsPDF('p', 'pt', pdfsize);
         
         let SubtitleFiltro = ''
         let filter = 'Filtros: '
-        filter += this.codigo? `[Código: ${this.codigo}]`:'';
-        filter += this.descricao? `[Descrição: ${this.descricao}]`:'';
+        filter += this.codigo? `[Código: ${this.codigoPDF}]`:'';
+        filter += this.descricao? `[Descrição: ${this.descricaoPDF}]`:'';
         SubtitleFiltro += filter != 'Filtros: ' ? filter : '';
         
         var header = function(data) {
@@ -88,7 +107,7 @@ const bancosIndex = new Vue({
         };
         
         var Options = {
-          beforePageContent: header,
+          didDrawPage: header,
           margin: {
             top: 80
           },
@@ -108,15 +127,17 @@ const bancosIndex = new Vue({
         
         if(Rows.length > 0){
           doc.autoTable(Columns, Rows, Options);
-          
           var pageCount = doc.internal.getNumberOfPages();
           for(var i = 0; i < pageCount; i++) { 
             doc.setPage(i); 
-            doc.text(10,15, doc.internal.getCurrentPageInfo().pageNumber + "/" + pageCount);
+            doc.setFontSize(12);
+            doc.text(560,15, doc.internal.getCurrentPageInfo().pageNumber + "/" + pageCount);
           }
-          
           doc.save(pdfName + ".pdf");
         }
+      }
+      else{
+         this.$toastr.w("Nenhum Registro.");
       }
     },
     mountCreateForm: function () {
@@ -154,6 +175,9 @@ const bancosIndex = new Vue({
     searchBancos: function(){
       this.loading = true;
       this.clickedBanco = {};
+      
+      this.codigoPDF = this.codigo;
+      this.descricaoPDF = this.descricao;
 
       let filter = this.codigo? `codigo=${this.codigo}`:'';
       filter += this.descricao? `&descricao=${this.descricao}`:'';
