@@ -64,24 +64,57 @@ const bancosIndex = new Vue({
         let pdfsize='a4';
         let doc = new jsPDF('p', 'pt', pdfsize);
         
+        let SubtitleFiltro = ''
+        let filter = 'Filtros: '
+        filter += this.codigo? `[Código: ${this.codigo}]`:'';
+        filter += this.descricao? `[Descrição: ${this.descricao}]`:'';
+        SubtitleFiltro += filter != 'Filtros: ' ? filter : '';
+        
+        var header = function(data) {
+          doc.setFontSize(18);
+          doc.setTextColor(40);
+          doc.setFontStyle('normal');
+          doc.text("Relatório - Bancos", data.settings.margin.left, 30);
+          
+          let SubtitleData = '';
+          var now = new Date().toLocaleString();
+          SubtitleData += `Data: ${now}`; 
+          
+          doc.setFontSize(12);
+          doc.setTextColor(40);
+          doc.setFontStyle('normal');
+          doc.text(SubtitleData, data.settings.margin.left, 50);
+          doc.text(SubtitleFiltro, data.settings.margin.left, 70);
+        };
+        
+        var Options = {
+          beforePageContent: header,
+          margin: {
+            top: 80
+          },
+          theme: 'grid', 
+          headStyles: {
+            fillColor: [0, 0, 0],
+            textColor: [255, 255, 255]
+          },
+          styles: {
+            overflow: 'linebreak',
+            cellWidth: 88
+          },
+          columnStyles: {
+              0: {cellWidth: 200}
+          }
+        };
+        
         if(Rows.length > 0){
-          doc.setFontStyle("bold");
-          doc.setFontSize(20);
-          doc.text("Relatório - Bancos", 65, 25);
-          doc.autoTable(Columns, Rows, {
-          	theme: 'grid', 
-          	headStyles: {
-              fillColor: [0, 0, 0],
-              textColor: [255, 255, 255]
-            },
-          	styles: {
-              overflow: 'linebreak',
-              cellWidth: 88
-            },
-            columnStyles: {
-                0: {cellWidth: 200}
-            }
-          });
+          doc.autoTable(Columns, Rows, Options);
+          
+          var pageCount = doc.internal.getNumberOfPages();
+          for(var i = 0; i < pageCount; i++) { 
+            doc.setPage(i); 
+            doc.text(10,15, doc.internal.getCurrentPageInfo().pageNumber + "/" + pageCount);
+          }
+          
           doc.save(pdfName + ".pdf");
         }
       }
