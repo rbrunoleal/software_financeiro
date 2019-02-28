@@ -70,6 +70,10 @@ gem 'will_paginate-bootstrap4'
 gem 'webpacker'
 
 group :development, :test do
+  #Error mais informativos:
+  gem 'better_errors'
+  #Alternativa ao byebug padrão, mais completo, Chamar: "binding.pry" Navegar linhas: "next", Todos os Comandos: "help"
+  gem 'pry-byebug'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
