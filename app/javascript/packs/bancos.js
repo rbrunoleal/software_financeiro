@@ -5,7 +5,7 @@ import axios from 'axios'
 import Toastr from 'vue-toastr';
 import BootstrapVue from 'bootstrap-vue'
 import { URL } from './env';
-import jsPDF from 'jspdf'
+import JsPdf from 'jspdf'
 import jsAutoTable from 'jspdf-autotable'
 
 Vue.use(VueResource);
@@ -59,44 +59,44 @@ const bancosIndex = new Vue({
           this.bancosPDF = response.data;
         })
         .catch(error => {
-          this.errored = true
+          this.errored = true;
           this.loading = false;
       })
       .finally(() => this.mountPDF())
     },
-    mountPDF: function (){ 
+    mountPDF: function (){
      this.loading = false;
      
-      var Columns = [
+      const Columns = [
           {title: "Código", dataKey: "codigo"},
           {title: "Descrição", dataKey: "descricao"}
       ];
       
-      var Rows = this.bancosPDF.map(x => 
+      const Rows = this.bancosPDF.map(x =>
         ({  codigo: x.codigo,
             descricao: x.descricao
         })
       );
       
       if(this.bancosPDF.length > 0){
-        let pdfName = 'Bancos'; 
-        let pdfsize='a4';
-        let doc = new jsPDF('p', 'pt', pdfsize);
-        
-        let SubtitleFiltro = ''
-        let filter = 'Filtros: '
+        const pdfName = 'Bancos';
+        const pdfsize='a4';
+        const doc = new JsPdf('p', 'pt', pdfsize);
+
+        let SubtitleFiltro = '';
+        let filter = 'Filtros: ';
         filter += this.codigo? `[Código: ${this.codigoPDF}]`:'';
         filter += this.descricao? `[Descrição: ${this.descricaoPDF}]`:'';
-        SubtitleFiltro += filter != 'Filtros: ' ? filter : '';
-        
-        var header = function(data) {
+        SubtitleFiltro += filter !== 'Filtros: ' ? filter : '';
+
+        const header = function(data) {
           doc.setFontSize(18);
           doc.setTextColor(40);
           doc.setFontStyle('normal');
           doc.text("Relatório - Bancos", data.settings.margin.left, 30);
-          
+
           let SubtitleData = '';
-          var now = new Date().toLocaleString();
+          const now = new Date().toLocaleString();
           SubtitleData += `Data: ${now}`; 
           
           doc.setFontSize(12);
@@ -106,7 +106,7 @@ const bancosIndex = new Vue({
           doc.text(SubtitleFiltro, data.settings.margin.left, 70);
         };
         
-        var Options = {
+        const Options = {
           didDrawPage: header,
           margin: {
             top: 80
@@ -127,8 +127,8 @@ const bancosIndex = new Vue({
         
         if(Rows.length > 0){
           doc.autoTable(Columns, Rows, Options);
-          var pageCount = doc.internal.getNumberOfPages();
-          for(var i = 0; i < pageCount; i++) { 
+          const pageCount = doc.internal.getNumberOfPages();
+          for(let i = 0; i < pageCount; i++) {
             doc.setPage(i); 
             doc.setFontSize(12);
             doc.text(560,15, doc.internal.getCurrentPageInfo().pageNumber + "/" + pageCount);
