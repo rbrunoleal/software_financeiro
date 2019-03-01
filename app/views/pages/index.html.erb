@@ -1,101 +1,99 @@
 <% if usuario_signed_in? %>
-  <div id="contasApp" v-cloak>
-    <div class="table-wrapper">
+<div id="contasApp" v-cloak>
+   <div class="table-wrapper">
       <div class="table-title">
-        <div class="row">
-          <div class="col-sm-6">
-            <h2><b>Resumo</b></h2>
-          </div>
-        </div>
+         <div class="row">
+            <div class="col-sm-6">
+               <h2><b>Resumo</b></h2>
+            </div>
+         </div>
       </div>
       <div class="search-wrapper">
-        <div class="form-row align-items-center">
-          <div class="col-md-3">
-            <label class="sr-only" for="contaNumero"></label>
-            <div class="input-group mb-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text">Conta</div>
-              </div>
-              <input type="text" class="form-control" id="contaNumero" v-model="contaNumero">
+         <div class="form-row align-items-center">
+            <div class="col-md-3">
+               <label class="sr-only" for="contaNumero"></label>
+               <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                     <div class="input-group-text">Conta</div>
+                  </div>
+                  <input type="text" class="form-control" id="contaNumero" v-model="contaNumero">
+               </div>
             </div>
-          </div>
-          <div class="col-md-4">
-            <label class="sr-only" for="contaBanco"></label>
-            <div class="input-group mb-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text">Banco</div>
-              </div>
-              <select v-model = 'bancoId' class="form-control">
-                <option v-for="banco in bancos" v-bind:value="banco.id">
-                  {{banco.descricao}}
-                </option>
-              </select>
+            <div class="col-md-4">
+               <label class="sr-only" for="contaBanco"></label>
+               <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                     <div class="input-group-text">Banco</div>
+                  </div>
+                  <select v-model = 'bancoId' class="form-control">
+                     <option v-for="banco in bancos" v-bind:value="banco.id">
+                        {{banco.descricao}}
+                     </option>
+                  </select>
+               </div>
             </div>
-          </div>
-          <div class="col-md-4">
-            <label class="sr-only" for="agenciaNumero"></label>
-            <div class="input-group mb-2">
-              <div class="input-group-prepend">
-                <div class="input-group-text">Agência</div>
-              </div>
-              <input type="text" class="form-control" id="agenciaNumero" v-model="agenciaNumero">
+            <div class="col-md-4">
+               <label class="sr-only" for="agenciaNumero"></label>
+               <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                     <div class="input-group-text">Agência</div>
+                  </div>
+                  <input type="text" class="form-control" id="agenciaNumero" v-model="agenciaNumero">
+               </div>
             </div>
-          </div>
-          <div class="col-auto">
-            <a class="btn btn-primary mb-2 text-light" @click="searchContas()"><span class="fa fa-search"></span></a>
-          </div>
-        </div>
+            <div class="col-auto">
+               <a class="btn btn-primary mb-2 text-light" @click="searchContas()"><span class="fa fa-search"></span></a>
+            </div>
+         </div>
       </div>
       <table class="table table-striped table-hover">
-        <thead>
-        <tr>
-          <th>
-	    				<span class="custom-checkbox">
-	    					<input type="checkbox" id="selectAll" v-model="allSelected" @click="selectAll">
-								<label for="selectAll"></label>
-	    				</span>
-          </th>
-          <th>Conta</th>
-          <th>Banco</th>
-          <th>Agência</th>
-          <th>Saldo</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="(conta, index) in contas">
-          <td>
-		    				<span class="custom-checkbox">
-		    					<input type="checkbox" :id="'checkbox'+conta.id" value="1" v-model="contas[index].selected" @click="select">
-		    					<label :for="'checkbox'+conta.id"></label>
-		    				</span>
-          </td>
-          <td><a v-bind:href="'/contas/'+conta.id">{{ conta.conta }}</a></td>
-          <td>{{ conta.banco.descricao }}</td>
-          <td>{{ conta.agencia }}</td>
-          <td v-bind:class="[conta.saldo > 0 ? 'text-success' : 'text-danger', 'font-weight-bold']">{{ conta.saldo }}</td>
-        </tr>
-        </tbody>
+         <thead>
+            <tr>
+               <th>
+                  <span class="custom-checkbox">
+                  <input type="checkbox" id="selectAll" v-model="allSelected" @click="selectAll">
+                  <label for="selectAll"></label>
+                  </span>
+               </th>
+               <th>Conta</th>
+               <th>Banco</th>
+               <th>Agência</th>
+               <th>Saldo</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr v-for="(conta, index) in contas">
+               <td>
+                  <span class="custom-checkbox">
+                  <input type="checkbox" :id="'checkbox'+conta.id" value="1" v-model="contas[index].selected" @click="select">
+                  <label :for="'checkbox'+conta.id"></label>
+                  </span>
+               </td>
+               <td><a v-bind:href="'/contas/'+conta.id">{{ conta.conta }}</a></td>
+               <td>{{ conta.banco.descricao }}</td>
+               <td>{{ conta.agencia }}</td>
+               <td v-bind:class="[conta.saldo > 0 ? 'text-success' : 'text-danger', 'font-weight-bold']">{{ conta.saldo }}</td>
+            </tr>
+         </tbody>
       </table>
       <div class="text-center" v-if="loading">
-        <div class="spinner-border" role="status">
-          <span class="sr-only">Carregando...</span>
-        </div>
+         <div class="spinner-border" role="status">
+            <span class="sr-only">Carregando...</span>
+         </div>
       </div>
       <div class="mt-3 text-right" v-if="total > 10">
-        <b-pagination align="right" :total-rows="total" :per-page="10" @change="changePage" />
+         <b-pagination align="right" :total-rows="total" :per-page="10" @change="changePage" />
       </div>
       <div class="hint-text">Mostrando <b>{{contas.length }}</b> registros</div>
       <br>
-    </div>
-  </div>
-  <%= javascript_pack_tag 'contas', 'data-turbolinks-track': 'reload' %>
+   </div>
+</div>
+<%= javascript_pack_tag 'contas', 'data-turbolinks-track': 'reload' %>
 <% else %>
-
-
-  <!-- ========== HEADER SECTION ========== -->
-  <section id="home" name="home"></section>
-  <div id="headerwrap">
-    <div class="container">
+<!-- ========== HEADER SECTION ========== -->
+<section id="home" name="home"></section>
+<div id="headerwrap">
+   <div class="container">
       <br>
       <h1>San Juan Advogados</h1>
       <h2>Seja bem vindo</h2>
@@ -103,119 +101,104 @@
       <br>
       <br>
       <div class="row">
-        <div class="col-lg-6 col-lg-offset-3">
-        </div>
+         <div class="col-lg-6 col-lg-offset-3">
+         </div>
       </div>
-    </div>
-    <!-- /container -->
-  </div>
-  <!-- /headerwrap -->
-
-
-  <!-- ========== WHITE SECTION ========== -->
-  <div id="w">
-    <div class="container">
+   </div>
+   <!-- /container -->
+</div>
+<!-- /headerwrap -->
+<!-- ========== WHITE SECTION ========== -->
+<div id="w">
+   <div class="container">
       <div class="row">
-        <div class="col-lg-12">
-          <h3>WELCOME TO <bold>ONASSIS</bold>. <bold>A FREE BOOTSTRAP</bold> THEME. CRAFTED WITH LOVE BY <bold>TEMPLATEMAG</bold>. <br/>
-            <bold>IDEAL FOR</bold> AGENCIES & FREELANCERS.
-          </h3>
-        </div>
+         <div class="col-lg-12">
+            <h3>
+               WELCOME TO 
+               <bold>ONASSIS</bold>
+               . 
+               <bold>A FREE BOOTSTRAP</bold>
+               THEME. CRAFTED WITH LOVE BY 
+               <bold>TEMPLATEMAG</bold>
+               . <br/>
+               <bold>IDEAL FOR</bold>
+               AGENCIES & FREELANCERS.
+            </h3>
+         </div>
       </div>
-    </div>
-    <!-- /container -->
-  </div>
-  <!-- /w -->
-
-  <!-- ========== SERVICES - GREY SECTION ========== -->
-  <section id="services" name="services"></section>
-  <div id="g">
-    <div class="container">
-
-        <h3>OUR SERVICES</h3>
-        <br>
-        <br>
+   </div>
+   <!-- /container -->
+</div>
+<!-- /w -->
+<!-- ========== SERVICES - GREY SECTION ========== -->
+<section id="services" name="services"></section>
+<div id="g">
+   <div class="container">
+      <h3>OUR SERVICES</h3>
+      <br>
+      <br>
       <div class="row">
-        <div class="col-lg-3">
-          <%= image_tag("s1.png") %>
-          <h4>London</h4>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
-        </div>
-        <div class="col-lg-3">
-          <%= image_tag("s2.png") %>
-          <h4>Berlin</h4>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
-        </div>
-        <div class="col-lg-3">
-          <%= image_tag("s3.png") %>
-          <h4>Paris</h4>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
-        </div>
-        <div class="col-lg-3">
-          <%= image_tag("s4.png") %>
-          <h4>Tokyo</h4>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
-        </div>
+         <div class="col-lg-3">
+            <%= image_tag("s1.png") %>
+            <h4>London</h4>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
+         </div>
+         <div class="col-lg-3">
+            <%= image_tag("s2.png") %>
+            <h4>Berlin</h4>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
+         </div>
+         <div class="col-lg-3">
+            <%= image_tag("s3.png") %>
+            <h4>Paris</h4>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
+         </div>
+         <div class="col-lg-3">
+            <%= image_tag("s4.png") %>
+            <h4>Tokyo</h4>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever.</p>
+         </div>
       </div>
-    </div>
-    <!-- /container -->
-  </div>
+   </div>
+   <!-- /container -->
+</div>
+<section id="portfolio" name="portfolio"></section>
 
-  <section id="portfolio" name="portfolio"></section>
-  <div id="portfoliowrap">
-    <div class="container">]
-      <h3>COOL WORKS</h3>
+<div id="w">
+   <div class="container">
       <div class="row">
-        <br>
-        <br>
-        <div class="col-lg-4 port-space">
-          <a href="item.html"><%= image_tag("work1.png") %></a>
-        </div>
-        <div class="col-lg-4 port-space">
-          <a href="item.html"><%= image_tag("work2.png") %></a>
-        </div>
-        <div class="col-lg-4 port-space">
-          <a href="item.html"><%= image_tag("work3.png") %></a>
-        </div>
+         <div class="col-lg-12">
+            <h3>
+               WE WORK HARD TO DELIVER A 
+               <bold>HIGH QUALITY SERVICE</bold>
+               . OUR AIM IS YOUR COMPLETE 
+               <bold>SATISFACTION</bold>
+               .
+            </h3>
+         </div>
       </div>
-    </div>
-    <!-- /container -->
-  </div>
-  <div id="w">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <h3>WE WORK HARD TO DELIVER A <bold>HIGH QUALITY SERVICE</bold>. OUR AIM IS YOUR COMPLETE <bold>SATISFACTION</bold>.
-          </h3>
-        </div>
-      </div>
-    </div>
+   </div>
+</div>
 
-  </div>
-
-
-  <!-- ========== ABOUT - GREY SECTION ========== -->
-  <section id="about" name="about"></section>
-  <div id="g">
-    <div class="container">
+<!-- ========== ABOUT - GREY SECTION ========== -->
+<section id="about" name="about"></section>
+<div id="g">
+   <div class="container">
       <h3>ABOUT US</h3>
-
       <br>
       <br>
       <div class="row">
-
-        <div class="col-lg-2"></div>
-        <div class="col-lg-8">
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lectus elit, tincidunt nec turpis sed, accumsan iaculis ipsum. Nulla at augue auctor, tristique erat in, ultricies nunc. Mauris eget metus leo. Ut in mi lacinia, mattis nisl non,
-            ultrices risus. Vestibulum aliquet aliquam ipsum ut ullamcorper. Pellentesque fringilla, massa vel rutrum consequat, nulla velit fermentum dolor, sed scelerisque.</p>
-          <br>
-          <br>
-        </div>
+         <div class="col-lg-2"></div>
+         <div class="col-lg-8">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce lectus elit, tincidunt nec turpis sed, accumsan iaculis ipsum. Nulla at augue auctor, tristique erat in, ultricies nunc. Mauris eget metus leo. Ut in mi lacinia, mattis nisl non,
+               ultrices risus. Vestibulum aliquet aliquam ipsum ut ullamcorper. Pellentesque fringilla, massa vel rutrum consequat, nulla velit fermentum dolor, sed scelerisque.
+            </p>
+            <br>
+            <br>
+         </div>
       </div>
-    </div>
-    <!-- /container -->
-  </div>
-  <!-- /g -->
-
-
+   </div>
+   <!-- /container -->
+</div>
+<!-- /g -->
 <% end %>
