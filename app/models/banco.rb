@@ -4,8 +4,6 @@ class Banco < ApplicationRecord
   validates :codigo, numericality: true, presence: true
   validates :descricao, presence: true
   
-  mount_uploader :foto, FotoUploader
-  
   def busca(id)
     Banco.find(id)
   end
