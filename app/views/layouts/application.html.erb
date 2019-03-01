@@ -1,288 +1,272 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Projeto</title>
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-</head>
-
-<body>
-<!-- Menu -->
-<nav class="menu" id="theMenu">
-  <div class="menu-wrap">
-    <h1 class="logo"><a href="index.html#home">Onassis</a></h1>
-    <i class="fa fa-times-circle menu-close"></i>
-    <a href="#home" class="smoothscroll">Home</a>
-    <a href="#services" class="smoothscroll">Services</a>
-    <a href="#portfolio" class="smoothscroll">Portfolio</a>
-    <a href="#about" class="smoothscroll">About</a>
-    <a href="#contact" class="smoothscroll">Contact</a>
-    <%= link_to 'Logout', destroy_usuario_session_path,  { :class => "nav-link", method: :delete } %>
-    <a href="#"><i class="fa fa-facebook"></i></a>
-    <a href="#"><i class="fa fa-twitter"></i></a>
-    <a href="#"><i class="fa fa-dribbble"></i></a>
-    <a href="#"><i class="fa fa-envelope"></i></a>
-  </div>
-
-  <!-- Menu button -->
-  <div id="menuToggle"><i class="fa fa-bars"></i></div>
-</nav>
-
-<%= yield %>
-
-
-<section id="contact" name="contact">
-  <div id="f">
-    <div class="container">
-      <h3><b>CONTACT US</b></h3>
-      <br>
-      <div class="row">
-        <div class="col-lg-4">
-          <h3><b>Send Us A Message:</b></h3>
-          <h3>onassis@example.com</h3>
-          <br>
-        </div>
-
-        <div class="col-lg-4">
-          <h3><b>Call Us:</b></h3>
-          <h3>+55 3984-4389</h3>
-          <br>
-        </div>
-
-        <div class="col-lg-4">
-          <h3><b>We Are Social</b></h3>
-          <p>
-            <a href="index.html#"><i class="fa fa-facebook"></i></a>
-            <a href="index.html#"><i class="fa fa-twitter"></i></a>
-            <a href="index.html#"><i class="fa fa-envelope"></i></a>
-          </p>
-          <br>
-        </div>
+   <head>
+      <title>Projeto</title>
+      <%= csrf_meta_tags %>
+      <%= csp_meta_tag %>
+      <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+      <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+   </head>
+   <body>
+      <% if notice %>
+      <script>toastr.info("<%= notice %>")</script>
+      <% end %>
+      <% if alert %>
+      <script>toastr.danger("<%= alert %>")</script>
+      <% end %>
+      <!-- Menu -->
+      <nav class="menu" id="theMenu">
+         <div class="menu-wrap">
+            <h1 class="logo"><a href="index.html#home">San Juan</a></h1>
+            <i class="fa fa-times-circle menu-close"></i>
+            <% if usuario_signed_in? %>
+            <a href=""class="smoothscroll">Financeiro</a>
+            <%= link_to 'Bancos', 'bancos', {:class => 'nav-link'} %>
+            <%= link_to 'Contas', 'contas', {:class => 'nav-link'} %>
+            <%= link_to 'Favorecidos/Sacados', 'pessoas', {:class => 'nav-link'} %>
+            <%= link_to 'Movimentação', 'movimentos', {:class => 'nav-link'} %>
+            <%= link_to 'Logout', destroy_usuario_session_path,  { :class => "nav-link", method: :delete } %>
+            <% else %>
+            <a href="#home" class="smoothscroll">Início</a>
+            <a href="#services" class="smoothscroll">Serviços</a>
+            <a href="#about" class="smoothscroll">Sobre</a>
+            <a href="#portfolio" class="smoothscroll">Portfolio</a>
+            <a href="#contact" class="smoothscroll">Contato</a>
+            <%= link_to 'Login', new_usuario_session_path, { :class => "nav-link" }  %> 
+            <% end %>
+         </div>
+         <!-- Menu button -->
+         <div id="menuToggle"><i class="fa fa-bars"></i></div>
+      </nav>
+      <%= yield %>
+      <% if !usuario_signed_in? %>
+        <!-- map -->
+        <section id="section-map" class="clearfix">
+           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d22864.11283411948!2d-73.96468908098944!3d40.630720240038435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew+York%2C+NY%2C+USA!5e0!3m2!1sen!2sbg!4v1540447494452" width="100%" height="380" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </section>
+        <section id="contact" name="contact">
+           <div id="f">
+              <div class="container">
+                 <h3><b>CONTATO</b></h3>
+                 <br>
+                 <div class="row">
+                    <div class="col-lg-4">
+                       <h3><b>Envie um email:</b></h3>
+                       <h3>email@example.com</h3>
+                       <br>
+                    </div>
+                    <div class="col-lg-4">
+                       <h3><b>Telefone:</b></h3>
+                       <h3>+55 71 5555-5555</h3>
+                       <br>
+                    </div>
+                 </div>
+                 <div class="row">
+                    <div class="col-md-12">
+                       <h3><b>Contato</b></h3>
+                       <form class="contact-form php-mail-form" role="form" action="contactform/contactform.php" method="POST">
+                          <div class="form-group">
+                             <label for="contact-name">Nome</label>
+                             <input type="name" name="name" class="form-control" id="contact-name" placeholder="Nome" data-rule="minlen:4" data-msg="Please enter at least 4 chars" >
+                             <div class="validate"></div>
+                          </div>
+                          <div class="form-group">
+                             <label for="contact-email">Email</label>
+                             <input type="email" name="email" class="form-control" id="contact-email" placeholder="Email" data-rule="email" data-msg="Please enter a valid email">
+                             <div class="validate"></div>
+                          </div>
+                          <div class="form-group">
+                             <label for="contact-subject">Assunto</label>
+                             <input type="text" name="subject" class="form-control" id="contact-subject" placeholder="Assunto" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject">
+                             <div class="validate"></div>
+                          </div>
+                          <div class="form-group">
+                             <label for="contact-message">Mensagem</label>
+                             <textarea class="form-control" name="message" id="contact-message" placeholder="Mensagem" rows="5" data-rule="required" data-msg="Please write something for us"></textarea>
+                             <div class="validate"></div>
+                          </div>
+                          <div class="loading"></div>
+                          <div class="error-message"></div>
+                          <div class="sent-message">Sua menssagem foi enviada. Obrigado!</div>
+                          <div class="form-send">
+                             <button type="submit" class="btn btn-large">Enviar menssagem</button>
+                          </div>
+                       </form>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </section>
+      <% end %>
+      <div id="copyrights">
+         <div class="container">
+            <p>
+               &copy; Copyrights <strong>San Juan</strong>. Direitos Reservados
+            </p>
+         </div>
       </div>
-
-      <div class="row">
-        <div class="col-md-12">
-          <h3><b>CONTACT FORM</b></h3>
-          <form class="contact-form php-mail-form" role="form" action="contactform/contactform.php" method="POST">
-
-            <div class="form-group">
-              <label for="contact-name">Your Name</label>
-              <input type="name" name="name" class="form-control" id="contact-name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" >
-              <div class="validate"></div>
-            </div>
-            <div class="form-group">
-              <label for="contact-email">Your Email</label>
-              <input type="email" name="email" class="form-control" id="contact-email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email">
-              <div class="validate"></div>
-            </div>
-            <div class="form-group">
-              <label for="contact-subject">Subject</label>
-              <input type="text" name="subject" class="form-control" id="contact-subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject">
-              <div class="validate"></div>
-            </div>
-
-            <div class="form-group">
-              <label for="contact-message">Your Message</label>
-              <textarea class="form-control" name="message" id="contact-message" placeholder="Your Message" rows="5" data-rule="required" data-msg="Please write something for us"></textarea>
-              <div class="validate"></div>
-            </div>
-
-            <div class="loading"></div>
-            <div class="error-message"></div>
-            <div class="sent-message">Your message has been sent. Thank you!</div>
-
-            <div class="form-send">
-              <button type="submit" class="btn btn-large">Send Message</button>
-            </div>
-
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div id="copyrights">
-  <div class="container">
-    <p>
-      &copy; Copyrights <strong>Onassis</strong>. All Rights Reserved
-    </p>
-  </div>
-</div>
-
-
-
-
-<script>
-
-    (function (factory) {
-      if (typeof define === "function" && define.amd) {
-        define(['jquery'], function ($) {
-          return factory($);
-        });
-      } else if (typeof module === "object" && typeof module.exports === "object") {
-        exports = factory(require('jquery'));
-      } else {
-        factory(jQuery);
-      }
-    })(function($){
-
-// Preserve the original jQuery "swing" easing as "jswing"
-      if (typeof $.easing !== 'undefined') {
-        $.easing['jswing'] = $.easing['swing'];
-      }
-
-      var pow = Math.pow,
-        sqrt = Math.sqrt,
-        sin = Math.sin,
-        cos = Math.cos,
-        PI = Math.PI,
-        c1 = 1.70158,
-        c2 = c1 * 1.525,
-        c3 = c1 + 1,
-        c4 = ( 2 * PI ) / 3,
-        c5 = ( 2 * PI ) / 4.5;
-
-// x is the fraction of animation progress, in the range 0..1
-      function bounceOut(x) {
-        var n1 = 7.5625,
-          d1 = 2.75;
-        if ( x < 1/d1 ) {
-          return n1*x*x;
-        } else if ( x < 2/d1 ) {
-          return n1*(x-=(1.5/d1))*x + .75;
-        } else if ( x < 2.5/d1 ) {
-          return n1*(x-=(2.25/d1))*x + .9375;
-        } else {
-          return n1*(x-=(2.625/d1))*x + .984375;
-        }
-      }
-
-      $.extend( $.easing,
-        {
-          def: 'easeOutQuad',
-          swing: function (x) {
-            return $.easing[$.easing.def](x);
-          },
-          easeInQuad: function (x) {
-            return x * x;
-          },
-          easeOutQuad: function (x) {
-            return 1 - ( 1 - x ) * ( 1 - x );
-          },
-          easeInOutQuad: function (x) {
-            return x < 0.5 ?
-              2 * x * x :
-              1 - pow( -2 * x + 2, 2 ) / 2;
-          },
-          easeInCubic: function (x) {
-            return x * x * x;
-          },
-          easeOutCubic: function (x) {
-            return 1 - pow( 1 - x, 3 );
-          },
-          easeInOutCubic: function (x) {
-            return x < 0.5 ?
-              4 * x * x * x :
-              1 - pow( -2 * x + 2, 3 ) / 2;
-          },
-          easeInQuart: function (x) {
-            return x * x * x * x;
-          },
-          easeOutQuart: function (x) {
-            return 1 - pow( 1 - x, 4 );
-          },
-          easeInOutQuart: function (x) {
-            return x < 0.5 ?
-              8 * x * x * x * x :
-              1 - pow( -2 * x + 2, 4 ) / 2;
-          },
-          easeInQuint: function (x) {
-            return x * x * x * x * x;
-          },
-          easeOutQuint: function (x) {
-            return 1 - pow( 1 - x, 5 );
-          },
-          easeInOutQuint: function (x) {
-            return x < 0.5 ?
-              16 * x * x * x * x * x :
-              1 - pow( -2 * x + 2, 5 ) / 2;
-          },
-          easeInSine: function (x) {
-            return 1 - cos( x * PI/2 );
-          },
-          easeOutSine: function (x) {
-            return sin( x * PI/2 );
-          },
-          easeInOutSine: function (x) {
-            return -( cos( PI * x ) - 1 ) / 2;
-          },
-          easeInExpo: function (x) {
-            return x === 0 ? 0 : pow( 2, 10 * x - 10 );
-          },
-          easeOutExpo: function (x) {
-            return x === 1 ? 1 : 1 - pow( 2, -10 * x );
-          },
-          easeInOutExpo: function (x) {
-            return x === 0 ? 0 : x === 1 ? 1 : x < 0.5 ?
-              pow( 2, 20 * x - 10 ) / 2 :
-              ( 2 - pow( 2, -20 * x + 10 ) ) / 2;
-          },
-          easeInCirc: function (x) {
-            return 1 - sqrt( 1 - pow( x, 2 ) );
-          },
-          easeOutCirc: function (x) {
-            return sqrt( 1 - pow( x - 1, 2 ) );
-          },
-          easeInOutCirc: function (x) {
-            return x < 0.5 ?
-              ( 1 - sqrt( 1 - pow( 2 * x, 2 ) ) ) / 2 :
-              ( sqrt( 1 - pow( -2 * x + 2, 2 ) ) + 1 ) / 2;
-          },
-          easeInElastic: function (x) {
-            return x === 0 ? 0 : x === 1 ? 1 :
-              -pow( 2, 10 * x - 10 ) * sin( ( x * 10 - 10.75 ) * c4 );
-          },
-          easeOutElastic: function (x) {
-            return x === 0 ? 0 : x === 1 ? 1 :
-              pow( 2, -10 * x ) * sin( ( x * 10 - 0.75 ) * c4 ) + 1;
-          },
-          easeInOutElastic: function (x) {
-            return x === 0 ? 0 : x === 1 ? 1 : x < 0.5 ?
-              -( pow( 2, 20 * x - 10 ) * sin( ( 20 * x - 11.125 ) * c5 )) / 2 :
-              pow( 2, -20 * x + 10 ) * sin( ( 20 * x - 11.125 ) * c5 ) / 2 + 1;
-          },
-          easeInBack: function (x) {
-            return c3 * x * x * x - c1 * x * x;
-          },
-          easeOutBack: function (x) {
-            return 1 + c3 * pow( x - 1, 3 ) + c1 * pow( x - 1, 2 );
-          },
-          easeInOutBack: function (x) {
-            return x < 0.5 ?
-              ( pow( 2 * x, 2 ) * ( ( c2 + 1 ) * 2 * x - c2 ) ) / 2 :
-              ( pow( 2 * x - 2, 2 ) *( ( c2 + 1 ) * ( x * 2 - 2 ) + c2 ) + 2 ) / 2;
-          },
-          easeInBounce: function (x) {
-            return 1 - bounceOut( 1 - x );
-          },
-          easeOutBounce: bounceOut,
-          easeInOutBounce: function (x) {
-            return x < 0.5 ?
-              ( 1 - bounceOut( 1 - 2 * x ) ) / 2 :
-              ( 1 + bounceOut( 2 * x - 1 ) ) / 2;
-          }
-        });
-
-    });</script>
-
-
-  </body>
-
+      <script>
+         (function (factory) {
+           if (typeof define === "function" && define.amd) {
+             define(['jquery'], function ($) {
+               return factory($);
+             });
+           } else if (typeof module === "object" && typeof module.exports === "object") {
+             exports = factory(require('jquery'));
+           } else {
+             factory(jQuery);
+           }
+         })(function($){
+         
+         // Preserve the original jQuery "swing" easing as "jswing"
+           if (typeof $.easing !== 'undefined') {
+             $.easing['jswing'] = $.easing['swing'];
+           }
+         
+           var pow = Math.pow,
+             sqrt = Math.sqrt,
+             sin = Math.sin,
+             cos = Math.cos,
+             PI = Math.PI,
+             c1 = 1.70158,
+             c2 = c1 * 1.525,
+             c3 = c1 + 1,
+             c4 = ( 2 * PI ) / 3,
+             c5 = ( 2 * PI ) / 4.5;
+         
+         // x is the fraction of animation progress, in the range 0..1
+           function bounceOut(x) {
+             var n1 = 7.5625,
+               d1 = 2.75;
+             if ( x < 1/d1 ) {
+               return n1*x*x;
+             } else if ( x < 2/d1 ) {
+               return n1*(x-=(1.5/d1))*x + .75;
+             } else if ( x < 2.5/d1 ) {
+               return n1*(x-=(2.25/d1))*x + .9375;
+             } else {
+               return n1*(x-=(2.625/d1))*x + .984375;
+             }
+           }
+         
+           $.extend( $.easing,
+             {
+               def: 'easeOutQuad',
+               swing: function (x) {
+                 return $.easing[$.easing.def](x);
+               },
+               easeInQuad: function (x) {
+                 return x * x;
+               },
+               easeOutQuad: function (x) {
+                 return 1 - ( 1 - x ) * ( 1 - x );
+               },
+               easeInOutQuad: function (x) {
+                 return x < 0.5 ?
+                   2 * x * x :
+                   1 - pow( -2 * x + 2, 2 ) / 2;
+               },
+               easeInCubic: function (x) {
+                 return x * x * x;
+               },
+               easeOutCubic: function (x) {
+                 return 1 - pow( 1 - x, 3 );
+               },
+               easeInOutCubic: function (x) {
+                 return x < 0.5 ?
+                   4 * x * x * x :
+                   1 - pow( -2 * x + 2, 3 ) / 2;
+               },
+               easeInQuart: function (x) {
+                 return x * x * x * x;
+               },
+               easeOutQuart: function (x) {
+                 return 1 - pow( 1 - x, 4 );
+               },
+               easeInOutQuart: function (x) {
+                 return x < 0.5 ?
+                   8 * x * x * x * x :
+                   1 - pow( -2 * x + 2, 4 ) / 2;
+               },
+               easeInQuint: function (x) {
+                 return x * x * x * x * x;
+               },
+               easeOutQuint: function (x) {
+                 return 1 - pow( 1 - x, 5 );
+               },
+               easeInOutQuint: function (x) {
+                 return x < 0.5 ?
+                   16 * x * x * x * x * x :
+                   1 - pow( -2 * x + 2, 5 ) / 2;
+               },
+               easeInSine: function (x) {
+                 return 1 - cos( x * PI/2 );
+               },
+               easeOutSine: function (x) {
+                 return sin( x * PI/2 );
+               },
+               easeInOutSine: function (x) {
+                 return -( cos( PI * x ) - 1 ) / 2;
+               },
+               easeInExpo: function (x) {
+                 return x === 0 ? 0 : pow( 2, 10 * x - 10 );
+               },
+               easeOutExpo: function (x) {
+                 return x === 1 ? 1 : 1 - pow( 2, -10 * x );
+               },
+               easeInOutExpo: function (x) {
+                 return x === 0 ? 0 : x === 1 ? 1 : x < 0.5 ?
+                   pow( 2, 20 * x - 10 ) / 2 :
+                   ( 2 - pow( 2, -20 * x + 10 ) ) / 2;
+               },
+               easeInCirc: function (x) {
+                 return 1 - sqrt( 1 - pow( x, 2 ) );
+               },
+               easeOutCirc: function (x) {
+                 return sqrt( 1 - pow( x - 1, 2 ) );
+               },
+               easeInOutCirc: function (x) {
+                 return x < 0.5 ?
+                   ( 1 - sqrt( 1 - pow( 2 * x, 2 ) ) ) / 2 :
+                   ( sqrt( 1 - pow( -2 * x + 2, 2 ) ) + 1 ) / 2;
+               },
+               easeInElastic: function (x) {
+                 return x === 0 ? 0 : x === 1 ? 1 :
+                   -pow( 2, 10 * x - 10 ) * sin( ( x * 10 - 10.75 ) * c4 );
+               },
+               easeOutElastic: function (x) {
+                 return x === 0 ? 0 : x === 1 ? 1 :
+                   pow( 2, -10 * x ) * sin( ( x * 10 - 0.75 ) * c4 ) + 1;
+               },
+               easeInOutElastic: function (x) {
+                 return x === 0 ? 0 : x === 1 ? 1 : x < 0.5 ?
+                   -( pow( 2, 20 * x - 10 ) * sin( ( 20 * x - 11.125 ) * c5 )) / 2 :
+                   pow( 2, -20 * x + 10 ) * sin( ( 20 * x - 11.125 ) * c5 ) / 2 + 1;
+               },
+               easeInBack: function (x) {
+                 return c3 * x * x * x - c1 * x * x;
+               },
+               easeOutBack: function (x) {
+                 return 1 + c3 * pow( x - 1, 3 ) + c1 * pow( x - 1, 2 );
+               },
+               easeInOutBack: function (x) {
+                 return x < 0.5 ?
+                   ( pow( 2 * x, 2 ) * ( ( c2 + 1 ) * 2 * x - c2 ) ) / 2 :
+                   ( pow( 2 * x - 2, 2 ) *( ( c2 + 1 ) * ( x * 2 - 2 ) + c2 ) + 2 ) / 2;
+               },
+               easeInBounce: function (x) {
+                 return 1 - bounceOut( 1 - x );
+               },
+               easeOutBounce: bounceOut,
+               easeInOutBounce: function (x) {
+                 return x < 0.5 ?
+                   ( 1 - bounceOut( 1 - 2 * x ) ) / 2 :
+                   ( 1 + bounceOut( 2 * x - 1 ) ) / 2;
+               }
+             });
+         });
+      </script>
+   </body>
 </html>
-    <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic|Raleway:400,300,700" rel="stylesheet">
-
-
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic|Raleway:400,300,700" rel="stylesheet">
