@@ -52,11 +52,12 @@ const bancosIndex = new Vue({
     createPDF: function (){
       let filter = this.codigo? `codigo=${this.codigoPDF}`:'';
       filter += this.descricao? `&descricao=${this.descricaoPDF}`:'';
+      filter += `&per_page=${this.total}`;
       this.isLoading = true;
       axios
-        .get(`${URL}/bancos/pdf.json?${filter}`)
+        .get(`${URL}/bancos.json?${filter}`)
         .then(response => {
-          this.bancosPDF = response.data;
+          this.bancosPDF = response.data.bancos;
         })
         .catch(error => {
           this.errored = true;

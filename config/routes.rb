@@ -10,11 +10,6 @@ Rails.application.routes.draw do
   get 'bancos/all'
   get 'contas/all'
   get 'pessoas/all'
-  
-  #Rotas PDF
-  get 'bancos/pdf'
-  get 'contas/pdf'
-  get 'pessoas/pdf'
 
   resources :contas
   resources :pessoas

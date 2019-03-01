@@ -10,7 +10,7 @@ class BancosController < ApplicationController
     @bancos = @bancos.descricao(params[:descricao]) if params[:descricao].present?
     #End Busca Banco
     
-    @bancos = @bancos.paginate(:page => params[:page], :per_page => 10)
+    @bancos = @bancos.paginate(:page => params[:page], :per_page => params[:per_page])
     respond_to do |format|
       format.html { render :index }
       format.json { render json:{ bancos: @bancos, total: @bancos.total_entries } }
@@ -78,17 +78,6 @@ class BancosController < ApplicationController
     respond_to do |format|
       format.json{ render json: @bancos, :only => [:id, :descricao]}
     end
-  end
-  
-   def pdf
-    #Busca Banco
-    @bancos = Banco.where(nil) #Inicia Escopo
-    @bancos = @bancos.codigo(params[:codigo]) if params[:codigo].present?
-    @bancos = @bancos.descricao(params[:descricao]) if params[:descricao].present?
-    #End Busca Banco
-    respond_to do |format|
-      format.json { render json: @bancos }
-    end 
   end
   
   private
