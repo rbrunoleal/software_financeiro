@@ -4,7 +4,11 @@ class PessoasController < ApplicationController
   # GET /pessoas
   # GET /pessoas.json
   def index
-    @pessoas = Pessoa.paginate(:page => params[:page], :per_page => 10)
+    @pessoas = Pessoa.where(nil) #Inicia Escopo
+    @pessoas = @pessoas.edu(params[:nome]) if params[:nome].present?
+    @pessoas = @pessoas.edua(params[:identificador]) if params[:identificador].present?
+    
+    @pessoas = @pessoas.paginate(:page => params[:page], :per_page => 10)
     respond_to do |format|
       format.html { render :index }
       format.json { render json: {pessoas: @pessoas.as_json(:include => [:pessoafisica, :pessoajuridica, :endereco, :contatos], methods: [:nome, :identificador]), total: @pessoas.total_entries}}

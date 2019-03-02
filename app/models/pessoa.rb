@@ -33,4 +33,15 @@ class Pessoa < ApplicationRecord
     self.pessoajuridica.razaosocial
   end
   
+  scope :nome, -> (nome) {
+    joins("LEFT JOIN pessoafisicas ON pessoas.pessoafisica_id = pessoafisicas.id")
+    .joins("LEFT JOIN pessoajuridicas ON pessoas.pessoajuridica_id = pessoajuridicas.id")    
+    .where("pessoafisicas.nome like ? or pessoajuridicas.razaosocial like ?",  "%#{nome}%", "%#{nome}%") 
+  }
+  
+  scope :indentificador, -> (indentificador) {
+    joins("LEFT JOIN pessoafisicas ON pessoas.pessoafisica_id = pessoafisicas.id")
+    .joins("LEFT JOIN pessoajuridicas ON pessoas.pessoajuridica_id = pessoajuridicas.id")    
+    .where("pessoafisicas.cpf like ? or pessoajuridicas.cnpj like ?",  "%#{indentificador}%", "%#{indentificador}%") 
+  }
 end
