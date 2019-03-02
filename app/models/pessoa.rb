@@ -39,9 +39,9 @@ class Pessoa < ApplicationRecord
     .where("pessoafisicas.nome like ? or pessoajuridicas.razaosocial like ?",  "%#{nome}%", "%#{nome}%") 
   }
   
-  scope :indentificador, -> (indentificador) {
+  scope :identificador, -> (identificador) {
     joins("LEFT JOIN pessoafisicas ON pessoas.pessoafisica_id = pessoafisicas.id")
     .joins("LEFT JOIN pessoajuridicas ON pessoas.pessoajuridica_id = pessoajuridicas.id")    
-    .where("pessoafisicas.cpf like ? or pessoajuridicas.cnpj like ?",  "%#{indentificador}%", "%#{indentificador}%") 
+    .where("pessoafisicas.cpf like ? or pessoajuridicas.cnpj like ?",  "%#{identificador}%", "%#{identificador}%") 
   }
 end

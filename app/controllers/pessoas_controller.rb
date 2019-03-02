@@ -5,8 +5,10 @@ class PessoasController < ApplicationController
   # GET /pessoas.json
   def index
     @pessoas = Pessoa.where(nil) #Inicia Escopo
-    @pessoas = @pessoas.edu(params[:nome]) if params[:nome].present?
-    @pessoas = @pessoas.edua(params[:identificador]) if params[:identificador].present?
+    @pessoas = @pessoas.nome(params[:nome]) if params[:nome].present?
+    @pessoas = @pessoas.identificador(params[:identificador]) if params[:identificador].present?
+    @pessoas = @pessoas.where(tipo: 'Física') if params[:fisica].present?
+    @pessoas = @pessoas.where(tipo: 'Jurídica') if params[:juridica].present?
     
     @pessoas = @pessoas.paginate(:page => params[:page], :per_page => 10)
     respond_to do |format|

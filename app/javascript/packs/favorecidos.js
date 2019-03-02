@@ -49,7 +49,14 @@ const favorecidosApp = new Vue({
     unidade_id: 0,
     estado_id: 0,
     currentPage: 1,
-    total: 0
+    total: 0,
+    pessoaIdentificador: '',
+    pessoaNome: '',
+    pessoaTipo: '',
+    tipos: [
+      {descricao: "Física", value: "fisica"},
+      {descricao: "Jurídica", value: "juridica"}
+    ]
   },
   mounted () {
     this.searchFavorecidos();
@@ -169,18 +176,16 @@ const favorecidosApp = new Vue({
     },
     searchFavorecidos: function(){
       this.loading = true;
-      //let filter = this.contaNumero? `contaNumero=${this.contaNumero}`:'';
-      //filter += this.agenciaNumero? `&agenciaNumero=${this.agenciaNumero}`:'';
-      //filter += this.bancoId? `&bancoId=${this.bancoId}`:'';
-      let filter = `&page=${this.currentPage}`;
+      let filter = this.pessoaNome? `nome=${this.pessoaNome}`:'';
+      filter += this.pessoaIdentificador? `&identificador=${this.pessoaIdentificador}`:'';
+      filter += this.pessoaTipo? `&${this.pessoaTipo}=1`:'';
+      filter += `&page=${this.currentPage}`;
       this.clickedFavorecido = {
         contatos: [],
         endereco: {},
         pessoafisica: {},
         pessoajuridica: {},
-
       };
-
       axios
           .get(`${URL}/pessoas.json?${filter}`)
           .then(response => {
