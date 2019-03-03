@@ -10,7 +10,7 @@ class PessoasController < ApplicationController
     @pessoas = @pessoas.where(tipo: 'Física') if params[:fisica].present?
     @pessoas = @pessoas.where(tipo: 'Jurídica') if params[:juridica].present?
     
-    @pessoas = @pessoas.paginate(:page => params[:page], :per_page => 10)
+    @pessoas = @pessoas.paginate(:page => params[:page], :per_page => params[:per_page])
     respond_to do |format|
       format.html { render :index }
       format.json { render json: {pessoas: @pessoas.as_json(:include => [:pessoafisica, :pessoajuridica, :endereco, :contatos], methods: [:nome, :identificador]), total: @pessoas.total_entries}}

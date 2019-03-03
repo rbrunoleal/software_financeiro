@@ -6,7 +6,7 @@ import Toastr from 'vue-toastr';
 import BootstrapVue from 'bootstrap-vue'
 import { URL } from './env';
 import Vuetify from 'vuetify'
-import jsPDF from 'jspdf'
+import JsPdf from 'jspdf'
 import jsAutoTable from 'jspdf-autotable'
 
 Vue.use(Vuetify);
@@ -39,6 +39,7 @@ const favorecidosApp = new Vue({
       pessoajuridica: {},
     },
     favorecidos: [],
+    favorecidosPDF: [],
     showModal: false,
     allSelected: false,
     show: false,
@@ -53,6 +54,9 @@ const favorecidosApp = new Vue({
     pessoaIdentificador: '',
     pessoaNome: '',
     pessoaTipo: '',
+    pessoaIdentificadorPDF: '',
+    pessoaNomePDF: '',
+    pessoaTipoPDF: '',
     tipos: [
       {descricao: "Física", value: "fisica"},
       {descricao: "Jurídica", value: "juridica"}
@@ -64,47 +68,101 @@ const favorecidosApp = new Vue({
   },
   methods: {
     createPDF: function (){
-      var lFavorecidos = this.favorecidos;
-      var Columns = [
+      let filter = this.pessoaNome? `nome=${this.pessoaNome}`:'';
+      filter += this.pessoaIdentificador? `&identificador=${this.pessoaIdentificador}`:'';
+      filter += this.pessoaTipo? `&${this.pessoaTipo}=1`:'';
+      filter += `&per_page=${this.total}`;
+      this.isLoading = true;
+      axios
+        .get(`${URL}/pessoas.json?${filter}`)
+        .then(response => {
+          this.favorecidosPDF = response.data.pessoas;
+        })
+        .catch(error => {
+          this.errored = true;
+          this.loading = false;
+      })
+      .finally(() => this.mountPDF())
+    },
+    mountPDF: function (){
+     this.loading = false;
+     
+      const Columns = [
           {title: "Tipo", dataKey: "tipo"},
           {title: "Identificação", dataKey: "identificacao"},
           {title: "Nome", dataKey: "nome"},
           {title: "Endereço", dataKey: "endereco"}
       ];
       
-      var Rows = lFavorecidos.map(x => 
-        ({
-          tipo: x.tipo,
-          identificacao: x.identificador,
-          nome: x.nome,
-          endereco: x.endereco.descricao
+      const Rows = this.favorecidosPDF.map(x =>
+        ({  tipo: x.tipo,
+            identificacao: x.identificador,
+            nome: x.nome,
+            endereco: x.endereco.descricao
         })
       );
       
-      if(lFavorecidos.length > 0){
-        let pdfName = 'Favorecidos/Sacados'; 
-        let pdfsize='a4';
-        let doc = new jsPDF('p', 'pt', pdfsize);
+      if(this.favorecidosPDF.length > 0){
+        const pdfName = 'Favorecidos/Sacados';
+        const pdfsize='a4';
+        const doc = new JsPdf('p', 'pt', pdfsize);
+        
+        let SubtitleFiltro = '';
+        let filter = 'Filtros: ';
+        filter += this.pessoaTipoPDF? this.pessoaTipoPDF === 'fisica' ? `[Tipo: Física]`: `[Tipo: Jurídica]` : '';
+        filter += this.pessoaNomePDF? `[Nome: ${this.pessoaNomePDF}]`:'';
+        filter += this.pessoaIdentificadorPDF? `[Indentificação: ${this.pessoaIdentificadorPDF}]`:'';
+        SubtitleFiltro += filter !== 'Filtros: ' ? filter : '';
+
+        const header = function(data) {
+          doc.setFontSize(18);
+          doc.setTextColor(40);
+          doc.setFontStyle('normal');
+          doc.text("Relatório - Favorecidos/Sacados", data.settings.margin.left, 30);
+
+          let SubtitleData = '';
+          const now = new Date().toLocaleString();
+          SubtitleData += `Data: ${now}`; 
+          
+          doc.setFontSize(12);
+          doc.setTextColor(40);
+          doc.setFontStyle('normal');
+          doc.text(SubtitleData, data.settings.margin.left, 50);
+          doc.text(SubtitleFiltro, data.settings.margin.left, 70);
+        };
+        
+        const Options = {
+          didDrawPage: header,
+          margin: {
+            top: 80
+          },
+          theme: 'grid', 
+          headStyles: {
+            fillColor: [0, 0, 0],
+            textColor: [255, 255, 255]
+          },
+          styles: {
+            overflow: 'linebreak',
+            cellWidth: 88
+          },
+          columnStyles: {
+              0: {cellWidth: 200}
+          }
+        };
+        
         if(Rows.length > 0){
-          doc.setFontStyle("bold");
-          doc.setFontSize(20);
-          doc.text("Relatório - Fav/Sac", 65, 25);
-          doc.autoTable(Columns, Rows, {
-          	theme: 'grid', 
-          	headStyles: {
-              fillColor: [0, 0, 0],
-              textColor: [255, 255, 255]
-            },
-          	styles: {
-              overflow: 'linebreak',
-              cellWidth: 88
-            },
-            columnStyles: {
-                0: {cellWidth: 200}
-            }
-          });
+          doc.autoTable(Columns, Rows, Options);
+          const pageCount = doc.internal.getNumberOfPages();
+          for(let i = 0; i < pageCount; i++) {
+            doc.setPage(i); 
+            doc.setFontSize(12);
+            doc.text(560,15, doc.internal.getCurrentPageInfo().pageNumber + "/" + pageCount);
+          }
           doc.save(pdfName + ".pdf");
         }
+      }
+      else{
+         this.$toastr.w("Nenhum Registro.");
       }
     },
     changePage: function(page) {
@@ -180,6 +238,11 @@ const favorecidosApp = new Vue({
       filter += this.pessoaIdentificador? `&identificador=${this.pessoaIdentificador}`:'';
       filter += this.pessoaTipo? `&${this.pessoaTipo}=1`:'';
       filter += `&page=${this.currentPage}`;
+      
+      this.pessoaIdentificadorPDF = this.pessoaIdentificador;
+      this.pessoaNomePDF = this.pessoaNome;
+      this.pessoaTipoPDF = this.pessoaTipo;
+      
       this.clickedFavorecido = {
         contatos: [],
         endereco: {},
