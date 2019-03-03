@@ -53,9 +53,9 @@ const contasIndex = new Vue({
   },
   methods: {
     createPDF: function (){
-      let filter = this.contaNumero? `contaNumero=${this.contaNumero}`:'';
-      filter += this.agenciaNumero? `&agenciaNumero=${this.agenciaNumero}`:'';
-      filter += this.bancoId? `&bancoId=${this.bancoId}`:'';
+      let filter = this.contaNumeroPDF? `contaNumero=${this.contaNumeroPDF}`:'';
+      filter += this.agenciaNumeroPDF? `&agenciaNumero=${this.agenciaNumeroPDF}`:'';
+      filter += this.contaBancoPDF? `&bancoId=${this.contaBancoPDF}`:'';
       filter += `&per_page=${this.total}`;
       this.isLoading = true;
       axios

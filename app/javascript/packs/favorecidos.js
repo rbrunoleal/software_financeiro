@@ -68,9 +68,9 @@ const favorecidosApp = new Vue({
   },
   methods: {
     createPDF: function (){
-      let filter = this.pessoaNome? `nome=${this.pessoaNome}`:'';
-      filter += this.pessoaIdentificador? `&identificador=${this.pessoaIdentificador}`:'';
-      filter += this.pessoaTipo? `&${this.pessoaTipo}=1`:'';
+      let filter = this.pessoaNomePDF? `nome=${this.pessoaNomePDF}`:'';
+      filter += this.pessoaIdentificadorPDF? `&identificador=${this.pessoaIdentificadorPDF}`:'';
+      filter += this.pessoaTipoPDF? `&${this.pessoaTipoPDF}=1`:'';
       filter += `&per_page=${this.total}`;
       this.isLoading = true;
       axios
@@ -111,7 +111,7 @@ const favorecidosApp = new Vue({
         let filter = 'Filtros: ';
         filter += this.pessoaTipoPDF? this.pessoaTipoPDF === 'fisica' ? `[Tipo: Física]`: `[Tipo: Jurídica]` : '';
         filter += this.pessoaNomePDF? `[Nome: ${this.pessoaNomePDF}]`:'';
-        filter += this.pessoaIdentificadorPDF? `[Indentificação: ${this.pessoaIdentificadorPDF}]`:'';
+        filter += this.pessoaIdentificadorPDF? `[Identificação: ${this.pessoaIdentificadorPDF}]`:'';
         SubtitleFiltro += filter !== 'Filtros: ' ? filter : '';
 
         const header = function(data) {

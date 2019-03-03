@@ -10,7 +10,7 @@ class MovimentosController < ApplicationController
     @movimentos = @movimentos.pessoa_id(params[:pessoaId]) if params[:pessoaId].present?
     @movimentos = @movimentos.valor(params[:valor]) if params[:valor].present?
     
-    @movimentos = @movimentos.paginate(:page => params[:page], :per_page => 10)
+    @movimentos = @movimentos.paginate(:page => params[:page], :per_page => params[:per_page])
     respond_to do |format|
       format.html { render :index }
       format.json { render json: {movimentos: @movimentos.as_json(:include => [:conta, :pessoa, :nota], methods: [:favorecido, :contabancaria, :informacaonota]), total: @movimentos.total_entries}}

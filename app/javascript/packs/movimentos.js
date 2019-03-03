@@ -6,7 +6,7 @@ import Toastr from 'vue-toastr';
 import BootstrapVue from 'bootstrap-vue';
 import { URL } from './env';
 import vSelect from 'vue-select'
-import jsPDF from 'jspdf'
+import JsPdf from 'jspdf'
 import jsAutoTable from 'jspdf-autotable'
 
 Vue.use(VueResource);
@@ -31,6 +31,7 @@ const movimentosIndex = new Vue({
     create: false,
     clickedMovimento: {pessoa: {}, conta: {}, nota: {}},
     movimentos: [],
+    movimentosPDF: [],
     showModal: false,
     allSelected: false,
     show: false,
@@ -42,7 +43,11 @@ const movimentosIndex = new Vue({
     valor: '',
     pessoaId: '',
     dataCompetenciaInicio: '',
-    dataCompetenciaFinal: ''
+    dataCompetenciaFinal: '',
+    valorPDF: '',
+    pessoaIdPDF: '',
+    dataCompetenciaInicioPDF: '',
+    dataCompetenciaFinalPDF: ''
   },
   mounted(){
     this.searchMovimentos();
@@ -51,18 +56,37 @@ const movimentosIndex = new Vue({
   },
   methods: {
     createPDF: function (){
-      var lMovimentos = this.movimentos;
-      var Columns = [
-          {title: "Data Competência", dataKey: "dataCompetencia"},
-          {title: "Data Vencimento", dataKey: "dataVencimento"},
-          {title: "Favorecido/Sacado", dataKey: "favorecido"},
+      let filter = this.valorPDF ? `valor=${this.valorPDF}`:'';
+      filter += this.dataCompetenciaInicioPDF? `&dataCompetenciaInicio=${this.dataCompetenciaInicioPDF}`:'';
+      filter += this.dataCompetenciaFinalPDF? `&dataCompetenciaFinal=${this.dataCompetenciaFinalPDF}`:'';
+      filter += this.pessoaIdPDF? `&pessoaId=${this.pessoaIdPDF.id}`:'';
+      filter += `&per_page=${this.total}`;
+      this.isLoading = true;
+      axios
+        .get(`${URL}/movimentos.json?${filter}`)
+        .then(response => {
+          this.movimentosPDF = response.data.movimentos;
+        })
+        .catch(error => {
+          this.errored = true;
+          this.loading = false;
+      })
+      .finally(() => this.mountPDF())
+    },
+    mountPDF: function (){
+     this.loading = false;
+     
+      const Columns = [
+          {title: "Data Comp.", dataKey: "dataCompetencia"},
+          {title: "Data Venc.", dataKey: "dataVencimento"},
+          {title: "Fav/Sac", dataKey: "favorecido"},
           {title: "Descrição", dataKey: "descricao"},
           {title: "Conta", dataKey: "conta"},
           {title: "Valor", dataKey: "valor"},
           {title: "Nota Fiscal", dataKey: "nota"},
       ];
       
-      var Rows = lMovimentos.map(x => 
+      const Rows = this.movimentosPDF.map(x =>
         ({  dataCompetencia: new Date(x.data_competencia + "T00:00:00").toLocaleDateString(),
             dataVencimento: new Date(x.data_vencimento + "T00:00:00").toLocaleDateString(),
             favorecido: x.favorecido,
@@ -73,31 +97,74 @@ const movimentosIndex = new Vue({
         })
       );
       
-      if(lMovimentos.length > 0){
-        let pdfName = 'Movimentos'; 
-        let pdfsize='a4';
-        let doc = new jsPDF('l', 'pt', pdfsize);
+      if(this.movimentosPDF.length > 0){
+        const pdfName = 'Movimentos';
+        const pdfsize='a4';
+        const doc = new JsPdf('p', 'pt', pdfsize);
+
+        let SubtitleFiltro = '';
+        let filter = 'Filtros: ';
+        filter += this.dataCompetenciaInicioPDF? `[Data Início: ${new Date(this.dataCompetenciaInicioPDF + "T00:00:00").toLocaleDateString()}]`:'';
+        filter += this.dataCompetenciaFinalPDF? `[Data Final: ${new Date(this.dataCompetenciaFinalPDF + "T00:00:00").toLocaleDateString()}]`:'';
+        let valuePessoa = this.pessoaIdPDF;
+        if(valuePessoa != ''){
+          var lPessoa = this.pessoas.find(function(element) { 
+            return element.id == valuePessoa; 
+          }); 
+          filter += lPessoa? `[Fav/Sac: ${lPessoa.nome}]`:'';
+        }
+        filter += this.valorPDF ? `[Valor: ${this.valorPDF}]`:'';
+        SubtitleFiltro += filter !== 'Filtros: ' ? filter : '';
+
+        const header = function(data) {
+          doc.setFontSize(18);
+          doc.setTextColor(40);
+          doc.setFontStyle('normal');
+          doc.text("Relatório - Movimentos", data.settings.margin.left, 30);
+
+          let SubtitleData = '';
+          const now = new Date().toLocaleString();
+          SubtitleData += `Data: ${now}`; 
+          
+          doc.setFontSize(12);
+          doc.setTextColor(40);
+          doc.setFontStyle('normal');
+          doc.text(SubtitleData, data.settings.margin.left, 50);
+          doc.text(SubtitleFiltro, data.settings.margin.left, 70);
+        };
+        
+        const Options = {
+          didDrawPage: header,
+          margin: {
+            top: 80
+          },
+          theme: 'grid', 
+          headStyles: {
+            fillColor: [0, 0, 0],
+            textColor: [255, 255, 255]
+          },
+          styles: {
+            overflow: 'linebreak',
+            cellWidth: 60
+          },
+          columnStyles: {
+              0: {cellWidth: 200}
+          }
+        };
         
         if(Rows.length > 0){
-          doc.setFontStyle("bold");
-          doc.setFontSize(20);
-          doc.text("Relatório - Movimentos", 65, 25);
-          doc.autoTable(Columns, Rows, {
-          	theme: 'grid', 
-          	headStyles: {
-              fillColor: [0, 0, 0],
-              textColor: [255, 255, 255]
-            },
-          	styles: {
-              overflow: 'linebreak',
-              cellWidth: 88
-            },
-            columnStyles: {
-                0: {cellWidth: 200}
-            }
-          });
+          doc.autoTable(Columns, Rows, Options);
+          const pageCount = doc.internal.getNumberOfPages();
+          for(let i = 0; i < pageCount; i++) {
+            doc.setPage(i); 
+            doc.setFontSize(12);
+            doc.text(560,15, doc.internal.getCurrentPageInfo().pageNumber + "/" + pageCount);
+          }
           doc.save(pdfName + ".pdf");
         }
+      }
+      else{
+         this.$toastr.w("Nenhum Registro.");
       }
     },
     changePage: function(page) {
@@ -162,6 +229,12 @@ const movimentosIndex = new Vue({
       filter += this.dataCompetenciaFinal? `&dataCompetenciaFinal=${this.dataCompetenciaFinal}`:'';
       filter += this.pessoaId? `&pessoaId=${this.pessoaId.id}`:'';
       filter += `&page=${this.currentPage}`;
+      
+      this.valorPDF = this.valor;
+      this.pessoaIdPDF = this.pessoaId;
+      this.dataCompetenciaFinalPDF = this.dataCompetenciaFinal;
+      this.dataCompetenciaInicioPDF = this.dataCompetenciaInicio;
+      
       this.loading = true;
       this.clickedMovimento = {pessoa: {}, conta: {}, nota: {}};
       axios
