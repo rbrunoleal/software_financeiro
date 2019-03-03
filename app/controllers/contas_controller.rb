@@ -9,7 +9,7 @@ class ContasController < ApplicationController
     @contas = @contas.agencia_numero(params[:agenciaNumero]) if params[:agenciaNumero].present?
     @contas = @contas.banco_id(params[:bancoId]) if params[:bancoId].present?
 
-    @contas = @contas.paginate(:page => params[:page], :per_page => 10)
+    @contas = @contas.paginate(:page => params[:page], :per_page => params[:per_page])
     respond_to do |format|
       format.html { render :index }
       format.json { render json: {contas: @contas.as_json(:include => [:banco], methods: [:conta, :agencia, :saldo]), total: @contas.total_entries}}

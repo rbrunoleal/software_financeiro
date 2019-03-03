@@ -5,7 +5,7 @@ import axios from 'axios'
 import Toastr from 'vue-toastr';
 import BootstrapVue from 'bootstrap-vue'
 import { URL } from './env';
-import jsPDF from 'jspdf'
+import JsPdf from 'jspdf'
 import jsAutoTable from 'jspdf-autotable'
 
 
@@ -38,8 +38,12 @@ const contasIndex = new Vue({
     contaNumero: '',
     contaBanco: '',
     agenciaNumero: '',
+    contaNumeroPDF: '',
+    contaBancoPDF: '',
+    agenciaNumeroPDF: '',
     bancoId: '',
     bancos: [],
+    contasPDF: [],
     currentPage: 1,
     total: 0
   },
@@ -49,44 +53,105 @@ const contasIndex = new Vue({
   },
   methods: {
     createPDF: function (){
-      var lContas = this.contas;
-      var Columns = [
+      let filter = this.contaNumero? `contaNumero=${this.contaNumero}`:'';
+      filter += this.agenciaNumero? `&agenciaNumero=${this.agenciaNumero}`:'';
+      filter += this.bancoId? `&bancoId=${this.bancoId}`:'';
+      filter += `&per_page=${this.total}`;
+      this.isLoading = true;
+      axios
+        .get(`${URL}/contas.json?${filter}`)
+        .then(response => {
+          this.contasPDF = response.data.contas;
+        })
+        .catch(error => {
+          this.errored = true;
+          this.loading = false;
+      })
+      .finally(() => this.mountPDF())
+    },
+    mountPDF: function (){
+     this.loading = false;
+     
+      const Columns = [
           {title: "Conta", dataKey: "conta"},
           {title: "Banco", dataKey: "banco"},
           {title: "Agência", dataKey: "agencia"}
       ];
       
-      var Rows = lContas.map(x => 
+      const Rows = this.contasPDF.map(x =>
         ({  conta: x.conta,
             banco: x.banco.descricao,
             agencia: x.agencia
         })
       );
       
-      if(lContas.length > 0){
-        let pdfName = 'Contas'; 
-        let pdfsize='a4';
-        let doc = new jsPDF('p', 'pt', pdfsize);
+      if(this.contasPDF.length > 0){
+        const pdfName = 'Contas';
+        const pdfsize='a4';
+        const doc = new JsPdf('p', 'pt', pdfsize);
+        
+        let SubtitleFiltro = '';
+        let filter = 'Filtros: ';
+        filter += this.contaNumeroPDF? `[Número: ${this.contaNumeroPDF}]`:'';
+        filter += this.agenciaNumeroPDF? `[Agência: ${this.agenciaNumeroPDF}]`:'';
+        
+        let valueBanco = this.contaBancoPDF;
+        if(valueBanco != ''){
+          var lBanco = this.bancos.find(function(element) { 
+            return element.id == valueBanco; 
+          }); 
+          filter += lBanco? `[Banco: ${lBanco.descricao}]`:'';
+        }
+        SubtitleFiltro += filter !== 'Filtros: ' ? filter : '';
+        const header = function(data) {
+          doc.setFontSize(18);
+          doc.setTextColor(40);
+          doc.setFontStyle('normal');
+          doc.text("Relatório - Contas", data.settings.margin.left, 30);
+
+          let SubtitleData = '';
+          const now = new Date().toLocaleString();
+          SubtitleData += `Data: ${now}`; 
+          
+          doc.setFontSize(12);
+          doc.setTextColor(40);
+          doc.setFontStyle('normal');
+          doc.text(SubtitleData, data.settings.margin.left, 50);
+          doc.text(SubtitleFiltro, data.settings.margin.left, 70);
+        };
+        
+        const Options = {
+          didDrawPage: header,
+          margin: {
+            top: 80
+          },
+          theme: 'grid', 
+          headStyles: {
+            fillColor: [0, 0, 0],
+            textColor: [255, 255, 255]
+          },
+          styles: {
+            overflow: 'linebreak',
+            cellWidth: 88
+          },
+          columnStyles: {
+              0: {cellWidth: 200}
+          }
+        };
+        
         if(Rows.length > 0){
-          doc.setFontStyle("bold");
-          doc.setFontSize(20);
-          doc.text("Relatório - Contas", 65, 25);
-          doc.autoTable(Columns, Rows, {
-          	theme: 'grid', 
-          	headStyles: {
-              fillColor: [0, 0, 0],
-              textColor: [255, 255, 255]
-            },
-          	styles: {
-              overflow: 'linebreak',
-              cellWidth: 88
-            },
-            columnStyles: {
-                0: {cellWidth: 200}
-            }
-          });
+          doc.autoTable(Columns, Rows, Options);
+          const pageCount = doc.internal.getNumberOfPages();
+          for(let i = 0; i < pageCount; i++) {
+            doc.setPage(i); 
+            doc.setFontSize(12);
+            doc.text(560,15, doc.internal.getCurrentPageInfo().pageNumber + "/" + pageCount);
+          }
           doc.save(pdfName + ".pdf");
         }
+      }
+      else{
+         this.$toastr.w("Nenhum Registro.");
       }
     },
     changePage: function(page) {
@@ -130,6 +195,11 @@ const contasIndex = new Vue({
     searchContas: function(){
       this.loading = true;
       this.clickedConta = {banco: {}};
+      
+      this.contaNumeroPDF = this.contaNumero;
+      this.contaBancoPDF = this.bancoId;
+      this.agenciaNumeroPDF = this.agenciaNumero;
+      
       let filter = this.contaNumero? `contaNumero=${this.contaNumero}`:'';
       filter += this.agenciaNumero? `&agenciaNumero=${this.agenciaNumero}`:'';
       filter += this.bancoId? `&bancoId=${this.bancoId}`:'';
