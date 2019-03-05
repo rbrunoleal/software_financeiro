@@ -6,6 +6,7 @@ class CreateContas < ActiveRecord::Migration[5.2]
       t.integer :conta_digito
       t.string :agencia_numero
       t.integer :agencia_digito
+      t.string :descricao
 
       t.timestamps
     end

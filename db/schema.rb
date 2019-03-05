@@ -15,7 +15,6 @@ ActiveRecord::Schema.define(version: 2019_02_05_192515) do
   create_table "bancos", force: :cascade do |t|
     t.string "descricao"
     t.string "codigo"
-    t.string "foto"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -34,6 +33,7 @@ ActiveRecord::Schema.define(version: 2019_02_05_192515) do
     t.integer "conta_digito"
     t.string "agencia_numero"
     t.integer "agencia_digito"
+    t.string "descricao"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["banco_id"], name: "index_contas_on_banco_id"

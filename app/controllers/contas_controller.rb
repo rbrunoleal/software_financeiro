@@ -106,6 +106,6 @@ class ContasController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def conta_params
-      params.require(:conta).permit(:banco_id, :conta_numero, :conta_digito, :agencia_numero, :agencia_digito)
+      params.require(:conta).permit(:banco_id, :conta_numero, :conta_digito, :agencia_numero, :agencia_digito, :descricao)
     end
 end

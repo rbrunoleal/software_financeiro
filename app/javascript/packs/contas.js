@@ -73,6 +73,7 @@ const contasIndex = new Vue({
      this.loading = false;
      
       const Columns = [
+          {title: "Descrição", dataKey: "descricao"},
           {title: "Conta", dataKey: "conta"},
           {title: "Banco", dataKey: "banco"},
           {title: "Agência", dataKey: "agencia"}
@@ -81,7 +82,8 @@ const contasIndex = new Vue({
       const Rows = this.contasPDF.map(x =>
         ({  conta: x.conta,
             banco: x.banco.descricao,
-            agencia: x.agencia
+            agencia: x.agencia,
+            descricao: x.descricao
         })
       );
       

@@ -59,6 +59,7 @@
             <label for="selectAll"></label>
           </span>
         </th>
+        <th>Descrição</th>
         <th>Conta</th>
         <th>Banco</th>
         <th>Agência</th>
@@ -73,6 +74,7 @@
               <label :for="'checkbox'+conta.id"></label>
             </span>
         </td>
+        <td>{{ conta.descricao }}</td>
         <td><a v-bind:href="'/contas/'+conta.id">{{ conta.conta }}</a></td>
         <td>{{ conta.banco.descricao }}</td>
         <td>{{ conta.agencia }}</td>
@@ -104,6 +106,8 @@
             {{banco.descricao}}
           </option>
         </select>
+        <label for="conta_conta_numero">Descrição</label>
+          <input class="form-control" type="text" name="conta[descricao]" id="conta_descricao" v-model="clickedConta.descricao">
       </div>
       <div class="form-row">
         <div class="field form-group col-md-8">
