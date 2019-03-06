@@ -29,7 +29,7 @@ const contasIndex = new Vue({
     loading: true,
     create: false,
     clickedConta: {banco: {}},
-    contas: [{id: 1, numero: '12312', agencia: '1231', banco: {id: '', descricao: 'Brasil'}}],
+    contas: [{banco: {}}],
     contasfiltro: [],
     pickedConta: {},
     showModal: false,
