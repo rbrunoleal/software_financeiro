@@ -1,10 +1,10 @@
 <% if usuario_signed_in? %>
-<div id="contasApp" v-cloak>
+<div id="contasApp" v-cloak  class="container">
    <div class="table-wrapper">
       <div class="table-title">
          <div class="row">
             <div class="col-sm-6">
-               <h2><b>Resumo</b></h2>
+               <h2 class="text-light"><b>Resumo</b></h2>
             </div>
          </div>
       </div>
@@ -62,6 +62,126 @@
             </tr>
          </thead>
          <tbody>
+            <tr v-if="loading">
+               <td>
+               </td>
+               <td>
+                  <div class="ph-item">
+                      <div class="ph-col-12">
+                          <div class="ph-row">
+                              <div class="ph-col-12"></div>
+                          </div>
+                      </div>
+                  </div>
+               </td>
+               <td>
+                  <div class="ph-item">
+                      <div class="ph-col-12">
+                       <div class="ph-row">
+                           <div class="ph-col-12"></div>
+                       </div>
+                   </div>
+               </div>
+               </td>
+               <td>
+                  <div class="ph-item">
+                      <div class="ph-col-12">
+                       <div class="ph-row">
+                           <div class="ph-col-12"></div>
+                       </div>
+                   </div>
+               </div>
+               </td>
+               <td>
+                  <div class="ph-item">
+                      <div class="ph-col-12">
+                       <div class="ph-row">
+                           <div class="ph-col-12"></div>
+                       </div>
+                   </div>
+               </div>
+               </td>
+            </tr>
+            <tr v-if="loading">
+               <td>
+               </td>
+               <td>
+                  <div class="ph-item">
+                      <div class="ph-col-12">
+                          <div class="ph-row">
+                              <div class="ph-col-12"></div>
+                          </div>
+                      </div>
+                  </div>
+               </td>
+               <td>
+                  <div class="ph-item">
+                      <div class="ph-col-12">
+                       <div class="ph-row">
+                           <div class="ph-col-12"></div>
+                       </div>
+                   </div>
+               </div>
+               </td>
+               <td>
+                  <div class="ph-item">
+                      <div class="ph-col-12">
+                       <div class="ph-row">
+                           <div class="ph-col-12"></div>
+                       </div>
+                   </div>
+               </div>
+               </td>
+               <td>
+                  <div class="ph-item">
+                      <div class="ph-col-12">
+                       <div class="ph-row">
+                           <div class="ph-col-12"></div>
+                       </div>
+                   </div>
+               </div>
+               </td>
+            </tr>
+            <tr v-if="loading">
+               <td>
+               </td>
+               <td>
+                  <div class="ph-item">
+                      <div class="ph-col-12">
+                          <div class="ph-row">
+                              <div class="ph-col-12"></div>
+                          </div>
+                      </div>
+                  </div>
+               </td>
+               <td>
+                  <div class="ph-item">
+                      <div class="ph-col-12">
+                       <div class="ph-row">
+                           <div class="ph-col-12"></div>
+                       </div>
+                   </div>
+               </div>
+               </td>
+               <td>
+                  <div class="ph-item">
+                      <div class="ph-col-12">
+                       <div class="ph-row">
+                           <div class="ph-col-12"></div>
+                       </div>
+                   </div>
+               </div>
+               </td>
+               <td>
+                  <div class="ph-item">
+                      <div class="ph-col-12">
+                       <div class="ph-row">
+                           <div class="ph-col-12"></div>
+                       </div>
+                   </div>
+               </div>
+               </td>
+            </tr>
             <tr v-for="(conta, index) in contas">
                <td>
                   <span class="custom-checkbox">
@@ -200,5 +320,64 @@
    </div>
    <!-- /container -->
 </div>
+<% if !usuario_signed_in? %>
+        <!-- map -->
+        <section id="mapa" class="clearfix">
+           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.8255697079567!2d-38.457243385177904!3d-12.983005890848348!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7161b1075f875d1%3A0xd020001be2daadfd!2sBoulevard+Side+Empresarial!5e0!3m2!1spt-BR!2sbr!4v1551445216522" width="100%" height="380" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </section>
+        <section id="contact" name="contact">
+           <div id="f">
+              <div class="container">
+                 <h3><b>CONTATO</b></h3>
+                 <br>
+                 <div class="row">
+                    <div class="col-lg-4">
+                       <h3><b>Envie um email:</b></h3>
+                       <h3>email@example.com</h3>
+                       <br>
+                    </div>
+                    <div class="col-lg-4">
+                       <h3><b>Telefone:</b></h3>
+                       <h3>+55 71 5555-5555</h3>
+                       <br>
+                    </div>
+                 </div>
+                 <div class="row">
+                    <div class="col-md-12">
+                       <h3><b>Contato</b></h3>
+                       <form class="contact-form php-mail-form" role="form" action="contactform/contactform.php" method="POST">
+                          <div class="form-group">
+                             <label for="contact-name">Nome</label>
+                             <input type="name" name="name" class="form-control" id="contact-name" placeholder="Nome" data-rule="minlen:4" data-msg="Please enter at least 4 chars" >
+                             <div class="validate"></div>
+                          </div>
+                          <div class="form-group">
+                             <label for="contact-email">Email</label>
+                             <input type="email" name="email" class="form-control" id="contact-email" placeholder="Email" data-rule="email" data-msg="Please enter a valid email">
+                             <div class="validate"></div>
+                          </div>
+                          <div class="form-group">
+                             <label for="contact-subject">Assunto</label>
+                             <input type="text" name="subject" class="form-control" id="contact-subject" placeholder="Assunto" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject">
+                             <div class="validate"></div>
+                          </div>
+                          <div class="form-group">
+                             <label for="contact-message">Mensagem</label>
+                             <textarea class="form-control" name="message" id="contact-message" placeholder="Mensagem" rows="5" data-rule="required" data-msg="Please write something for us"></textarea>
+                             <div class="validate"></div>
+                          </div>
+                          <div class="loading"></div>
+                          <div class="error-message"></div>
+                          <div class="sent-message">Sua menssagem foi enviada. Obrigado!</div>
+                          <div class="form-send">
+                             <button type="submit" class="btn btn-large">Enviar menssagem</button>
+                          </div>
+                       </form>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </section>
+      <% end %>
 <!-- /g -->
 <% end %>
