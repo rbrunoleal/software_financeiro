@@ -269,7 +269,7 @@
            </div>
            </td>
         </tr>
-        <tr v-for="(banco, index) in bancos">
+        <tr v-if="!loading" v-for="(banco, index) in bancos">
           <td>
             <span class="custom-checkbox">
               <input type="checkbox" :id="'checkbox'+banco.id" value="1" v-model="bancos[index].selected" @click="select">
