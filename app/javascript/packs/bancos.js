@@ -183,6 +183,7 @@ const bancosIndex = new Vue({
       let filter = this.codigo? `codigo=${this.codigo}`:'';
       filter += this.descricao? `&descricao=${this.descricao}`:'';
       filter += `&page=${this.currentPage}`;
+      filter += '&per_page=10';
       axios
         .get(`${URL}/bancos.json?${filter}`)
         .then(response => {
