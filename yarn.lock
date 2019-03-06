@@ -5042,6 +5042,11 @@ pkg-dir@^2.0.0:
   dependencies:
     find-up "^2.1.0"
 
+placeholder-loading@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/placeholder-loading/-/placeholder-loading-0.2.0.tgz#b9e111ab773d0a9697c11ebfb2b08404a7b1ecd0"
+  integrity sha512-HAQyV3E+7WGpeuA0cYVIpC9dy9TFUSkdhW1zrUDhQDzcdGNy0ZrpY1LNokIjthI+FNTAUtot7kfpB5rknE304A==
+
 pleeease-filters@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/pleeease-filters/-/pleeease-filters-4.0.0.tgz#6632b2fb05648d2758d865384fbced79e1ccaec7"
