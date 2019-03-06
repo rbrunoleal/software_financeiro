@@ -25,6 +25,8 @@
 
 @import 'vuetify/dist/vuetify.min.css';
 
+@import "placeholder-loading/src/scss/placeholder-loading";
+
 html {
   position: relative;
   min-height: 100%;
@@ -845,5 +847,11 @@ hr {
   padding: 15px;
   font-weight: 600;
   margin: 15px 0;
+}
+.ph-item{
+  margin: 0px 0px 0px -14px;
+  padding: 0px 0px 0px 0px;
+  border: none;
+  background: inherit;
 }
 [v-cloak] { display:none; }
