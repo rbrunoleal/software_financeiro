@@ -15,7 +15,8 @@ Rails.application.routes.draw do
   resources :pessoas
   resources :bancos
   resources :movimentos
-  devise_for :usuarios
+  
+  devise_for :usuarios, :skip => [:registrations] 
 
   #Rotas JSON(País, Estado, Cidade)
   get 'enderecos/association'
