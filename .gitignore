@@ -40,4 +40,4 @@ yarn-debug.log*
 
 /.idea
 
-/app/javascript/packs/env.js
+#/app/javascript/packs/env.js
