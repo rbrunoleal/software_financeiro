@@ -1,1 +1,1 @@
-export const URL = window.location.href ;
+export const URL = window.location.href.replace(location.pathname,'/');
