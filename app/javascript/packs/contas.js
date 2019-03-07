@@ -38,6 +38,7 @@ const contasIndex = new Vue({
     contaNumero: '',
     contaBanco: '',
     agenciaNumero: '',
+     contaDescricao: '',
     contaNumeroPDF: '',
     contaDescricaoPDF: '',
     contaBancoPDF: '',
