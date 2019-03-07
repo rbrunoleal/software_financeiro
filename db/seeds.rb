@@ -1,5 +1,5 @@
 Usuario.destroy_all
-Usuario.create!(email: 'admin@admin.com', password: 'admin123', password_confirmation: 'admin123') if Rails.env.development?
+Usuario.create!(email: 'admin@admin.com', password: 'admin', password_confirmation: 'admin')
 p "Usuarios Criados!"
 
 Banco.destroy_all
