@@ -6,6 +6,7 @@ class ContasController < ApplicationController
   def index
     @contas = Conta.where(nil) #Inicia Escopo
     @contas = @contas.conta_numero(params[:contaNumero]) if params[:contaNumero].present?
+    @contas = @contas.conta_descricao(params[:contaDescricao]) if params[:contaDescricao].present?
     @contas = @contas.agencia_numero(params[:agenciaNumero]) if params[:agenciaNumero].present?
     @contas = @contas.banco_id(params[:bancoId]) if params[:bancoId].present?
 

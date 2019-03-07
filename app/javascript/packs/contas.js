@@ -39,6 +39,7 @@ const contasIndex = new Vue({
     contaBanco: '',
     agenciaNumero: '',
     contaNumeroPDF: '',
+    contaDescricaoPDF: '',
     contaBancoPDF: '',
     agenciaNumeroPDF: '',
     bancoId: '',
@@ -54,6 +55,7 @@ const contasIndex = new Vue({
   methods: {
     createPDF: function (){
       let filter = this.contaNumeroPDF? `contaNumero=${this.contaNumeroPDF}`:'';
+      filter = this.contaDescricaoPDF? `contaDescricao=${this.contaDescricaoPDF}`:'';
       filter += this.agenciaNumeroPDF? `&agenciaNumero=${this.agenciaNumeroPDF}`:'';
       filter += this.contaBancoPDF? `&bancoId=${this.contaBancoPDF}`:'';
       filter += `&per_page=${this.total}`;
@@ -94,6 +96,7 @@ const contasIndex = new Vue({
         
         let SubtitleFiltro = '';
         let filter = 'Filtros: ';
+        filter += this.contaDescricaoPDF? `[Descrição: ${this.contaDescricaoPDF}]`:'';
         filter += this.contaNumeroPDF? `[Número: ${this.contaNumeroPDF}]`:'';
         filter += this.agenciaNumeroPDF? `[Agência: ${this.agenciaNumeroPDF}]`:'';
         
@@ -198,6 +201,7 @@ const contasIndex = new Vue({
       this.loading = true;
       this.clickedConta = {banco: {}};
       
+      this.contaDescricaoPDF = this.contaDescricao;
       this.contaNumeroPDF = this.contaNumero;
       this.contaBancoPDF = this.bancoId;
       this.agenciaNumeroPDF = this.agenciaNumero;
@@ -205,6 +209,7 @@ const contasIndex = new Vue({
       let filter = this.contaNumero? `contaNumero=${this.contaNumero}`:'';
       filter += this.agenciaNumero? `&agenciaNumero=${this.agenciaNumero}`:'';
       filter += this.bancoId? `&bancoId=${this.bancoId}`:'';
+      filter += this.contaDescricao? `&contaDescricao=${this.contaDescricao}`:'';
       filter += `&page=${this.currentPage}`;
       axios
           .get(`${URL}/contas.json?${filter}`)

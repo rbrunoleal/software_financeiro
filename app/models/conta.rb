@@ -20,6 +20,7 @@ class Conta < ApplicationRecord
   end
 
   scope :conta_numero, -> (conta_numero) { where("conta_numero like ?", "%#{conta_numero}%")}
+  scope :conta_descricao, -> (conta_descricao) { where("descricao like ?", "%#{conta_descricao}%")}
   scope :agencia_numero, -> (agencia_numero) { where("agencia_numero like ?", "%#{agencia_numero}%")}
   scope :banco_id, -> (bancoId) { where("banco_id = ?", "#{bancoId}")}
 end
