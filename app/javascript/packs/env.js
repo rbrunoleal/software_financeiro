@@ -1,1 +1,1 @@
-export const URL = 'https://projetosanjuan.herokuapp.com/';
+export const URL = 'https://san-juan.herokuapp.com/';
