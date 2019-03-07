@@ -1,1 +1,1 @@
-export const URL = 'https://san-juan.herokuapp.com/';
+export const URL = window.location.href ;
