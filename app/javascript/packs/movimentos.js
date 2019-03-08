@@ -41,13 +41,19 @@ const movimentosIndex = new Vue({
     total: 0,
     currentPage: 1,
     valor: '',
-    pessoaId: '',
+    pessoaNome: '',
     dataCompetenciaInicio: '',
     dataCompetenciaFinal: '',
     valorPDF: '',
-    pessoaIdPDF: '',
+    pessoaNomePDF: '',
     dataCompetenciaInicioPDF: '',
-    dataCompetenciaFinalPDF: ''
+    dataCompetenciaFinalPDF: '',
+    tipoMovimento: '',
+    tipoMovimentoPDF: '',
+    tipos: [
+      {value:'receita',descricao:'Receita'},
+      {value:'despesa',descricao:'Despesa'}
+    ],
   },
   mounted(){
     this.searchMovimentos();
@@ -59,7 +65,8 @@ const movimentosIndex = new Vue({
       let filter = this.valorPDF ? `valor=${this.valorPDF}`:'';
       filter += this.dataCompetenciaInicioPDF? `&dataCompetenciaInicio=${this.dataCompetenciaInicioPDF}`:'';
       filter += this.dataCompetenciaFinalPDF? `&dataCompetenciaFinal=${this.dataCompetenciaFinalPDF}`:'';
-      filter += this.pessoaIdPDF? `&pessoaId=${this.pessoaIdPDF.id}`:'';
+      filter += this.pessoaNomePDF? `&pessoa=${this.pessoaNomePDF}`:'';
+      filter += this.tipoMovimento? `&${this.tipoMovimento}=1`:'';
       filter += `&per_page=${this.total}`;
       this.isLoading = true;
       axios
@@ -106,14 +113,15 @@ const movimentosIndex = new Vue({
         let filter = 'Filtros: ';
         filter += this.dataCompetenciaInicioPDF? `[Data Início: ${new Date(this.dataCompetenciaInicioPDF + "T00:00:00").toLocaleDateString()}]`:'';
         filter += this.dataCompetenciaFinalPDF? `[Data Final: ${new Date(this.dataCompetenciaFinalPDF + "T00:00:00").toLocaleDateString()}]`:'';
-        let valuePessoa = this.pessoaIdPDF;
-        if(valuePessoa != ''){
-          var lPessoa = this.pessoas.find(function(element) { 
-            return element.id == valuePessoa; 
-          }); 
-          filter += lPessoa? `[Fav/Sac: ${lPessoa.nome}]`:'';
-        }
+        filter += this.pessoaNomePDF? `[Fav/Sac: ${this.pessoaNomePDF}]`:'';
         filter += this.valorPDF ? `[Valor: ${this.valorPDF}]`:'';
+        let valueTipo = this.tipoMovimentoPDF;
+        if(valueTipo != ''){
+          var lTipo = this.tipos.find(function(element) { 
+            return element.value == valueTipo; 
+          }); 
+          filter += lTipo? `[Tipo: ${lTipo.descricao}]`:'';
+        }
         SubtitleFiltro += filter !== 'Filtros: ' ? filter : '';
 
         const header = function(data) {
@@ -184,7 +192,6 @@ const movimentosIndex = new Vue({
       this.clickedMovimento = movimento;
     },
     mountShowModal: function (movimento){
-      console.log(movimento);
       this.clickedMovimento = movimento;
       this.$refs.showMovimentoModal.show();
     },
@@ -227,13 +234,16 @@ const movimentosIndex = new Vue({
       let filter = this.valor ? `valor=${this.valor}`:'';
       filter += this.dataCompetenciaInicio? `&dataCompetenciaInicio=${this.dataCompetenciaInicio}`:'';
       filter += this.dataCompetenciaFinal? `&dataCompetenciaFinal=${this.dataCompetenciaFinal}`:'';
-      filter += this.pessoaId? `&pessoaId=${this.pessoaId.id}`:'';
+      filter += this.pessoaNome? `&pessoa=${this.pessoaNome}`:'';
+      filter += this.tipoMovimento? `&${this.tipoMovimento}=1`:'';
+      
       filter += `&page=${this.currentPage}`;
       
       this.valorPDF = this.valor;
-      this.pessoaIdPDF = this.pessoaId;
+      this.pessoaNomePDF = this.pessoaNome;
       this.dataCompetenciaFinalPDF = this.dataCompetenciaFinal;
       this.dataCompetenciaInicioPDF = this.dataCompetenciaInicio;
+      this.tipoMovimentoPDF = this.tipoMovimento;
       
       this.loading = true;
       this.clickedMovimento = {pessoa: {}, conta: {}, nota: {}};
@@ -249,6 +259,10 @@ const movimentosIndex = new Vue({
         .finally(() => this.loading = false)
     },
     createMovimento: function(movimento){
+      if (movimento.tipo === 'despesa'){
+        movimento.valor = movimento.valor * (-1);
+      }
+      
       movimento = {... movimento, nota_attributes: movimento.nota, pessoa_id: movimento.favorecido.id};
       this.loading = true;
       axios.post(`${URL}/movimentos.json`, {

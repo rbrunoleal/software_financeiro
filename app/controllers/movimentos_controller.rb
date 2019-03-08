@@ -7,8 +7,10 @@ class MovimentosController < ApplicationController
     @movimentos = Movimento.where(nil) #Inicia Escopo
     @movimentos = @movimentos.data_competencia(params[:dataCompetenciaInicio]) if params[:dataCompetenciaInicio].present?
     @movimentos = @movimentos.data_competencia_final(params[:dataCompetenciaFinal]) if params[:dataCompetenciaFinal].present?
-    @movimentos = @movimentos.pessoa_id(params[:pessoaId]) if params[:pessoaId].present?
+    @movimentos = @movimentos.pessoa(params[:pessoa]) if params[:pessoa].present?
     @movimentos = @movimentos.valor(params[:valor]) if params[:valor].present?
+    @movimentos = @movimentos.receita(params[:receita]) if params[:receita].present?
+    @movimentos = @movimentos.despesa(params[:despesa]) if params[:despesa].present?
     
     @movimentos = @movimentos.paginate(:page => params[:page], :per_page => params[:per_page])
     respond_to do |format|

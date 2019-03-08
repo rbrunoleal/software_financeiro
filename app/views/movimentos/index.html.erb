@@ -14,7 +14,7 @@
 	  </div>
 	  <div class="search-wrapper">
 		  <div class="form-row align-items-center">
-		    <div class="col-md-4">
+		    <div class="col-md-3">
 		      <label class="sr-only" for="inlineFormInput"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
@@ -23,7 +23,7 @@
 		        <input class="form-control" type="date" id="dataCompetenciaI" v-model="dataCompetenciaInicio">
 		      </div>
 		    </div>
-		    <div class="col-md-4">
+		    <div class="col-md-3">
 		      <label class="sr-only" for="inlineFormInput"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
@@ -32,24 +32,38 @@
 		        <input class="form-control" type="date" id="dataCompetenciaF" v-model="dataCompetenciaFinal">
 		      </div>
 		    </div>
-		   </div>
-		   <div class="form-row align-items-center">
-		    <div class="col-md-4">
-		      <label class="sr-only" for="inlineFormInputGroup"></label>
+		     <div class="col-md-2">
+		      <label class="sr-only" for="tipoMovimento"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
-		          <div class="input-group-text">Fav/Sac</div>
+		          <div class="input-group-text">Tipo</div>
 		        </div>
-				<v-select v-model="pessoaId" label="nome" placeholder="Selecione" :options="pessoas"><span slot="no-options">Não foi encontrado.</span></v-select>
+            <select v-model = 'tipoMovimento' class="form-control">
+              <option v-for="tipo in tipos" v-bind:value="tipo.value">
+                {{tipo.descricao}}
+              </option>
+            </select>
 		      </div>
 		    </div>
-		    <div class="col-md-4">
+		    <div class="col-md-2">
 		      <label class="sr-only" for="agenciaNumero"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
 		          <div class="input-group-text">Valor</div>
 		        </div>
 		        <input step="0.01" class="form-control" type="number" id="valor" v-model="valor">
+		      </div>
+		    </div>
+		   </div>
+		   <div class="form-row align-items-center">
+		   	
+		    <div class="col-md-10">
+		      <label class="sr-only" for="inlineFormInputGroup"></label>
+		      <div class="input-group mb-2">
+		        <div class="input-group-prepend">
+		          <div class="input-group-text">Favorecido/Sacado</div>
+		        </div>
+		        <input type="text" class="form-control" id="pessoaNome" v-model="pessoaNome">
 		      </div>
 		    </div>
 		     <div class="col-auto">
@@ -133,7 +147,16 @@
 				    	</option>
 				    </select>
 				  </div>
-				  
+				
+				<div class="field form-group">
+					<label for="conta_banco_id">Tipo</label>
+				  <select v-model = 'clickedMovimento.tipo' class="form-control">
+              <option v-for="tipo in tipos" v-bind:value="tipo.value">
+                {{tipo.descricao}}
+              </option>
+         	</select>
+        </div>
+        
 				 <div class="field form-group">
 				    <label for="movimento_valor">Valor</label>
 				    <input step="0.01" class="form-control" type="number" name="movimento[valor]" id="movimento_valor" v-model="clickedMovimento.valor">

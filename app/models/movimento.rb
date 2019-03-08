@@ -21,5 +21,13 @@ class Movimento < ApplicationRecord
     scope :valor, -> (valor) { where("valor = ?", "#{valor}")}
     scope :data_competencia, -> (dataCompetenciaInicio) { where("data_competencia >= ?", "#{dataCompetenciaInicio}")}
     scope :data_competencia_final, -> (dataCompetenciaFinal) { where("data_competencia <= ?", "#{dataCompetenciaFinal}")}
-    scope :pessoa_id, -> (pessoaId) { where("pessoa_id = ?", "#{pessoaId}")}
+    scope :pessoa, -> (pessoa) {
+      joins("JOIN pessoas ON pessoas.id = movimentos.pessoa_id")
+      .joins("LEFT JOIN pessoafisicas ON pessoas.pessoafisica_id = pessoafisicas.id")
+      .joins("LEFT JOIN pessoajuridicas ON pessoas.pessoajuridica_id = pessoajuridicas.id")    
+      .where("pessoafisicas.nome like ? or pessoajuridicas.razaosocial like ?",  "%#{pessoa}%", "%#{pessoa}%") 
+    }
+    scope :receita, -> (receita) { where("valor > 0")}
+    scope :despesa, -> (despesa) { where("valor < 0")}
 end
+ 
