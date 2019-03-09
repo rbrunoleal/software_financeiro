@@ -61,66 +61,69 @@
   </div>
 
   <b-modal ref="formMovimentoModal" title="Movimento">
-    <form>
-      <div v-if="!nota">
-        <div class="field form-group">
-          <label for="movimento_data_competencia">Data da competência</label>
-          <input class="form-control" type="date" name="movimento[data_competencia]" id="movimento_data_competencia" v-model="clickedMovimento.data_competencia">
-        </div>
-
-        <div class="field form-group">
-          <label for="movimento_data_vencimento">Data do vencimento</label>
-          <input class="form-control" type="date" name="movimento[data_vencimento]" id="movimento_data_vencimento" v-model="clickedMovimento.data_vencimento">
-        </div>
-
-        <div class="field form-group">
-          <label for="movimento_descricao">Descrição</label>
-          <input class="form-control" type="text" name="movimento[descricao]" id="movimento_descricao" v-model="clickedMovimento.descricao">
-        </div>
-
-        <div class="field form-group">
-          <label for="movimento_pessoa_id">Favorecido</label>
-          <select v-model = 'clickedMovimento.pessoa_id' class="form-control">
-            <option v-for="pessoa in pessoas" v-bind:value="pessoa.id">
-              {{pessoa.nome}}
-            </option>
-          </select>
-        </div>
-        <div class="field form-group">
-          <label for="movimento_valor">Valor</label>
-          <input step="0.01" class="form-control" type="number" name="movimento[valor]" id="movimento_valor" v-model="clickedMovimento.valor">
-        </div>
-      </div>
-      <div v-if="nota">
-        <div class="field form-group">
-          <label for="movimento_nota_data">Data</label>
-          <input class="form-control" type="date" name="movimento_nota[data]" id="movimento_nota_data" v-model="clickedMovimento.nota.data">
-        </div>
-        <div class="field form-group">
-          <label for="movimento_nota_descricao">Descrição</label>
-          <input class="form-control" type="text" name="movimento_nota[descricao]" id="movimento_nota_descricao" v-model="clickedMovimento.nota.descricao">
-        </div>
-
-        <div class="form-row">
-          <div class="field form-group col-md-8">
-            <label for="movimento_numero_nota">Número da nota</label>
-            <input class="form-control" type="number" name="movimento_nota[numero]" id="movimento_nota_numero" v-model="clickedMovimento.nota.numero">
-          </div>
-          <div class="field form-group col-md-4">
-            <label for="movimento_codigo_nota">Código da nota</label>
-            <input class="form-control" type="number" name="movimento_nota[codigo]" id="movimento_nota_codigo" v-model="clickedMovimento.nota.codigo">
-          </div>
-        </div>
-      </div>
-    </form>
-    <div slot="modal-footer">
-      <a class="btn btn-secondary text-light" @click="closeModal">Fechar</a>
-      <a class="btn btn-info text-light" @click="nota = true" v-if="!nota">Nota Fiscal</a>
-      <a class="btn btn-info text-light" @click="nota = false" v-if="nota">Movimento</a>
-      <a class="btn btn-success text-light" @click="createMovimento(clickedMovimento)" v-if="create"><span v-if="loading" class="spinner-border spinner-border-sm"></span> Criar</a>
-      <a class="btn btn-info text-light" @click="updateMovimento(clickedMovimento)" v-if="!create"> Atualizar</a>
-    </div>
-  </b-modal>
+			<form>
+				<div v-if="!nota">
+				  <div class="field form-group">
+				    <label for="movimento_data_competencia">Data da competência</label>
+				    <input class="form-control" type="date" name="movimento[data_competencia]" id="movimento_data_competencia" v-model="clickedMovimento.data_competencia">
+				  </div>
+				  
+				  <div class="field form-group">
+				    <label for="movimento_data_vencimento">Data do vencimento</label>
+				    <input class="form-control" type="date" name="movimento[data_vencimento]" id="movimento_data_vencimento" v-model="clickedMovimento.data_vencimento">
+				  </div>
+				
+				  <div class="field form-group">
+				    <label for="movimento_descricao">Descrição</label>
+				    <input class="form-control" type="text" name="movimento[descricao]" id="movimento_descricao" v-model="clickedMovimento.descricao">
+				  </div> 
+				
+				  <div class="field form-group">
+				    <label for="movimento_pessoa_id">Favorecido/Sacado</label>
+				    <v-select v-model="clickedMovimento.favorecido" label="nome" placeholder="Selecione" :options="pessoas"><span slot="no-options">Não foi encontrado.</span></v-select>
+				  </div>
+					<div class="field form-group">
+						<label for="movimento_valor">Valor</label>
+						<input step="0.01" class="form-control" type="number" name="movimento[valor]" id="movimento_valor" v-model="clickedMovimento.valor">
+					</div>
+					<div class="field form-group">
+						<b-form-checkbox switch v-model="clickedMovimento.valor > 0" name="check-button" @change="alteraTipo()">
+							<b> Tipo de movimento: <span v-bind:class="[clickedMovimento.valor > 0 ? 'text-success' : 'text-danger', 'font-weight-bold']"> {{ clickedMovimento.valor > 0 ? "Receita" : "Despesa" }}</span></b>
+						</b-form-checkbox>
+					</div>
+			  </div>
+			  
+				<div v-if="nota">
+					<div class="field form-group">
+				    <label for="movimento_nota_data">Data</label>
+				    <input class="form-control" type="date" name="movimento_nota[data]" id="movimento_nota_data" v-model="clickedMovimento.nota.data">
+				  </div>
+				  <div class="field form-group">
+				    <label for="movimento_nota_descricao">Descrição</label>
+				    <input class="form-control" type="text" name="movimento_nota[descricao]" id="movimento_nota_descricao" v-model="clickedMovimento.nota.descricao">
+				  </div>
+				  
+				  <div class="form-row">
+				    <div class="field form-group col-md-7">
+				      <label for="movimento_numero_nota">Número da nota</label>
+				      <input class="form-control" type="number" name="movimento_nota[numero]" id="movimento_nota_numero" v-model="clickedMovimento.nota.numero">
+				    </div>
+				    <div class="field form-group col-md-4">
+				      <label for="movimento_codigo_nota">Código da nota</label>
+				      <input class="form-control" type="number" name="movimento_nota[codigo]" id="movimento_nota_codigo" v-model="clickedMovimento.nota.codigo">
+				    </div>
+				  </div>
+			  </div>
+			  
+			</form>
+			<div slot="modal-footer">
+				<a class="btn btn-secondary text-light" @click="closeModal">Fechar</a>
+				<a class="btn btn-info text-light" @click="nota = true" v-if="!nota">Nota Fiscal</a>
+				<a class="btn btn-info text-light" @click="nota = false" v-if="nota">Movimento</a>
+				<a class="btn btn-success text-light" @click="createMovimento(clickedMovimento)" v-if="create"><span v-if="loading" class="spinner-border spinner-border-sm"></span> Criar</a>
+				<a class="btn btn-info text-light" @click="updateMovimento(clickedMovimento)" v-if="!create"> Atualizar</a>
+			</div>
+	</b-modal>
 
   <b-modal ref="deleteMovimentoModal" title="Apagar Movimento">
     <p>Data Competência: {{ new Date(clickedMovimento.data_competencia+"T00:00:00").toLocaleDateString()}}</p>

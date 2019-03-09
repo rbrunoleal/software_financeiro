@@ -255,10 +255,6 @@ const movimentosIndex = new Vue({
         .finally(() => this.loading = false)
     },
     createMovimento: function(movimento){
-      if (movimento.tipo === 'despesa'){
-        movimento.valor = movimento.valor * (-1);
-      }
-      
       movimento = {... movimento, nota_attributes: movimento.nota, pessoa_id: movimento.favorecido.id};
       this.loading = true;
       axios.post(`${URL}/movimentos.json`, {

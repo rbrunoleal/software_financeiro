@@ -5,13 +5,15 @@ import axios from 'axios'
 import Toastr from 'vue-toastr';
 import BootstrapVue from 'bootstrap-vue'
 import { URL } from './env';
-import JsPdf from 'jspdf'
-import jsAutoTable from 'jspdf-autotable'
+import vSelect from 'vue-select';
+import JsPdf from 'jspdf';
+import jsAutoTable from 'jspdf-autotable';
 
 
 Vue.use(VueResource);
 Vue.use(TurbolinksAdapter);
 Vue.component('vue-toastr', Toastr);
+Vue.component('v-select', vSelect)
 
 Vue.use(Toastr, {
   defaultTimeout: 3000,
@@ -283,14 +285,14 @@ const contaShow = new Vue({
     showModal: false,
     allSelected: false,
     show: false,
-    pessoas: {},
+    pessoas: [],
     contas: {},
     nota: false,
     id: window.location.pathname.split("/")[2]
   },
   mounted(){
     this.searchConta(this.id);
-    axios.get(`${URL}/pessoas.json`).then(response => {this.pessoas = response.data});
+    axios.get(`${URL}/pessoas/all.json`).then(response => {this.pessoas = response.data});
   },
   methods: {
     mountCreateForm: function () {
@@ -339,6 +341,7 @@ const contaShow = new Vue({
     },
     createMovimento: function(movimento){
       movimento.conta_id = this.id;
+      movimento.pessoa_id = movimento.favorecido.id;
       movimento.nota_attributes = movimento.nota;
       this.loading = true;
       axios
@@ -358,6 +361,7 @@ const contaShow = new Vue({
     updateMovimento: function(movimento){
       this.loading = true;
       movimento.nota_attributes = movimento.nota;
+      movimento.pessoa_id = movimento.favorecido.id;
       axios.put(`${URL}/movimentos/${movimento.id}.json`, {
         movimento
       })
@@ -381,6 +385,11 @@ const contaShow = new Vue({
     closeModal(){
       this.$refs.deleteMovimentoModal.hide();
       this.$refs.formMovimentoModal.hide()
+    },
+    alteraTipo: function() {
+      if (this.clickedMovimento.valor){
+        this.clickedMovimento.valor *= -1;
+      }
     }
   }
 });
