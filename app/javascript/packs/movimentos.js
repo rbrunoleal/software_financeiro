@@ -30,12 +30,12 @@ const movimentosIndex = new Vue({
     loading: true,
     create: false,
     clickedMovimento: {pessoa: {}, conta: {}, nota: {}},
-    movimentos: [],
+    movimentos: [{nota: {}}],
     movimentosPDF: [],
     showModal: false,
     allSelected: false,
     show: false,
-    pessoas: [{id:'',nome:''}],
+    pessoas: [{id:'', nome:''}],
     contas: {},
     nota: false,
     total: 0,
@@ -51,8 +51,8 @@ const movimentosIndex = new Vue({
     tipoMovimento: '',
     tipoMovimentoPDF: '',
     tipos: [
-      {value:'receita',descricao:'Receita'},
-      {value:'despesa',descricao:'Despesa'}
+      {value:'receita', descricao:'Receita'},
+      {value:'despesa', descricao:'Despesa'}
     ],
   },
   mounted(){

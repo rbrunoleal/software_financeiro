@@ -87,16 +87,16 @@
 	        </tr>
 	    </thead>
 	    <tbody>
-	        <tr v-for="(movimento, index) in movimentos" @click="mountShowModal(movimento)">
+	        <tr v-for="(movimento, index) in movimentos">
 	    			<td>
 	    				<span class="custom-checkbox">
 	    					<input type="checkbox" :id="'checkbox'+movimento.id" value="1" v-model="movimentos[index].selected" @click="select">
 	    					<label :for="'checkbox'+movimento.id"></label>
 	    				</span>
 	    			</td>
-            <td>{{ new Date(movimento.data_competencia+"T00:00:00").toLocaleDateString() }}</td>
+            <td @click="mountShowModal(movimento)">{{ new Date(movimento.data_competencia+"T00:00:00").toLocaleDateString() }}</td>
             <td>{{ movimento.favorecido }}</td>
-            <td v-bind:class="[movimento.saldo > 0 ? 'text-success' : 'text-danger', 'font-weight-bold']">{{ movimento.valor }}</td>
+            <td v-bind:class="[movimento.valor > 0 ? 'text-success' : 'text-danger', 'font-weight-bold']">{{ movimento.valor }}</td>
             <td>
 	            <a href="#deleteMovimentoModal" data-toggle="modal" class="edit" @click="mountEditForm(movimento)"><i class="material-icons" data-toggle="tooltip" title="Editar">&#xE254;</i></a>
 	            <a href="#deleteMovimentoModal" data-toggle="modal" class="delete" @click="mountDeleteForm(movimento)"><i class="material-icons" data-toggle="tooltip" title="Apagar">&#xE872;</i></a>
@@ -210,10 +210,10 @@
 		<p><strong>Data Competência</strong>: {{ new Date(clickedMovimento.data_competencia+"T00:00:00").toLocaleDateString()}}</p>
 		<p><strong>Favorecido</strong>: {{clickedMovimento.favorecido}}</p>
 		<p><strong>Conta</strong>: {{clickedMovimento.contabancaria}}</p>
-		<p><strong>Valor</strong>: <span v-bind:class="[clickedMovimento.saldo > 0 ? 'text-success' : 'text-danger', 'font-weight-bold']">{{clickedMovimento.valor}}</span></p>
-		<div v-if="clickedMovimento.nota">
+		<p><strong>Valor</strong>: <span v-bind:class="[clickedMovimento.valor > 0 ? 'text-success' : 'text-danger', 'font-weight-bold']">{{clickedMovimento.valor}}</span></p>
+		<div v-if="clickedMovimento.nota.descricao">
 			<p class="text-center font-weight-bold">Informações sobre nota:</p>
-			<p><strong>Descrição</strong>: {{clickedMovimento.descricao}}</p>
+			<p><strong>Descrição</strong>: {{clickedMovimento.nota.descricao}}</p>
 			<p><strong>Data</strong>: {{ new Date(clickedMovimento.nota.data+"T00:00:00").toLocaleDateString() }}</p>
 			<p><strong>Número</strong>: {{clickedMovimento.nota.numero}} - {{clickedMovimento.nota.codigo}}</p>
 		</div>
