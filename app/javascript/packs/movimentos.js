@@ -49,11 +49,7 @@ const movimentosIndex = new Vue({
     dataCompetenciaInicioPDF: '',
     dataCompetenciaFinalPDF: '',
     tipoMovimento: '',
-    tipoMovimentoPDF: '',
-    tipos: [
-      {value:'receita', descricao:'Receita'},
-      {value:'despesa', descricao:'Despesa'}
-    ],
+    tipoMovimentoPDF: ''
   },
   mounted(){
     this.searchMovimentos();
@@ -313,10 +309,15 @@ const movimentosIndex = new Vue({
     select: function() {
       this.allSelected = false;
     },
-    closeModal(){
+    closeModal: function() {
       this.$refs.deleteMovimentoModal.hide();
       this.$refs.formMovimentoModal.hide();
       this.$refs.showMovimentoModal.hide();
+    },
+    alteraTipo: function() {
+      if (this.clickedMovimento.valor){
+        this.clickedMovimento.valor *= -1;
+      }
     }
   }
 });

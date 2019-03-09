@@ -32,24 +32,10 @@
 		        <input class="form-control" type="date" id="dataCompetenciaF" v-model="dataCompetenciaFinal">
 		      </div>
 		    </div>
-		     <div class="col-md-2">
-		      <label class="sr-only" for="tipoMovimento"></label>
-		      <div class="input-group mb-2">
-		        <div class="input-group-prepend">
-		          <div class="input-group-text">Tipo</div>
-		        </div>
-            <select v-model = 'tipoMovimento' class="form-control">
-              <option v-for="tipo in tipos" v-bind:value="tipo.value">
-                {{tipo.descricao}}
-              </option>
-            </select>
-		      </div>
-		    </div>
-		    
 		   </div>
 		   <div class="form-row align-items-center">
 		    <div class="col-md-6">
-		      <label class="sr-only" for="inlineFormInputGroup"></label>
+		      <label class="sr-only" for="pessoaNome"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
 		          <div class="input-group-text">Favorecido/Sacado</div>
@@ -147,20 +133,15 @@
 				    	</option>
 				    </select>
 				  </div>
-				
-				<div class="field form-group">
-					<label for="conta_banco_id">Tipo</label>
-				  <select v-model = 'clickedMovimento.tipo' class="form-control">
-              <option v-for="tipo in tipos" v-bind:value="tipo.value">
-                {{tipo.descricao}}
-              </option>
-         	</select>
-        </div>
-        
-				 <div class="field form-group">
-				    <label for="movimento_valor">Valor</label>
-				    <input step="0.01" class="form-control" type="number" name="movimento[valor]" id="movimento_valor" v-model="clickedMovimento.valor">
-				  </div>
+						<div class="field form-group">
+							<label for="movimento_valor">Valor</label>
+							<input step="0.01" class="form-control" type="number" name="movimento[valor]" id="movimento_valor" v-model="clickedMovimento.valor">
+						</div>
+						<div class="field form-group">
+							<b-form-checkbox switch v-model="clickedMovimento.valor > 0" name="check-button" @change="alteraTipo()">
+								<b> Tipo de movimento: <span v-bind:class="[clickedMovimento.valor > 0 ? 'text-success' : 'text-danger', 'font-weight-bold']"> {{ clickedMovimento.valor > 0 ? "Receita" : "Despesa" }}</span></b>
+							</b-form-checkbox>
+						</div>
 			  </div>
 			  
 				<div v-if="nota">
@@ -174,7 +155,7 @@
 				  </div>
 				  
 				  <div class="form-row">
-				    <div class="field form-group col-md-8">
+				    <div class="field form-group col-md-7">
 				      <label for="movimento_numero_nota">Número da nota</label>
 				      <input class="form-control" type="number" name="movimento_nota[numero]" id="movimento_nota_numero" v-model="clickedMovimento.nota.numero">
 				    </div>
