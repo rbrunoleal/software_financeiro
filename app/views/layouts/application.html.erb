@@ -19,7 +19,6 @@
               <li class="nav-item">
                 <a class="nav-link" href="/">Início</a>
               </li>
-              <% if usuario_signed_in? %>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   Cadastro Financeiro
@@ -33,27 +32,11 @@
               <li class="nav-item">
                 <a class="nav-link" href="/movimentos">Movimentação</a>
               </li>
-              <% else %>
-              <li class="nav-item">
-                <a class="nav-link" href="/pages/contact">Quem somos</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/pages/contact">Contato</a>
-              </li>
-              <% end %>
             </ul>
             <span class="navbar-text">
              <ul class="navbar-nav mr-auto">
-              <li class="my-5 my-lg-0">
-                <% if usuario_signed_in? %>
-                <li class="nav-item">
-                  <%= link_to 'Logout', destroy_usuario_session_path,  { :class => "nav-link", method: :delete } %>        
-                </li>
-              <% else %>
-                <li class="nav-item">
-                  <%= link_to 'Login', new_usuario_session_path, { :class => "nav-link" }  %>  
-                </li>
-              <% end %>
+              <li class="nav-item">
+                <%= link_to 'Logout', destroy_usuario_session_path,  { :class => "nav-link", method: :delete } %>        
               </li>
             </ul>
             </span>
@@ -94,5 +77,3 @@
       </div>
    </body>
 </html>
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic|Raleway:400,300,700" rel="stylesheet">
