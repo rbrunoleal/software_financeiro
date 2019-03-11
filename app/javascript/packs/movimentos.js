@@ -49,7 +49,8 @@ const movimentosIndex = new Vue({
     dataCompetenciaInicioPDF: '',
     dataCompetenciaFinalPDF: '',
     tipoMovimento: '',
-    tipoMovimentoPDF: ''
+    tipoMovimentoPDF: '',
+    tipos: [{descricao: 'Despesa', value:'despesa'},{descricao: 'Receita',value: 'receita'}]
   },
   mounted(){
     this.searchMovimentos();

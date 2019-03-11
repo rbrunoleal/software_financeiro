@@ -32,6 +32,19 @@
 		        <input class="form-control" type="date" id="dataCompetenciaF" v-model="dataCompetenciaFinal">
 		      </div>
 		    </div>
+		    <div class="col-md-2">	
+		      <label class="sr-only" for="tipoMovimento"></label>	
+		      <div class="input-group mb-2">	
+		        <div class="input-group-prepend">	
+		          <div class="input-group-text">Tipo</div>	
+		        </div>	
+            <select v-model = 'tipoMovimento' class="form-control">	
+              <option v-for="tipo in tipos" v-bind:value="tipo.value">	
+                {{tipo.descricao}}	
+              </option>	
+            </select>	
+		      </div>	
+		    </div>
 		   </div>
 		   <div class="form-row align-items-center">
 		    <div class="col-md-6">
