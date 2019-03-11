@@ -57,7 +57,7 @@ Cidade.create!(:estado => e, :nome => "Senador Guiomard")
 Cidade.create!(:estado => e, :nome => "Tarauacá")
 Cidade.create!(:estado => e, :nome => "Xapuri")
 
-=begin
+#=begin
 Estado.create!(:unidade => u, :sigla => 'AL', :nome => "Alagoas")
 e = Estado.find_by(nome: "Alagoas")
 
@@ -5806,7 +5806,8 @@ Cidade.create!(:estado => e, :nome => "Tupiratins")
 Cidade.create!(:estado => e, :nome => "Wanderlândia")
 Cidade.create!(:estado => e, :nome => "Xambioá")
 
-=end
+#=end
+
 p "Adicionado #{Usuario.count} Usuario"
 p "Adicionado #{Banco.count} Bancos"
 p "Adicionado #{Unidade.count} Países"
