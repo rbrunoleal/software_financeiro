@@ -41,9 +41,13 @@ const movimentosIndex = new Vue({
     total: 0,
     currentPage: 1,
     valor: '',
+    contaId: '',
     pessoaNome: '',
     dataCompetenciaInicio: '',
     dataCompetenciaFinal: '',
+    descricao: '',
+    contaIdPDF: '',
+    descricaoPDF: '',
     valorPDF: '',
     pessoaNomePDF: '',
     dataCompetenciaInicioPDF: '',
@@ -63,7 +67,9 @@ const movimentosIndex = new Vue({
       filter += this.dataCompetenciaInicioPDF? `&dataCompetenciaInicio=${this.dataCompetenciaInicioPDF}`:'';
       filter += this.dataCompetenciaFinalPDF? `&dataCompetenciaFinal=${this.dataCompetenciaFinalPDF}`:'';
       filter += this.pessoaNomePDF? `&pessoa=${this.pessoaNomePDF}`:'';
-      filter += this.tipoMovimento? `&${this.tipoMovimento}=1`:'';
+      filter += this.tipoMovimentoPDF? `&${this.tipoMovimentoPDF}=1`:'';
+      filter += this.descricaoPDF? `&descricao=${this.descricaoPDF}`:'';
+      filter += this.contaIdPDF? `&contaId=${this.contaIdPDF}`:'';
       filter += `&per_page=${this.total}`;
       this.isLoading = true;
       axios
@@ -112,12 +118,20 @@ const movimentosIndex = new Vue({
         filter += this.dataCompetenciaFinalPDF? `[Data Final: ${new Date(this.dataCompetenciaFinalPDF + "T00:00:00").toLocaleDateString()}]`:'';
         filter += this.pessoaNomePDF? `[Fav/Sac: ${this.pessoaNomePDF}]`:'';
         filter += this.valorPDF ? `[Valor: ${this.valorPDF}]`:'';
+        filter += this.descricaoPDF? `[Descrição: ${this.descricaoPDF}]`:'';
         let valueTipo = this.tipoMovimentoPDF;
         if(valueTipo != ''){
           var lTipo = this.tipos.find(function(element) { 
             return element.value == valueTipo; 
           }); 
           filter += lTipo? `[Tipo: ${lTipo.descricao}]`:'';
+        }
+        let valueTipoConta = this.contaIdPDF;
+        if(valueTipoConta != ''){
+          var lConta = this.contas.find(function(element) { 
+            return element.id == valueTipoConta; 
+          }); 
+          filter += lConta? `[Conta: ${lConta.conta}]`:'';
         }
         SubtitleFiltro += filter !== 'Filtros: ' ? filter : '';
 
@@ -232,6 +246,8 @@ const movimentosIndex = new Vue({
       filter += this.dataCompetenciaInicio? `&dataCompetenciaInicio=${this.dataCompetenciaInicio}`:'';
       filter += this.dataCompetenciaFinal? `&dataCompetenciaFinal=${this.dataCompetenciaFinal}`:'';
       filter += this.pessoaNome? `&pessoa=${this.pessoaNome}`:'';
+      filter += this.descricao? `&descricao=${this.descricao}`:'';
+      filter += this.contaId? `&contaId=${this.contaId}`:'';
       filter += this.tipoMovimento? `&${this.tipoMovimento}=1`:'';
       
       filter += `&page=${this.currentPage}`;
@@ -241,6 +257,8 @@ const movimentosIndex = new Vue({
       this.dataCompetenciaFinalPDF = this.dataCompetenciaFinal;
       this.dataCompetenciaInicioPDF = this.dataCompetenciaInicio;
       this.tipoMovimentoPDF = this.tipoMovimento;
+      this.descricaoPDF = this.descricao;
+      this.contaIdPDF = this.contaId;
       
       this.loading = true;
       this.clickedMovimento = {pessoa: {}, conta: {}, nota: {}};

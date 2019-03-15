@@ -11,6 +11,8 @@ class MovimentosController < ApplicationController
     @movimentos = @movimentos.valor(params[:valor]) if params[:valor].present?
     @movimentos = @movimentos.receita(params[:receita]) if params[:receita].present?
     @movimentos = @movimentos.despesa(params[:despesa]) if params[:despesa].present?
+    @movimentos = @movimentos.conta_id(params[:contaId]) if params[:contaId].present?
+    @movimentos = @movimentos.descricao(params[:descricao]) if params[:descricao].present?
     
     @movimentos = @movimentos.paginate(:page => params[:page], :per_page => params[:per_page])
     respond_to do |format|

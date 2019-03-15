@@ -29,5 +29,7 @@ class Movimento < ApplicationRecord
     }
     scope :receita, -> (receita) { where("valor > 0")}
     scope :despesa, -> (despesa) { where("valor < 0")}
+    scope :conta_id, -> (contaId) { where("conta_id = ?", "#{contaId}")}
+    scope :descricao, -> (descricao) { where("descricao like ?", "%#{descricao}%")}
 end
  

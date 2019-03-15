@@ -14,31 +14,20 @@
     </div>
     <div class="search-wrapper">
 		  <div class="form-row align-items-center">
-		    <div class="col-md-5">
-		      <label class="sr-only" for="contaNumero"></label>
+		    <div class="col-md-4">
+		      <label class="sr-only" for="contaDescricao"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
-		          <div class="input-group-text">Descrição</div>
+		          <div class="input-group-text" style="background-color:transparent">Descrição</div>
 		        </div>
 		        <input type="text" class="form-control" id="contaDescricao" v-model="contaDescricao">
 		      </div>
 		    </div>
-		    <div class="col-md-5">
-		      <label class="sr-only" for="contaNumero"></label>
-		      <div class="input-group mb-2">
-		        <div class="input-group-prepend">
-		          <div class="input-group-text">Conta</div>
-		        </div>
-		        <input type="text" class="form-control" id="contaNumero" v-model="contaNumero">
-		      </div>
-		    </div>
-		  </div>
-		  <div class="form-row align-items-center">
-		    <div class="col-md-5">
+		    <div class="col-md-3">
 		      <label class="sr-only" for="contaBanco"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
-		          <div class="input-group-text">Banco</div>
+		          <div class="input-group-text" style="background-color:transparent">Banco</div>
 		        </div>
             <select v-model = 'bancoId' class="form-control">
               <option v-for="banco in bancos" v-bind:value="banco.id">
@@ -47,11 +36,20 @@
             </select>
 		      </div>
 		    </div>
-		    <div class="col-md-5">
+		    <div class="col-md-2">
+		      <label class="sr-only" for="contaNumero"></label>
+		      <div class="input-group mb-2">
+		        <div class="input-group-prepend">
+		          <div class="input-group-text" style="background-color:transparent">Conta</div>
+		        </div>
+		        <input type="text" class="form-control" id="contaNumero" v-model="contaNumero">
+		      </div>
+		    </div>
+		    <div class="col-md-2">
 		      <label class="sr-only" for="agenciaNumero"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
-		          <div class="input-group-text">Agência</div>
+		          <div class="input-group-text" style="background-color:transparent">Agência</div>
 		        </div>
 		        <input type="text" class="form-control" id="agenciaNumero" v-model="agenciaNumero">
 		      </div>
@@ -59,7 +57,7 @@
         <div class="col-auto">
           <a class="btn btn-primary mb-2 text-light" @click="searchContas()"><span class="fa fa-search"></span></a>
         </div>
-		  </div>
+      </div>
 		</div>
     <table class="table table-striped table-hover">
       <thead>
@@ -143,7 +141,7 @@
     </form>
     <div slot="modal-footer">
       <a class="btn btn-secondary text-light" @click="closeModal">Fechar</a>
-      <a class="btn btn-success text-light" @click="createConta(clickedConta)" v-if="create"><span v-if="loading" class="spinner-border spinner-border-sm"></span> Criar</a>
+      <a class="btn btn-success text-light" @click="createConta(clickedConta)" v-if="create"><span v-if="loading" class="spinner-border spinner-border-sm"></span> Salvar</a>
       <a class="btn btn-info text-light" @click="updateConta(clickedConta)" v-if="!create"> Atualizar</a>
     </div>
   </b-modal>

@@ -18,7 +18,7 @@
 		      <label class="sr-only" for="inlineFormInput"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
-		          <div class="input-group-text">Código</div>
+		          <div class="input-group-text" style="background-color:transparent">Código</div>
 		        </div>
 		        <input type="text" class="form-control" id="codigo" v-model="codigo">
 		      </div>
@@ -27,7 +27,7 @@
 		      <label class="sr-only" for="inlineFormInputGroup"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
-		          <div class="input-group-text">Descrição</div>
+		          <div class="input-group-text" style="background-color:transparent">Descrição</div>
 		        </div>
 		        <input type="text" class="form-control" id="descricao" v-model="descricao">
 		      </div>
@@ -311,7 +311,7 @@
 		</form>
 		<div slot="modal-footer">
 			<a class="btn btn-secondary text-light" @click="closeModal">Fechar</a>
-			<a class="btn btn-success text-light" @click="createBanco(clickedBanco)" v-if="create"><span v-if="loading" class="spinner-border spinner-border-sm"></span> Criar</a>
+			<a class="btn btn-success text-light" @click="createBanco(clickedBanco)" v-if="create"><span v-if="loading" class="spinner-border spinner-border-sm"></span> Salvar</a>
 			<a class="btn btn-info text-light" @click="updateBanco(clickedBanco)" v-if="!create"> Atualizar</a>
 		</div>
 	</b-modal>

@@ -19,7 +19,7 @@
 		      <label class="sr-only" for="pessoaTipo"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
-		          <div class="input-group-text">Tipo</div>
+		          <div class="input-group-text" style="background-color:transparent">Tipo</div>
 		        </div>
             <select v-model = 'pessoaTipo' class="form-control">
               <option v-for="tipo in tipos" v-bind:value="tipo.value">
@@ -32,7 +32,7 @@
 		      <label class="sr-only" for="pessoaIdentificador"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
-		          <div class="input-group-text">Identificação</div>
+		          <div class="input-group-text" style="background-color:transparent">Identificação</div>
 		        </div>
 		        <input type="text" class="form-control" id="pessoaIdentificador" v-model="pessoaIdentificador">
 		      </div>
@@ -41,7 +41,7 @@
 		      <label class="sr-only" for="pessoaNome"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
-		          <div class="input-group-text">Nome</div>
+		          <div class="input-group-text" style="background-color:transparent">Nome</div>
 		        </div>
 		        <input type="text" class="form-control" id="pessoaNome" v-model="pessoaNome">
 		      </div>
@@ -258,7 +258,7 @@
 
     <div slot="modal-footer">
       <a class="btn btn-secondary text-light" @click="closeModal">Fechar</a>
-      <a class="btn btn-success text-light" @click="createFavorecido(clickedFavorecido)" v-if="create"><span v-if="loading" class="spinner-border spinner-border-sm"></span> Criar</a>
+      <a class="btn btn-success text-light" @click="createFavorecido(clickedFavorecido)" v-if="create"><span v-if="loading" class="spinner-border spinner-border-sm"></span> Salvar</a>
       <a class="btn btn-info text-light" @click="updateFavorecido(clickedFavorecido)" v-if="!create"> Atualizar</a>
     </div>
   </b-modal>

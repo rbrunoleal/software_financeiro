@@ -18,7 +18,7 @@
 		      <label class="sr-only" for="inlineFormInput"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
-		          <div class="input-group-text">Data - Início</div>
+		          <div class="input-group-text" style="background-color:transparent">Data - Início</div>
 		        </div>
 		        <input class="form-control" type="date" id="dataCompetenciaI" v-model="dataCompetenciaInicio">
 		      </div>
@@ -27,16 +27,29 @@
 		      <label class="sr-only" for="inlineFormInput"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
-		          <div class="input-group-text">Data - Final</div>
+		          <div class="input-group-text" style="background-color:transparent">Data - Final</div>
 		        </div>
 		        <input class="form-control" type="date" id="dataCompetenciaF" v-model="dataCompetenciaFinal">
+		      </div>
+		    </div>
+		    <div class="col-md-3">
+		      <label class="sr-only" for="contaBanco"></label>
+		      <div class="input-group mb-2">
+		        <div class="input-group-prepend">
+		          <div class="input-group-text" style="background-color:transparent">Conta</div>
+		        </div>
+            <select v-model = 'contaId' class="form-control">
+              <option v-for="conta in contas" v-bind:value="conta.id">
+                {{conta.conta}}
+              </option>
+            </select>
 		      </div>
 		    </div>
 		    <div class="col-md-2">	
 		      <label class="sr-only" for="tipoMovimento"></label>	
 		      <div class="input-group mb-2">	
 		        <div class="input-group-prepend">	
-		          <div class="input-group-text">Tipo</div>	
+		          <div class="input-group-text" style="background-color:transparent">Tipo</div>	
 		        </div>	
             <select v-model = 'tipoMovimento' class="form-control">	
               <option v-for="tipo in tipos" v-bind:value="tipo.value">	
@@ -47,20 +60,29 @@
 		    </div>
 		   </div>
 		   <div class="form-row align-items-center">
+		   	 <div class="col-md-3">
+		      <label class="sr-only" for="inlineFormInputGroup"></label>
+		      <div class="input-group mb-2">
+		        <div class="input-group-prepend">
+		          <div class="input-group-text" style="background-color:transparent">Descrição</div>
+		        </div>
+		        <input type="text" class="form-control" id="descricao" v-model="descricao">
+		      </div>
+		    </div>
 		    <div class="col-md-6">
 		      <label class="sr-only" for="pessoaNome"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
-		          <div class="input-group-text">Favorecido/Sacado</div>
+		          <div class="input-group-text" style="background-color:transparent">Favorecido/Sacado</div>
 		        </div>
 		        <input type="text" class="form-control" id="pessoaNome" v-model="pessoaNome">
 		      </div>
 		    </div>
 		    <div class="col-md-2">
-		      <label class="sr-only" for="agenciaNumero"></label>
+		      <label class="sr-only" for="valor"></label>
 		      <div class="input-group mb-2">
 		        <div class="input-group-prepend">
-		          <div class="input-group-text">Valor</div>
+		          <div class="input-group-text" style="background-color:transparent">Valor</div>
 		        </div>
 		        <input step="0.01" class="form-control" type="number" id="valor" v-model="valor">
 		      </div>
@@ -184,7 +206,7 @@
 				<a class="btn btn-secondary text-light" @click="closeModal">Fechar</a>
 				<a class="btn btn-info text-light" @click="nota = true" v-if="!nota">Nota Fiscal</a>
 				<a class="btn btn-info text-light" @click="nota = false" v-if="nota">Movimento</a>
-				<a class="btn btn-success text-light" @click="createMovimento(clickedMovimento)" v-if="create"><span v-if="loading" class="spinner-border spinner-border-sm"></span> Criar</a>
+				<a class="btn btn-success text-light" @click="createMovimento(clickedMovimento)" v-if="create"><span v-if="loading" class="spinner-border spinner-border-sm"></span> Salvar</a>
 				<a class="btn btn-info text-light" @click="updateMovimento(clickedMovimento)" v-if="!create"> Atualizar</a>
 			</div>
 	</b-modal>
