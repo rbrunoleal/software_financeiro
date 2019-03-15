@@ -14,7 +14,7 @@
                <label class="sr-only" for="contaNumero"></label>
                <div class="input-group mb-2">
                   <div class="input-group-prepend">
-                     <div class="input-group-text">Conta</div>
+                     <div class="input-group-text" style="background-color:transparent">Conta</div>
                   </div>
                   <input type="text" class="form-control" id="contaNumero" v-model="contaNumero">
                </div>
@@ -23,7 +23,7 @@
                <label class="sr-only" for="contaBanco"></label>
                <div class="input-group mb-2">
                   <div class="input-group-prepend">
-                     <div class="input-group-text">Banco</div>
+                     <div class="input-group-text" style="background-color:transparent">Banco</div>
                   </div>
                   <select v-model = 'bancoId' class="form-control">
                      <option v-for="banco in bancos" v-bind:value="banco.id">
@@ -36,7 +36,7 @@
                <label class="sr-only" for="agenciaNumero"></label>
                <div class="input-group mb-2">
                   <div class="input-group-prepend">
-                     <div class="input-group-text">Agência</div>
+                     <div class="input-group-text" style="background-color:transparent">Agência</div>
                   </div>
                   <input type="text" class="form-control" id="agenciaNumero" v-model="agenciaNumero">
                </div>
